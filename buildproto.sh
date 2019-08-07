@@ -1,0 +1,1 @@
+protoc -I proto/ proto/result.proto --go_out=plugins=grpc:proto

@@ -1,0 +1,578 @@
+syntax = "proto3";
+package jarviscrawlercore;
+
+// ParagraphType - paragraph type
+enum ParagraphType {
+    PT_NULL = 0;
+    PT_TEXT = 1;
+    PT_IMAGE = 2;
+    PT_HEADLINE = 3;
+    PT_POSTLIST = 4;
+    PT_COMMENT = 5;
+}
+
+// ImageInfo - image info
+message ImageInfo {
+    string hashName = 1;
+    string url = 2;
+    int32 width = 3;
+    int32 height = 4;
+    bytes data = 5;
+}
+
+// Paragraph - paragraph
+message Paragraph {
+    ParagraphType pt = 1;
+    string imgHashName = 2;
+    string text = 3;
+    string imgURL = 4;
+}
+
+// ExportArticleResult - export article result
+message ExportArticleResult {
+    string title = 1;
+    string author = 2;
+    string writeTime = 3;
+    string article = 4;
+    string url = 5;
+    repeated ImageInfo imgs = 6;
+    ImageInfo titleImage = 7;
+    repeated string tags = 8;
+    repeated Paragraph paragraphs = 9;
+    string summary = 10;
+}
+
+// Article - article
+message Article {
+    string title = 1;
+    string author = 2;
+    string writeTime = 3;
+    string summary = 4;
+    string url = 5;
+    ImageInfo image = 6;
+    string secondTitle = 7;
+    bool premium = 8;
+    string lang = 9;
+}
+
+// ArticleList - article list
+message ArticleList {
+    repeated Article articles = 1;
+}
+
+// ConfluenceUpdateItem - confluence all updates - item
+message ConfluenceUpdateItem {
+    string title = 1;
+    string url = 2;
+    string summary = 3;
+}
+
+// ConfluenceUpdateGrouping - confluence all updates - grouping
+message ConfluenceUpdateGrouping {
+    string author = 1;
+    repeated ConfluenceUpdateItem items = 2;
+}
+
+// ConfluenceAllUpdates - confluence all updates
+message ConfluenceAllUpdates {
+    repeated ConfluenceUpdateGrouping updates = 1;
+}
+
+// YCCompanies - YC Companies
+message YCCompanies {
+    string name = 1;
+    string url = 2;
+    string info = 3;
+    string batch = 4;
+    bool isapp = 5;
+}
+
+// CrunchBaseEmployee - CrunchBase Employee
+message CrunchBaseEmployee {
+    string name = 1;
+    string code = 2;
+    string title = 3;
+    string startDate = 4;
+    string endDate = 5;
+}
+
+// CrunchBaseInvestment - CrunchBase Investment
+message CrunchBaseInvestment {
+    string announcedDate = 1;
+    string organizationName = 2;
+    bool leadInvestor = 3;
+    string fundingRound = 4;
+    string moneyRaised = 5;
+}
+
+// CrunchBaseAcquisition - CrunchBase Acquisition
+message CrunchBaseAcquisition {
+    string acquiredOrganizationName = 1;
+    string acquiredOrganizationCode = 2;
+    string announcedDate = 3;
+    string price = 4;
+    string acquiringOrganizationName = 5;
+    string acquiringOrganizationCode = 6;
+}
+
+// CrunchBaseInvestor - CrunchBase Investor
+message CrunchBaseInvestor {
+    string investorName = 1;
+    bool leadInvestor = 2;
+    repeated string Partners = 3;
+}
+
+// CrunchBaseFundingRound - CrunchBase FundingRound
+message CrunchBaseFundingRound {
+    string announcedDate = 1;
+    string transactionName = 2;
+    string moneyRaised = 3;
+
+    repeated CrunchBaseInvestor investors = 100;
+}
+
+// CrunchBaseOrganization - CrunchBase Organization
+message CrunchBaseOrganization {
+    string name = 1;
+    string code = 2;
+    repeated string categories = 3;
+    repeated string headquartersRegions = 4;
+    string foundedDate = 5;
+    repeated string founders = 6;
+    string operatingStatus = 7;
+    string fundingStatus = 8;
+    string lastFundingType = 9;
+    string legalName = 10;
+
+    string stockSymbol = 100;
+    string valuationIPO = 101;
+    string priceIPO = 102;
+    string dateIPO = 103;
+    string moneyRaisedIPO = 104;
+
+    repeated CrunchBaseFundingRound fundingRounds = 200;
+
+    repeated CrunchBaseEmployee curEmployees = 301;
+
+    repeated CrunchBaseEmployee boardMembers = 401;
+
+    repeated CrunchBaseEmployee pastEmployees = 501;
+}
+
+enum BTResFileType {
+    BTRFT_ED2K = 0;
+    BTRFT_MAGNET = 1;
+}
+
+// BT Resource file infomation
+message BTResFileInfo {
+    BTResFileType type = 1;
+    string url = 2;
+}
+
+// BT Resource infomation
+message BTResInfo {
+    // fullname
+    string fullname = 1;
+    // name - name.chs name.eng
+    map<string, string> name = 2;
+    // resource id
+    string resid = 3;
+
+    // lst
+    repeated BTResFileInfo lst = 10;
+}
+
+// RequestTranslate - request translate
+message RequestTranslate {
+    // text - source text
+    string text = 1;
+    // platform - it's like google
+    string platform = 2;
+    // srcLang - source language
+    string srcLang = 3;
+    // destLang - destination language
+    string destLang = 4;
+
+    // token - You need to have a valid token in order to get back correctly
+    string token = 100;
+}
+
+// ReplyTranslate - reply translate
+message ReplyTranslate {
+    // text - destination text
+    string text = 1;
+}
+
+// RequestArticle - request article
+message RequestArticle {
+    // url
+    string url = 1;
+    // is need attach jquery
+    bool attachJQuery = 2;
+
+    // token - You need to have a valid token in order to get back correctly
+    string token = 100;    
+}
+
+// ReplyArticle - reply article
+message ReplyArticle {
+    // result
+    ExportArticleResult result = 1;
+    // totalLength - If the message is too long, it will send data in multiple msg, this is the total length.
+    int32 totalLength = 2;
+    // curStart - The starting point of the current data (in bytes).
+    int32 curStart = 3;
+    // curLength - The length of the current data (in bytes).
+    int32 curLength = 4;
+    // hashData - This is the hash of each paragraph.
+    string hashData = 5;
+    // totalHashData - If multiple messages return data, this is the hash value of all data, only sent in the last message.
+    string totalHashData = 6;
+    // data
+    bytes data = 7;
+}
+
+// RequestArticles - request articles
+message RequestArticles {
+    // url
+    string url = 1 [deprecated = true];
+    // is need attach jquery
+    bool attachJQuery = 2 [deprecated = true];
+    // website
+    string website = 3;
+
+    // token - You need to have a valid token in order to get back correctly
+    string token = 100;
+}
+
+// ReplyArticles - reply articles
+message ReplyArticles {
+    // articles
+    ArticleList articles = 1;
+}
+
+// DTDataType -
+enum DTDataType {
+    DT_DT_BUSINESSGAMEREPORT = 0;
+    DT_DT_TODAYGAMEDATA = 1;
+    DT_DT_GPKCHECKGAMERESULT = 2;
+}
+
+// DTGameResultErrCode -
+enum DTGameResultErrCode {
+    // no error
+    DTGRE_NOERR = 0;
+    // id.gamecode != gamecode
+    DTGRE_GAMECODE = 1;
+    // invalid lines
+    DTGRE_LINES = 2;
+    // moneyEnd != moneyStart + off
+    DTGRE_MONEYOFF = 3;
+    // off != win - bet
+    DTGRE_WINBETOFF = 4;
+    // invalid gamedata
+    DTGRE_GAMEDATA = 5;
+    // invalid gameresult bet
+    DTGRE_GAMERESULT_BET = 6;
+    // invalid gameresult win
+    DTGRE_GAMERESULT_WIN = 7;
+    // invalid gameresult sumwin
+    DTGRE_GAMERESULT_SUM_WIN = 8;
+    // invalid iscomplete
+    DTGRE_ISCOMPLETE = 9;
+    // invalid gamestate
+    DTGRE_GAMESTATE = 10;    
+    // invalid gameresult
+    DTGRE_GAMERESULT = 11;
+    // invalid gameresult lines
+    DTGRE_GAMERESULT_LINES = 12;
+    // invalid gameresult times
+    DTGRE_GAMERESULT_TIMES = 13;
+    // no children
+    DTGRE_NOCHILDREN = 15;
+    // no children error
+    DTGRE_CHILDREN_ERROR = 16;
+    // sub game not complete
+    DTGRE_SUBGAME_NOTCOMPLETE = 17;
+    // dtbaseid error
+    DTGRE_DTBASEID_ERROR = 18;
+    // no dtbaseid
+    DTGRE_NODTBASEID = 19;
+    // no dtbaseid baseid
+    DTGRE_DTBASEID_NOBASEID = 20;
+    // dtbaseid baseid error
+    DTGRE_DTBASEID_BASEID_ERROR = 21;        
+    // can not find dtbaseid free
+    DTGRE_DTBASEID_FREE = 22;
+    // can not find dtbaseid respin
+    DTGRE_DTBASEID_RESPIN = 23;
+    // invalid fgnums
+    DTGRE_INVALID_FGNUMS = 24;
+    // icon404
+    DTGRE_ICON404 = 25;
+    // sub game repeated complete
+    DTGRE_SUBGAME_REPEATED_COMPLETE = 26;
+    // sub game invalid jp
+    DTGRE_SUBGAME_INVALID_JP = 27;
+    // invalid jp win
+    DTGRE_INVALID_JPWIN = 28;    
+}
+
+// DTGameResultErr - 
+message DTGameResultErr {
+    // errcode
+    DTGameResultErrCode errcode = 1;
+    // value0
+    int64 value0 = 2;
+    // value1
+    int64 value1 = 3;
+    // strval0
+    string strval0 = 10;
+}
+
+// RequestDTData - request DT Data
+message RequestDTData {
+    // mode
+    string mode = 1 [deprecated = true];
+    // startTime
+    string startTime = 2;
+    // endTime
+    string endTime = 3;
+    // dtDataType
+    DTDataType dtDataType = 4;
+    // environment name
+    string envName = 5;
+    // business id
+    string businessid = 6;
+    // game code
+    string gameCode = 7;
+    // player name
+    string playerName = 8;
+
+    // token - You need to have a valid token in order to get back correctly
+    string token = 100;    
+}
+
+// DTBusinessGameReport - 
+message DTBusinessGameReport {
+    // businessid
+    string businessid = 1;
+    // gamecode
+    string gamecode = 2;
+    // totalWin
+    float totalWin = 3;
+    // totalBet
+    float totalBet = 4;
+    // gameNums
+    int32 gameNums = 5;
+    // currency
+    string currency = 6;
+}
+
+// DTTodayGameData - 
+message DTTodayGameData {
+    // totalWin
+    float totalWin = 1;
+    // totalBet
+    float totalBet = 2;
+    // gameNums
+    int32 gameNums = 3;
+}
+
+// DTGPKGameResult -
+message DTGPKGameResult {
+    string ID = 1;
+    string businessID = 2;
+    string playerName = 3;
+    string gameCode = 4;
+    float win = 5;
+    float bet = 6;
+    float off = 7;
+    int32 lines = 8;
+    float moneyStart = 9;
+    float moneyEnd = 10;
+    string playerIP = 11;
+    string dataState = 12;
+    string gameTime = 13;
+    string clientType = 14;
+    string currency = 15;
+    bool isComplete = 16;
+    string giftFreeID = 17;
+    string gameData = 18;
+    string gameResult = 19;
+    bool hasSubGame = 20;
+    string dtbaseid = 21;
+    bool rootGame = 22;
+
+    repeated DTGPKGameResult children = 100;
+
+    DTGameResultErr err = 200;
+}
+
+// DTGPKCheckGameResult - 
+message DTGPKCheckGameResult {
+    repeated DTGPKGameResult lst = 1;
+
+    int32 errNums = 10;
+}
+
+// ReplyDTData - reply DT Data
+message ReplyDTData {
+    // gameReport
+    repeated DTBusinessGameReport gameReports = 1;
+    // todayGameData
+    DTTodayGameData todayGameData = 2;
+    // checkGameResultGPK
+    DTGPKCheckGameResult checkGameResultGPK = 3;
+}
+
+// RequestCrunchBaseCompany - request a company infomation in crunchbase
+message RequestCrunchBaseCompany {
+    string search = 1;
+}
+
+// CrawlerType - crawler type
+enum CrawlerType {
+    CT_TRANSLATE2 = 0;
+    CT_CB_COMPANY = 1;
+    CT_DTDATA = 2;
+    CT_ANALYZEPAGE = 3;
+}
+
+// RequestTranslate2 - request translate
+message RequestTranslate2 {
+    // text - source text
+    string text = 1;
+    // platform - it's like google
+    string platform = 2;
+    // srcLang - source language
+    string srcLang = 3;
+    // destLang - destination language
+    string destLang = 4;
+}
+
+// TranslateResult - reply translate
+message TranslateResult {
+    // text - destination text
+    string text = 1;
+}
+
+// AnalyzePage - analyze page
+message AnalyzePage {
+    // url - url
+    string url = 1;
+    // delay = delay in seconds
+    int32 delay = 2;
+    // viewportWidth - 
+    int32 viewportWidth = 3;
+    // viewportHeight - 
+    int32 viewportHeight = 4;
+}
+
+// AnalyzeScreenshotType - screenshot type
+enum AnalyzeScreenshotType {
+    // AST_JPG - jpg
+    AST_JPG = 0;
+    // AST_PNG - png
+    AST_PNG = 1;
+}
+
+// AnalyzeScreenshot - screenshot
+message AnalyzeScreenshot {
+    // name - name
+    string name = 1;
+    // type - type
+    AnalyzeScreenshotType type = 2;
+    // buf - buffer
+    bytes buf = 3;
+}
+
+// AnalyzeImage - analyze request infomation
+message AnalyzeReqInfo {
+    // url - url
+    string url = 1;
+    // downloadTime - download time
+    int32 downloadTime = 2;
+    // bufBytes - buffer bytes
+    int32 bufBytes = 3;
+    // status - http status
+    int32 status = 4;
+}
+
+// ReplyAnalyzePage - reply analyze page
+message ReplyAnalyzePage {
+    // pageTime - page time
+    int32 pageTime = 1;
+    // pageBytes - page bytes
+    int32 pageBytes = 2;
+
+
+    // errs - error list
+    repeated string errs = 100;
+    // reqs - request list
+    repeated AnalyzeReqInfo reqs = 101;
+    // screenshots - screenshot list
+    repeated AnalyzeScreenshot screenshots = 102;
+}
+
+// RequestCrawler - request crawler
+message RequestCrawler {
+    string token = 1;
+    CrawlerType crawlerType = 2;
+
+    oneof crawlerParam {
+        RequestCrunchBaseCompany cbCompany = 100;
+        RequestTranslate2 translate2 = 101;
+        RequestDTData dtdata = 102;
+        AnalyzePage analyzePage = 103;
+    }
+}
+
+// ReplyCrawler - reply crawler
+message ReplyCrawler {
+    CrawlerType crawlerType = 1;
+
+    oneof crawlerResult {
+        CrunchBaseOrganization cbCompany = 100;
+        TranslateResult translateResult = 101;
+        ReplyDTData dtdata = 102;
+        ReplyAnalyzePage analyzePage = 103;
+    }
+}
+
+// ReplyCrawler - reply crawler
+message ReplyCrawlerStream {
+    // totalLength - If the message is too long, it will send data in multiple msg, this is the total length.
+    int32 totalLength = 1;
+    // curStart - The starting point of the current data (in bytes).
+    int32 curStart = 2;
+    // curLength - The length of the current data (in bytes).
+    int32 curLength = 3;
+    // hashData - This is the hash of each paragraph.
+    string hashData = 4;
+    // totalHashData - If multiple messages return data, this is the hash value of all data, only sent in the last message.
+    string totalHashData = 5;
+    // data
+    bytes data = 6;
+
+    string error = 100;
+
+    ReplyCrawler replyCrawler = 200;
+}
+
+// JarvisCrawlerService - JarvisCrawler service
+service JarvisCrawlerService {
+    // translate - translate text
+    rpc translate(RequestTranslate) returns (ReplyTranslate) {}
+    // exportArticle - export article
+    rpc exportArticle(RequestArticle) returns (stream ReplyArticle) {}    
+    // getArticles - get articles
+    rpc getArticles(RequestArticles) returns (ReplyArticles) {}
+
+    // getDTData - get DT data
+    rpc getDTData(RequestDTData) returns (ReplyDTData) {}    
+
+    // requestCrawler - request crawler
+    rpc requestCrawler(RequestCrawler) returns (stream ReplyCrawlerStream) {}
+}
