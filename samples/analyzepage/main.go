@@ -12,7 +12,7 @@ func main() {
 
 	reply, err := client.AnalyzePage(context.Background(),
 		"http://47.90.46.159:8090/game.html?gameCode=nightclub&language=zh_CN&isCheat=true&slotKey=",
-		10, 1280, 800)
+		10, 1280, 800, 1.0, false, false)
 
 	if err != nil {
 		fmt.Printf("AnalyzePage %v", err)

@@ -36,7 +36,9 @@ func (client *Client) reset() {
 }
 
 // AnalyzePage -
-func (client *Client) AnalyzePage(ctx context.Context, url string, delay int, w int, h int) (
+func (client *Client) AnalyzePage(ctx context.Context, url string, delay int, w int, h int,
+	deviceScaleFactor float32, isMobile bool, isLandscape bool) (
+
 	*jarviscrawlercore.ReplyAnalyzePage, error) {
 
 	req := &jarviscrawlercore.RequestCrawler{
@@ -44,10 +46,13 @@ func (client *Client) AnalyzePage(ctx context.Context, url string, delay int, w 
 		CrawlerType: jarviscrawlercore.CrawlerType_CT_ANALYZEPAGE,
 		CrawlerParam: &jarviscrawlercore.RequestCrawler_AnalyzePage{
 			AnalyzePage: &jarviscrawlercore.AnalyzePage{
-				Url:            url,
-				Delay:          int32(delay),
-				ViewportWidth:  int32(w),
-				ViewportHeight: int32(h),
+				Url:               url,
+				Delay:             int32(delay),
+				ViewportWidth:     int32(w),
+				ViewportHeight:    int32(h),
+				DeviceScaleFactor: deviceScaleFactor,
+				IsMobile:          isMobile,
+				IsLandscape:       isLandscape,
 			},
 		},
 	}
