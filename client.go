@@ -36,10 +36,8 @@ func (client *Client) reset() {
 }
 
 // AnalyzePage -
-func (client *Client) AnalyzePage(ctx context.Context, url string, delay int, w int, h int,
-	deviceScaleFactor float32, isMobile bool, isLandscape bool) (
-
-	*jarviscrawlercore.ReplyAnalyzePage, error) {
+func (client *Client) AnalyzePage(ctx context.Context, url string, viewport *Viewport,
+	options *AnalyzePageOptions) (*jarviscrawlercore.ReplyAnalyzePage, error) {
 
 	req := &jarviscrawlercore.RequestCrawler{
 		Token:       client.token,
@@ -47,12 +45,15 @@ func (client *Client) AnalyzePage(ctx context.Context, url string, delay int, w 
 		CrawlerParam: &jarviscrawlercore.RequestCrawler_AnalyzePage{
 			AnalyzePage: &jarviscrawlercore.AnalyzePage{
 				Url:               url,
-				Delay:             int32(delay),
-				ViewportWidth:     int32(w),
-				ViewportHeight:    int32(h),
-				DeviceScaleFactor: deviceScaleFactor,
-				IsMobile:          isMobile,
-				IsLandscape:       isLandscape,
+				Delay:             int32(options.ScreenshotsDelay),
+				ViewportWidth:     int32(viewport.Width),
+				ViewportHeight:    int32(viewport.Height),
+				DeviceScaleFactor: viewport.DeviceScaleFactor,
+				IsMobile:          viewport.IsMobile,
+				IsLandscape:       viewport.IsLandscape,
+				NeedScreenshots:   options.NeedScreenshots,
+				NeedLogs:          options.NeedLogs,
+				Timeout:           int32(options.Timeout),
 			},
 		},
 	}
