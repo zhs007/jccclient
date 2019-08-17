@@ -35,7 +35,7 @@ func (client *Client) reset() {
 	client.client = nil
 }
 
-// AnalyzePage -
+// AnalyzePage - analyze a web page
 func (client *Client) AnalyzePage(ctx context.Context, url string, viewport *Viewport,
 	options *AnalyzePageOptions) (*jarviscrawlercore.ReplyAnalyzePage, error) {
 
@@ -81,6 +81,47 @@ func (client *Client) AnalyzePage(ctx context.Context, url string, viewport *Vie
 	}
 
 	rap := ap.AnalyzePage
+
+	return rap, nil
+}
+
+// GetGeoIP - get ip geolocation
+func (client *Client) GetGeoIP(ctx context.Context, ip string, platform string) (*jarviscrawlercore.ReplyGeoIP, error) {
+
+	req := &jarviscrawlercore.RequestCrawler{
+		Token:       client.token,
+		CrawlerType: jarviscrawlercore.CrawlerType_CT_GEOIP,
+		CrawlerParam: &jarviscrawlercore.RequestCrawler_Geoip{
+			Geoip: &jarviscrawlercore.RequestGeoIP{
+				Ip:       ip,
+				Platform: platform,
+			},
+		},
+	}
+
+	reply, err := client.RequestCrawler(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if reply == nil {
+		return nil, ErrNoReplyCrawler
+	}
+
+	if reply.CrawlerType != jarviscrawlercore.CrawlerType_CT_GEOIP {
+		return nil, ErrInvalidCrawlerType
+	}
+
+	if reply.CrawlerResult == nil {
+		return nil, ErrNoCrawlerResult
+	}
+
+	ap, isok := (reply.CrawlerResult).(*jarviscrawlercore.ReplyCrawler_Geoip)
+	if !isok {
+		return nil, ErrNoReplyAnalyzePage
+	}
+
+	rap := ap.Geoip
 
 	return rap, nil
 }
