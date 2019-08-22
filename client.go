@@ -12,6 +12,7 @@ import (
 // Client - client
 type Client struct {
 	Hosts    *HostInfoCollection
+	cfg      *Config
 	servAddr string
 	token    string
 	conn     *grpc.ClientConn
@@ -41,12 +42,16 @@ func (client *Client) reset() {
 func (client *Client) AnalyzePage(ctx context.Context, url string, viewport *Viewport,
 	options *AnalyzePageOptions) (*jarviscrawlercore.ReplyAnalyzePage, error) {
 
-	hostname, err := GetHostName(url)
-	if err != nil {
-		return nil, err
-	}
+	hostname := ""
 
-	client.Hosts.OnTaskStart(hostname)
+	if client.cfg != nil {
+		hostname, err := GetHostName(url)
+		if err != nil {
+			return nil, err
+		}
+
+		client.Hosts.OnTaskStart(hostname)
+	}
 
 	req := &jarviscrawlercore.RequestCrawler{
 		Token:       client.token,
@@ -69,15 +74,23 @@ func (client *Client) AnalyzePage(ctx context.Context, url string, viewport *Vie
 
 	reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
-		client.Hosts.OnTaskFail(hostname)
+		if client.cfg != nil {
+			client.Hosts.OnTaskEnd(hostname, true, client.cfg)
+		}
 
 		return nil, err
 	}
 
 	if reply == nil {
-		client.Hosts.OnTaskFail(hostname)
+		if client.cfg != nil {
+			client.Hosts.OnTaskEnd(hostname, true, client.cfg)
+		}
 
 		return nil, ErrNoReplyCrawler
+	}
+
+	if client.cfg != nil {
+		client.Hosts.OnTaskEnd(hostname, false, client.cfg)
 	}
 
 	if reply.CrawlerType != jarviscrawlercore.CrawlerType_CT_ANALYZEPAGE {
@@ -102,7 +115,10 @@ func (client *Client) AnalyzePage(ctx context.Context, url string, viewport *Vie
 func (client *Client) GetGeoIP(ctx context.Context, ip string, platform string) (*jarviscrawlercore.ReplyGeoIP, error) {
 
 	hostname := "www.ipvoid.com"
-	client.Hosts.OnTaskStart(hostname)
+
+	if client.cfg != nil {
+		client.Hosts.OnTaskStart(hostname)
+	}
 
 	req := &jarviscrawlercore.RequestCrawler{
 		Token:       client.token,
@@ -117,15 +133,23 @@ func (client *Client) GetGeoIP(ctx context.Context, ip string, platform string) 
 
 	reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
-		client.Hosts.OnTaskFail(hostname)
+		if client.cfg != nil {
+			client.Hosts.OnTaskEnd(hostname, true, client.cfg)
+		}
 
 		return nil, err
 	}
 
 	if reply == nil {
-		client.Hosts.OnTaskFail(hostname)
+		if client.cfg != nil {
+			client.Hosts.OnTaskEnd(hostname, true, client.cfg)
+		}
 
 		return nil, ErrNoReplyCrawler
+	}
+
+	if client.cfg != nil {
+		client.Hosts.OnTaskEnd(hostname, false, client.cfg)
 	}
 
 	if reply.CrawlerType != jarviscrawlercore.CrawlerType_CT_GEOIP {

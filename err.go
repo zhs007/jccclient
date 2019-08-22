@@ -7,6 +7,8 @@ var (
 	ErrNoServAddr = errors.New("There is no ServAddr")
 	// ErrNoToken - There is no token
 	ErrNoToken = errors.New("There is no token")
+	// ErrDuplicateServAddr - Duplicate servaddr
+	ErrDuplicateServAddr = errors.New("Duplicate servaddr")
 
 	// ErrNoReplyCrawler - no ReplyCrawler
 	ErrNoReplyCrawler = errors.New("no ReplyCrawler")
