@@ -3,7 +3,7 @@ package jccclientdbpb;
 
 // HostInfo - host info
 message HostInfo {
-    string hashName = 1;
+    string hostName = 1;
     int32 taskNums = 2;
 	int32 failNums = 3;
 	int64 lastTime = 4;

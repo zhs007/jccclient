@@ -1,9 +1,11 @@
 package jccclient
 
+import jccclientdbpb "github.com/zhs007/jccclient/dbpb"
+
 // findClient - find a client with hostname
 func findClient(clients []*Client, hostname string, cfg *Config) *Client {
 	var c *Client
-	var chi *HostInfo
+	var chi *jccclientdbpb.HostInfo
 
 	for _, v := range clients {
 		if c == nil {
@@ -12,7 +14,7 @@ func findClient(clients []*Client, hostname string, cfg *Config) *Client {
 				return v
 			}
 
-			if chi.IsOK() {
+			if IsOK(chi) {
 				c = v
 			}
 		} else {
@@ -21,7 +23,7 @@ func findClient(clients []*Client, hostname string, cfg *Config) *Client {
 				return v
 			}
 
-			if vhi.IsOK() {
+			if IsOK(vhi) {
 				if vhi.LastTime < chi.LastTime {
 					c = v
 					chi = vhi

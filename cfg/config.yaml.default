@@ -16,3 +16,8 @@ maxmultifailtimes: 3
 effectivefailtime: 180
 # ignoretasktime - The client will ignore the task for {{ignoretasktime}} seconds.
 ignoretasktime: 300
+
+# database root path
+dbpath: ./data
+# database engine
+dbengine: leveldb

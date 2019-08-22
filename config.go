@@ -30,6 +30,12 @@ type Config struct {
 	EffectiveFailTime int
 	// IgnoreTaskTime - The client will ignore the task for {{IgnoreTaskTime}} seconds.
 	IgnoreTaskTime int
+
+	//------------------------------------------------------------------
+	// databse configuration
+
+	DBPath   string
+	DBEngine string
 }
 
 func checkClientConfig(cfg *ClientConfig) error {
@@ -71,6 +77,14 @@ func checkConfig(cfg *Config) error {
 
 	if cfg.IgnoreTaskTime <= 0 {
 		cfg.IgnoreTaskTime = IgnoreTaskTime
+	}
+
+	if cfg.DBPath != "" {
+		return ErrNoDBPath
+	}
+
+	if cfg.DBEngine != "" {
+		return ErrNoDBEngine
 	}
 
 	return nil

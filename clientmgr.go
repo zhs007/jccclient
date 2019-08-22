@@ -3,28 +3,35 @@ package jccclient
 // ClientMgr -
 type ClientMgr struct {
 	cfg     *Config
+	db      *DB
 	Tags    map[string][]*Client
 	NoTags  []*Client
 	Clients map[string]*Client
 }
 
 // NewClientMgr - new clientmgr
-func NewClientMgr(cfg *Config) *ClientMgr {
+func NewClientMgr(cfg *Config) (*ClientMgr, error) {
 	mgr := &ClientMgr{
 		cfg:     cfg,
 		Tags:    make(map[string][]*Client),
 		Clients: make(map[string]*Client),
 	}
 
+	db, err := NewDB(cfg.DBPath, "", cfg.DBEngine)
+	if err != nil {
+		return nil, err
+	}
+
+	mgr.db = db
 	mgr.init()
 
-	return mgr
+	return mgr, nil
 }
 
 // init - init
 func (mgr *ClientMgr) init() {
 	for _, v := range mgr.cfg.Clients {
-		cc := NewClient(v.ServAddr, v.Token)
+		cc := NewClient(mgr.db, v.ServAddr, v.Token)
 		cc.cfg = mgr.cfg
 
 		mgr.Clients[v.ServAddr] = cc

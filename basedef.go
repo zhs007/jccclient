@@ -1,7 +1,7 @@
 package jccclient
 
 // VERSION - jccclient version
-const VERSION = "0.1.9"
+const VERSION = "0.1.10"
 
 // MaxMultiFailTimes - If the client fail {{MaxMultiFailTimes}} times in succession, it need to ignore some task
 const MaxMultiFailTimes = 3
@@ -11,3 +11,6 @@ const EffectiveFailTime = 3 * 60
 
 // IgnoreTaskTime - The client will ignore the task for {{IgnoreTaskTime}} seconds.
 const IgnoreTaskTime = 5 * 60
+
+// DBName - jccclient database name
+const DBName = "jccclient"
