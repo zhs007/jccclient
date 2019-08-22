@@ -11,6 +11,7 @@ import (
 
 // Client - client
 type Client struct {
+	Hosts    *HostInfoCollection
 	servAddr string
 	token    string
 	conn     *grpc.ClientConn
@@ -20,6 +21,7 @@ type Client struct {
 // NewClient - new Client
 func NewClient(servAddr string, token string) *Client {
 	return &Client{
+		Hosts:    NewHostInfoCollection(),
 		servAddr: servAddr,
 		token:    token,
 	}
@@ -38,6 +40,13 @@ func (client *Client) reset() {
 // AnalyzePage - analyze a web page
 func (client *Client) AnalyzePage(ctx context.Context, url string, viewport *Viewport,
 	options *AnalyzePageOptions) (*jarviscrawlercore.ReplyAnalyzePage, error) {
+
+	hostname, err := GetHostName(url)
+	if err != nil {
+		return nil, err
+	}
+
+	client.Hosts.OnTaskStart(hostname)
 
 	req := &jarviscrawlercore.RequestCrawler{
 		Token:       client.token,
@@ -60,10 +69,14 @@ func (client *Client) AnalyzePage(ctx context.Context, url string, viewport *Vie
 
 	reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
+		client.Hosts.OnTaskFail(hostname)
+
 		return nil, err
 	}
 
 	if reply == nil {
+		client.Hosts.OnTaskFail(hostname)
+
 		return nil, ErrNoReplyCrawler
 	}
 
@@ -88,6 +101,9 @@ func (client *Client) AnalyzePage(ctx context.Context, url string, viewport *Vie
 // GetGeoIP - get ip geolocation
 func (client *Client) GetGeoIP(ctx context.Context, ip string, platform string) (*jarviscrawlercore.ReplyGeoIP, error) {
 
+	hostname := "www.ipvoid.com"
+	client.Hosts.OnTaskStart(hostname)
+
 	req := &jarviscrawlercore.RequestCrawler{
 		Token:       client.token,
 		CrawlerType: jarviscrawlercore.CrawlerType_CT_GEOIP,
@@ -101,10 +117,14 @@ func (client *Client) GetGeoIP(ctx context.Context, ip string, platform string) 
 
 	reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
+		client.Hosts.OnTaskFail(hostname)
+
 		return nil, err
 	}
 
 	if reply == nil {
+		client.Hosts.OnTaskFail(hostname)
+
 		return nil, ErrNoReplyCrawler
 	}
 

@@ -1,0 +1,10 @@
+clients:
+- servaddr: 127.0.0.1:1234
+  token: 1234567890
+  tags:
+  - localhost
+- servaddr: 127.0.0.1:1235
+  token: 1234567890
+  tags:
+  - localhost
+  - china
