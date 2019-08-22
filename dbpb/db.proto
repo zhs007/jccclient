@@ -1,0 +1,14 @@
+syntax = "proto3";
+package jccclientdbpb;
+
+// HostInfo - host info
+message HostInfo {
+    string hashName = 1;
+    int32 taskNums = 2;
+	int32 failNums = 3;
+	int64 lastTime = 4;
+	int64 lastFailTime = 5;
+	int64 startSleepTime = 6;
+	int64 sleepTime = 7;
+	int32 multiNums = 8;
+}
