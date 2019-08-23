@@ -17,6 +17,11 @@ var (
 	ErrNoDBPath = errors.New("There is no dbpath")
 	// ErrNoDBEngine - There is no dbengine
 	ErrNoDBEngine = errors.New("There is no dbengine")
+	// ErrNoTag - There is no tag
+	ErrNoTag = errors.New("There is no tag")
+
+	// ErrInvalidTask - invalid task
+	ErrInvalidTask = errors.New("invalid task")
 
 	// ErrNoReplyCrawler - no ReplyCrawler
 	ErrNoReplyCrawler = errors.New("no ReplyCrawler")

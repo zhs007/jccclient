@@ -8,6 +8,10 @@ func findClient(clients []*Client, hostname string, cfg *Config) *Client {
 	var chi *jccclientdbpb.HostInfo
 
 	for _, v := range clients {
+		if v.Running {
+			continue
+		}
+
 		if c == nil {
 			chi = v.Hosts.Get(hostname)
 			if chi == nil {

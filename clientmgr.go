@@ -1,14 +1,21 @@
 package jccclient
 
-import "time"
+import (
+	"context"
+	"time"
+
+	jarviscrawlercore "github.com/zhs007/jccclient/proto"
+)
 
 // ClientMgr -
 type ClientMgr struct {
-	cfg     *Config
-	db      *DB
-	Tags    map[string][]*Client
-	NoTags  []*Client
-	Clients map[string]*Client
+	cfg       *Config
+	db        *DB
+	Tags      map[string][]*Client
+	NoTags    []*Client
+	Clients   map[string]*Client
+	Tasks     []*Task
+	MaxTaskID int
 }
 
 // NewClientMgr - new clientmgr
@@ -78,4 +85,125 @@ func (mgr *ClientMgr) GetClient(tag string, hostname string) *Client {
 	}
 
 	return c
+}
+
+// AddTask - add a task
+func (mgr *ClientMgr) AddTask(tag string, task *Task) error {
+	if !mgr.HasTag(tag) {
+		return ErrNoTag
+	}
+
+	task.taskid = mgr.newTaskID()
+	task.tag = tag
+
+	if task.AnalyzePage != nil {
+		hostname, err := GetHostName(task.AnalyzePage.URL)
+		if err != nil {
+			return err
+		}
+
+		task.hostname = hostname
+	} else if task.GeoIP != nil {
+		if task.GeoIP.Platform == "" || task.GeoIP.Platform == "ipvoid" {
+			task.hostname = "www.ipvoid.com"
+		}
+	}
+
+	mgr.Tasks = append(mgr.Tasks, task)
+
+	return nil
+}
+
+// Start - start all tasks
+func (mgr *ClientMgr) Start(ctx context.Context) error {
+	if len(mgr.Tasks) <= 0 {
+		return nil
+	}
+
+	endchan := make(chan int, 16)
+
+	for _, v := range mgr.Tasks {
+		cc := mgr.GetClient(v.tag, v.hostname)
+		if cc != nil {
+			cc.Running = true
+
+			go mgr.runTask(ctx, cc, v, endchan)
+		}
+	}
+
+	for {
+		curtaskid := <-endchan
+
+		mgr.nextTask(ctx, endchan, curtaskid)
+	}
+}
+
+// runTask - run a task
+func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, endChan chan int) error {
+	if task.AnalyzePage != nil {
+		reply, err := client.analyzePage(ctx, task.hostname, task.AnalyzePage.URL,
+			&task.AnalyzePage.Viewport, &task.AnalyzePage.Options)
+
+		task.Callback(ctx, task, err, reply)
+
+		client.Running = false
+
+		return err
+
+	} else if task.GeoIP != nil {
+		reply, err := client.getGeoIP(ctx, task.hostname, task.GeoIP.IP, task.GeoIP.Platform)
+
+		task.Callback(ctx, task, err, reply)
+
+		client.Running = false
+
+		return err
+	}
+
+	client.Running = false
+
+	return ErrInvalidTask
+}
+
+// HasTag - has tag
+func (mgr *ClientMgr) HasTag(tag string) bool {
+	_, isok := mgr.Tags[tag]
+	return isok
+}
+
+// onTaskEnd - on task end
+func (mgr *ClientMgr) onTaskEnd(ctx context.Context, client *Client, task *Task,
+	err error, reply *jarviscrawlercore.ReplyCrawler, endChan chan int) {
+
+	task.Callback(ctx, task, err, reply)
+
+	client.Running = false
+	endChan <- task.taskid
+}
+
+// nextTask - on task end
+func (mgr *ClientMgr) nextTask(ctx context.Context, endChan chan int, taskid int) {
+	for i, v := range mgr.Tasks {
+		if v.taskid == taskid {
+			mgr.Tasks = append(mgr.Tasks[:i], mgr.Tasks[i+1:]...)
+
+			break
+		}
+	}
+
+	for _, v := range mgr.Tasks {
+		cc := mgr.GetClient(v.tag, v.hostname)
+		if cc != nil {
+			cc.Running = true
+
+			go mgr.runTask(ctx, cc, v, endChan)
+		}
+	}
+}
+
+// newTaskID -
+func (mgr *ClientMgr) newTaskID() int {
+	mgr.MaxTaskID++
+
+	return mgr.MaxTaskID
 }

@@ -15,6 +15,7 @@ import (
 // Client - client
 type Client struct {
 	Hosts    *HostInfoCollection
+	Running  bool
 	cfg      *Config
 	servAddr string
 	token    string
@@ -48,52 +49,16 @@ func (client *Client) AnalyzePage(ctx context.Context, url string, viewport *Vie
 	hostname := ""
 
 	if client.cfg != nil {
-		hostname, err := GetHostName(url)
+		var err error
+		hostname, err = GetHostName(url)
 		if err != nil {
 			return nil, err
 		}
-
-		client.Hosts.OnTaskStart(ctx, hostname)
 	}
 
-	req := &jarviscrawlercore.RequestCrawler{
-		Token:       client.token,
-		CrawlerType: jarviscrawlercore.CrawlerType_CT_ANALYZEPAGE,
-		CrawlerParam: &jarviscrawlercore.RequestCrawler_AnalyzePage{
-			AnalyzePage: &jarviscrawlercore.AnalyzePage{
-				Url:               url,
-				Delay:             int32(options.ScreenshotsDelay),
-				ViewportWidth:     int32(viewport.Width),
-				ViewportHeight:    int32(viewport.Height),
-				DeviceScaleFactor: viewport.DeviceScaleFactor,
-				IsMobile:          viewport.IsMobile,
-				IsLandscape:       viewport.IsLandscape,
-				NeedScreenshots:   options.NeedScreenshots,
-				NeedLogs:          options.NeedLogs,
-				Timeout:           int32(options.Timeout),
-			},
-		},
-	}
-
-	reply, err := client.RequestCrawler(ctx, req)
+	reply, err := client.analyzePage(ctx, hostname, url, viewport, options)
 	if err != nil {
-		if client.cfg != nil {
-			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
-		}
-
 		return nil, err
-	}
-
-	if reply == nil {
-		if client.cfg != nil {
-			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
-		}
-
-		return nil, ErrNoReplyCrawler
-	}
-
-	if client.cfg != nil {
-		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
 	}
 
 	if reply.CrawlerType != jarviscrawlercore.CrawlerType_CT_ANALYZEPAGE {
@@ -119,40 +84,9 @@ func (client *Client) GetGeoIP(ctx context.Context, ip string, platform string) 
 
 	hostname := "www.ipvoid.com"
 
-	if client.cfg != nil {
-		client.Hosts.OnTaskStart(ctx, hostname)
-	}
-
-	req := &jarviscrawlercore.RequestCrawler{
-		Token:       client.token,
-		CrawlerType: jarviscrawlercore.CrawlerType_CT_GEOIP,
-		CrawlerParam: &jarviscrawlercore.RequestCrawler_Geoip{
-			Geoip: &jarviscrawlercore.RequestGeoIP{
-				Ip:       ip,
-				Platform: platform,
-			},
-		},
-	}
-
-	reply, err := client.RequestCrawler(ctx, req)
+	reply, err := client.getGeoIP(ctx, hostname, ip, platform)
 	if err != nil {
-		if client.cfg != nil {
-			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
-		}
-
 		return nil, err
-	}
-
-	if reply == nil {
-		if client.cfg != nil {
-			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
-		}
-
-		return nil, ErrNoReplyCrawler
-	}
-
-	if client.cfg != nil {
-		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
 	}
 
 	if reply.CrawlerType != jarviscrawlercore.CrawlerType_CT_GEOIP {
@@ -276,4 +210,98 @@ func (client *Client) startRequest() error {
 	}
 
 	return nil
+}
+
+// analyzePage - analyze a web page
+func (client *Client) analyzePage(ctx context.Context, hostname string, url string, viewport *Viewport,
+	options *AnalyzePageOptions) (*jarviscrawlercore.ReplyCrawler, error) {
+
+	if client.cfg != nil {
+		client.Hosts.OnTaskStart(ctx, hostname)
+	}
+
+	req := &jarviscrawlercore.RequestCrawler{
+		Token:       client.token,
+		CrawlerType: jarviscrawlercore.CrawlerType_CT_ANALYZEPAGE,
+		CrawlerParam: &jarviscrawlercore.RequestCrawler_AnalyzePage{
+			AnalyzePage: &jarviscrawlercore.AnalyzePage{
+				Url:               url,
+				Delay:             int32(options.ScreenshotsDelay),
+				ViewportWidth:     int32(viewport.Width),
+				ViewportHeight:    int32(viewport.Height),
+				DeviceScaleFactor: viewport.DeviceScaleFactor,
+				IsMobile:          viewport.IsMobile,
+				IsLandscape:       viewport.IsLandscape,
+				NeedScreenshots:   options.NeedScreenshots,
+				NeedLogs:          options.NeedLogs,
+				Timeout:           int32(options.Timeout),
+			},
+		},
+	}
+
+	reply, err := client.RequestCrawler(ctx, req)
+	if err != nil {
+		if client.cfg != nil {
+			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
+		}
+
+		return nil, err
+	}
+
+	if reply == nil {
+		if client.cfg != nil {
+			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
+		}
+
+		return nil, ErrNoReplyCrawler
+	}
+
+	if client.cfg != nil {
+		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
+	}
+
+	return reply, nil
+}
+
+// getGeoIP - get ip geolocation
+func (client *Client) getGeoIP(ctx context.Context, hostname string, ip string,
+	platform string) (*jarviscrawlercore.ReplyCrawler, error) {
+
+	if client.cfg != nil {
+		client.Hosts.OnTaskStart(ctx, hostname)
+	}
+
+	req := &jarviscrawlercore.RequestCrawler{
+		Token:       client.token,
+		CrawlerType: jarviscrawlercore.CrawlerType_CT_GEOIP,
+		CrawlerParam: &jarviscrawlercore.RequestCrawler_Geoip{
+			Geoip: &jarviscrawlercore.RequestGeoIP{
+				Ip:       ip,
+				Platform: platform,
+			},
+		},
+	}
+
+	reply, err := client.RequestCrawler(ctx, req)
+	if err != nil {
+		if client.cfg != nil {
+			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
+		}
+
+		return nil, err
+	}
+
+	if reply == nil {
+		if client.cfg != nil {
+			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
+		}
+
+		return nil, ErrNoReplyCrawler
+	}
+
+	if client.cfg != nil {
+		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
+	}
+
+	return reply, nil
 }
