@@ -58,7 +58,13 @@ func (hic *HostInfoCollection) Get(hostname string) *jccclientdbpb.HostInfo {
 		return hi
 	}
 
-	return nil
+	hi = &jccclientdbpb.HostInfo{
+		HostName: hostname,
+	}
+
+	hic.Hosts[hostname] = hi
+
+	return hi
 }
 
 // OnTaskStart - on task start

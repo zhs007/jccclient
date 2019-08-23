@@ -1,5 +1,7 @@
 package jccclient
 
+import "time"
+
 // ClientMgr -
 type ClientMgr struct {
 	cfg     *Config
@@ -61,9 +63,19 @@ func (mgr *ClientMgr) GetClient(tag string, hostname string) *Client {
 	if tag != "" {
 		lst, isok := mgr.Tags[tag]
 		if isok && len(lst) > 0 {
-			return findClient(lst, hostname, mgr.cfg)
+			c := findClient(lst, hostname, mgr.cfg)
+			if c != nil {
+				c.Hosts.Hosts[hostname].LastTime = time.Now().Unix()
+			}
+
+			return c
 		}
 	}
 
-	return findClient(mgr.NoTags, hostname, mgr.cfg)
+	c := findClient(mgr.NoTags, hostname, mgr.cfg)
+	if c != nil {
+		c.Hosts.Hosts[hostname].LastTime = time.Now().Unix()
+	}
+
+	return c
 }

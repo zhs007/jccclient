@@ -9,7 +9,7 @@ func findClient(clients []*Client, hostname string, cfg *Config) *Client {
 
 	for _, v := range clients {
 		if c == nil {
-			chi = c.Hosts.Get(hostname)
+			chi = v.Hosts.Get(hostname)
 			if chi == nil {
 				return v
 			}

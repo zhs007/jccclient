@@ -79,11 +79,11 @@ func checkConfig(cfg *Config) error {
 		cfg.IgnoreTaskTime = IgnoreTaskTime
 	}
 
-	if cfg.DBPath != "" {
+	if cfg.DBPath == "" {
 		return ErrNoDBPath
 	}
 
-	if cfg.DBEngine != "" {
+	if cfg.DBEngine == "" {
 		return ErrNoDBEngine
 	}
 
