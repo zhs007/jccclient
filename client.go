@@ -1,11 +1,14 @@
 package jccclient
 
 import (
+	"bytes"
 	"context"
+	"errors"
 	"io"
 
 	"google.golang.org/grpc"
 
+	"github.com/golang/protobuf/proto"
 	jarviscrawlercore "github.com/zhs007/jccclient/proto"
 )
 
@@ -210,6 +213,14 @@ func (client *Client) RequestCrawler(ctx context.Context, req *jarviscrawlercore
 				return
 			}
 
+			if in.Error != "" {
+				recverr = errors.New(in.Error)
+
+				close(waitc)
+
+				return
+			}
+
 			lstrect = append(lstrect, in)
 		}
 	}()
@@ -226,7 +237,21 @@ func (client *Client) RequestCrawler(ctx context.Context, req *jarviscrawlercore
 		return lstrect[0].ReplyCrawler, nil
 	}
 
-	return nil, nil
+	var lstbytes [][]byte
+	for _, v := range lstrect {
+		lstbytes = append(lstbytes, v.Data)
+	}
+
+	buf := bytes.Join(lstbytes, nil)
+
+	rc := &jarviscrawlercore.ReplyCrawler{}
+	err = proto.Unmarshal(buf, rc)
+	if err != nil {
+		return nil, err
+	}
+
+	return rc, nil
+
 }
 
 // startRequest -
