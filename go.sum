@@ -50,6 +50,7 @@ github.com/zhs007/anka v0.0.0-20180701110635-4fa730b5b368 h1:m+/FR9Tm8zqAL42jrWr
 github.com/zhs007/anka v0.0.0-20180701110635-4fa730b5b368/go.mod h1:E4SJE09/V3y/yZm+fpccYMSTNC0eY2GrJ4JBQoE4qe0=
 github.com/zhs007/ankadb v0.3.31 h1:Md7g2OVuJ7uppkeDhqZdd0SFWKX0LRRAnQBwhJHDq6w=
 github.com/zhs007/ankadb v0.3.31/go.mod h1:IsfaA6sTij3tK+2knD9UMdMfN1xGOmwjRJOsEfg7NKk=
+github.com/zhs007/brucecore v0.0.0-20190821034037-b1ebb56c289b h1:0f36aTBwOLkD2s5aMJ+VQF99SHHPzaDx19uc0t7YrHg=
 go.uber.org/atomic v1.4.0 h1:cxzIVoETapQEqDhQu3QfnvXAV4AlzcvUCxkVUFw3+EU=
 go.uber.org/atomic v1.4.0/go.mod h1:gD2HeocX3+yG+ygLZcrzQJaqmWj9AIm7n08wl/qW/PE=
 go.uber.org/multierr v1.1.0 h1:HoEmRHQPVSqub6w2z2d2EOVs2fjyFRGyofhKuyDq0QI=

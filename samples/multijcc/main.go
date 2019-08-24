@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	jarviscrawlercore "github.com/zhs007/jccclient/proto"
 	"github.com/zhs007/jccclient"
 )
 
@@ -22,45 +23,91 @@ func main() {
 		return
 	}
 
-	lst := []string{"47.90.46.159", "47.90.46.158"}
-
-	endchan := make(chan int)
-	tasknums := 0
-
-	for _, v := range lst {
-		cc := mgr.GetClient("localhost", "www.ipvoid.com")
-		if cc == nil {
-			fmt.Printf("GetClient %v", "localhost")
-
-			return
-		}
-
-		go func(client *jccclient.Client, ipaddr string) {
-			reply, err := client.GetGeoIP(context.Background(),
-				ipaddr,
-				"ipvoid")
-
+	mgr.AddTask("localhost", &jccclient.Task{
+		Callback: func(ctx context.Context, task *jccclient.Task, err error, reply *jarviscrawlercore.ReplyCrawler) {
 			if err != nil {
-				fmt.Printf("GetGeoIP %v", err)
+				fmt.Printf("callback %v", err)
 
-				// return
+				return
 			}
 
-			if reply != nil {
-				fmt.Printf("%v", reply)
+			ap, isok := (reply.CrawlerResult).(*jarviscrawlercore.ReplyCrawler_Geoip)
+			if !isok {
+				fmt.Printf("callback %v", jccclient.ErrNoReplyAnalyzePage)
+
+				return
 			}
 
-			endchan <- 1
-		}(cc, v)
-	}
+			fmt.Printf("callback %v", ap.Geoip)
+		},
+		GeoIP: &jccclient.TaskGeoIP{
+			IP: "47.90.46.159",
+		},
+	})
 
-	for {
-		<-endchan
-		tasknums++
-		if tasknums == len(lst) {
-			break
-		}
-	}
+	mgr.AddTask("localhost", &jccclient.Task{
+		Callback: func(ctx context.Context, task *jccclient.Task, err error, reply *jarviscrawlercore.ReplyCrawler) {
+			if err != nil {
+				fmt.Printf("callback %v", err)
+
+				return
+			}
+
+			ap, isok := (reply.CrawlerResult).(*jarviscrawlercore.ReplyCrawler_Geoip)
+			if !isok {
+				fmt.Printf("callback %v", jccclient.ErrNoReplyAnalyzePage)
+
+				return
+			}
+
+			fmt.Printf("callback %v", ap.Geoip)
+		},
+		GeoIP: &jccclient.TaskGeoIP{
+			IP: "47.90.46.158",
+		},
+	})
+
+	mgr.Start(context.Background())
+
+	// lst := []string{"47.90.46.159", "47.90.46.158"}
+
+	// endchan := make(chan int)
+	// tasknums := 0
+
+	// for _, v := range lst {
+	// 	cc := mgr.GetClient("localhost", "www.ipvoid.com")
+	// 	if cc == nil {
+	// 		fmt.Printf("GetClient %v", "localhost")
+
+	// 		return
+	// 	}
+
+	// 	go func(client *jccclient.Client, ipaddr string) {
+	// 		reply, err := client.GetGeoIP(context.Background(),
+	// 			ipaddr,
+	// 			"ipvoid")
+
+	// 		if err != nil {
+	// 			fmt.Printf("GetGeoIP %v", err)
+
+	// 			// return
+	// 		}
+
+	// 		if reply != nil {
+	// 			fmt.Printf("%v", reply)
+	// 		}
+
+	// 		endchan <- 1
+	// 	}(cc, v)
+	// }
+
+	// for {
+	// 	<-endchan
+	// 	tasknums++
+	// 	if tasknums == len(lst) {
+	// 		break
+	// 	}
+	// }
 
 	return
 }

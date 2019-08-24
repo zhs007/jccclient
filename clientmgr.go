@@ -134,8 +134,12 @@ func (mgr *ClientMgr) Start(ctx context.Context) error {
 	for {
 		curtaskid := <-endchan
 
-		mgr.nextTask(ctx, endchan, curtaskid)
+		if mgr.nextTask(ctx, endchan, curtaskid) {
+			break
+		}
 	}
+
+	return nil
 }
 
 // runTask - run a task
@@ -144,18 +148,14 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 		reply, err := client.analyzePage(ctx, task.hostname, task.AnalyzePage.URL,
 			&task.AnalyzePage.Viewport, &task.AnalyzePage.Options)
 
-		task.Callback(ctx, task, err, reply)
-
-		client.Running = false
+		mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
 		return err
 
 	} else if task.GeoIP != nil {
 		reply, err := client.getGeoIP(ctx, task.hostname, task.GeoIP.IP, task.GeoIP.Platform)
 
-		task.Callback(ctx, task, err, reply)
-
-		client.Running = false
+		mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
 		return err
 	}
@@ -182,13 +182,17 @@ func (mgr *ClientMgr) onTaskEnd(ctx context.Context, client *Client, task *Task,
 }
 
 // nextTask - on task end
-func (mgr *ClientMgr) nextTask(ctx context.Context, endChan chan int, taskid int) {
+func (mgr *ClientMgr) nextTask(ctx context.Context, endChan chan int, taskid int) bool {
 	for i, v := range mgr.Tasks {
 		if v.taskid == taskid {
 			mgr.Tasks = append(mgr.Tasks[:i], mgr.Tasks[i+1:]...)
 
 			break
 		}
+	}
+
+	if len(mgr.Tasks) == 0 {
+		return true
 	}
 
 	for _, v := range mgr.Tasks {
@@ -199,6 +203,8 @@ func (mgr *ClientMgr) nextTask(ctx context.Context, endChan chan int, taskid int
 			go mgr.runTask(ctx, cc, v, endChan)
 		}
 	}
+
+	return false
 }
 
 // newTaskID -
