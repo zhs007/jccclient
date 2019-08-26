@@ -32,4 +32,16 @@ var (
 
 	// ErrNoReplyAnalyzePage - invalid ReplyAnalyzePage
 	ErrNoReplyAnalyzePage = errors.New("invalid ReplyAnalyzePage")
+
+	// ErrNoReplyGeoip - invalid ReplyGeoip
+	ErrNoReplyGeoip = errors.New("invalid ReplyGeoip")
+
+	// ErrNoReplyTechInAsia - invalid ReplyTechInAsia
+	ErrNoReplyTechInAsia = errors.New("invalid ReplyTechInAsia")
+	// ErrInvalidTechInAsiaMode - invalid techinasia mode
+	ErrInvalidTechInAsiaMode = errors.New("invalid techinasia mode")
+	// ErrNoReplyTechInAsiaJob - invalid ReplyTechInAsiaJob
+	ErrNoReplyTechInAsiaJob = errors.New("invalid ReplyTechInAsiaJob")
+	// ErrNoReplyTechInAsiaCompany - invalid ReplyTechInAsiaCompany
+	ErrNoReplyTechInAsiaCompany = errors.New("invalid ReplyTechInAsiaCompany")
 )

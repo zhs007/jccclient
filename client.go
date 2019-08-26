@@ -99,12 +99,82 @@ func (client *Client) GetGeoIP(ctx context.Context, ip string, platform string) 
 
 	ap, isok := (reply.CrawlerResult).(*jarviscrawlercore.ReplyCrawler_Geoip)
 	if !isok {
-		return nil, ErrNoReplyAnalyzePage
+		return nil, ErrNoReplyGeoip
 	}
 
 	rap := ap.Geoip
 
 	return rap, nil
+}
+
+// GetTechInAsiaJob - get techinasia job
+func (client *Client) GetTechInAsiaJob(ctx context.Context, job string) (*jarviscrawlercore.TechInAsiaJob, error) {
+
+	hostname := "www.techinasia.com"
+
+	reply, err := client.getTechInAsiaJob(ctx, hostname, job)
+	if err != nil {
+		return nil, err
+	}
+
+	if reply.CrawlerType != jarviscrawlercore.CrawlerType_CT_TECHINASIA {
+		return nil, ErrInvalidCrawlerType
+	}
+
+	if reply.CrawlerResult == nil {
+		return nil, ErrNoCrawlerResult
+	}
+
+	techinasia, isok := (reply.CrawlerResult).(*jarviscrawlercore.ReplyCrawler_Techinasia)
+	if !isok {
+		return nil, ErrNoReplyTechInAsia
+	}
+
+	if techinasia.Techinasia.Mode != jarviscrawlercore.TechInAsiaMode_TIAM_JOB {
+		return nil, ErrInvalidTechInAsiaMode
+	}
+
+	replyjob, isok := (techinasia.Techinasia.Reply).(*jarviscrawlercore.ReplyTechInAsia_Job)
+	if !isok {
+		return nil, ErrNoReplyTechInAsiaJob
+	}
+
+	return replyjob.Job, nil
+}
+
+// GetTechInAsiaCompany - get techinasia company
+func (client *Client) GetTechInAsiaCompany(ctx context.Context, company string) (*jarviscrawlercore.TechInAsiaCompany, error) {
+
+	hostname := "www.techinasia.com"
+
+	reply, err := client.getTechInAsiaJob(ctx, hostname, company)
+	if err != nil {
+		return nil, err
+	}
+
+	if reply.CrawlerType != jarviscrawlercore.CrawlerType_CT_TECHINASIA {
+		return nil, ErrInvalidCrawlerType
+	}
+
+	if reply.CrawlerResult == nil {
+		return nil, ErrNoCrawlerResult
+	}
+
+	techinasia, isok := (reply.CrawlerResult).(*jarviscrawlercore.ReplyCrawler_Techinasia)
+	if !isok {
+		return nil, ErrNoReplyTechInAsia
+	}
+
+	if techinasia.Techinasia.Mode != jarviscrawlercore.TechInAsiaMode_TIAM_COMPANY {
+		return nil, ErrInvalidTechInAsiaMode
+	}
+
+	replycompany, isok := (techinasia.Techinasia.Reply).(*jarviscrawlercore.ReplyTechInAsia_Company)
+	if !isok {
+		return nil, ErrNoReplyTechInAsiaCompany
+	}
+
+	return replycompany.Company, nil
 }
 
 // RequestCrawler -
@@ -278,6 +348,90 @@ func (client *Client) getGeoIP(ctx context.Context, hostname string, ip string,
 			Geoip: &jarviscrawlercore.RequestGeoIP{
 				Ip:       ip,
 				Platform: platform,
+			},
+		},
+	}
+
+	reply, err := client.RequestCrawler(ctx, req)
+	if err != nil {
+		if client.cfg != nil {
+			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
+		}
+
+		return nil, err
+	}
+
+	if reply == nil {
+		if client.cfg != nil {
+			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
+		}
+
+		return nil, ErrNoReplyCrawler
+	}
+
+	if client.cfg != nil {
+		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
+	}
+
+	return reply, nil
+}
+
+// getTechInAsiaJob - get techinasia job
+func (client *Client) getTechInAsiaJob(ctx context.Context, hostname string, job string) (*jarviscrawlercore.ReplyCrawler, error) {
+
+	if client.cfg != nil {
+		client.Hosts.OnTaskStart(ctx, hostname)
+	}
+
+	req := &jarviscrawlercore.RequestCrawler{
+		Token:       client.token,
+		CrawlerType: jarviscrawlercore.CrawlerType_CT_TECHINASIA,
+		CrawlerParam: &jarviscrawlercore.RequestCrawler_Techinasia{
+			Techinasia: &jarviscrawlercore.RequestTechInAsia{
+				Mode:    jarviscrawlercore.TechInAsiaMode_TIAM_JOB,
+				JobCode: job,
+			},
+		},
+	}
+
+	reply, err := client.RequestCrawler(ctx, req)
+	if err != nil {
+		if client.cfg != nil {
+			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
+		}
+
+		return nil, err
+	}
+
+	if reply == nil {
+		if client.cfg != nil {
+			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
+		}
+
+		return nil, ErrNoReplyCrawler
+	}
+
+	if client.cfg != nil {
+		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
+	}
+
+	return reply, nil
+}
+
+// getTechInAsiaCompany - get techinasia company
+func (client *Client) getTechInAsiaCompany(ctx context.Context, hostname string, company string) (*jarviscrawlercore.ReplyCrawler, error) {
+
+	if client.cfg != nil {
+		client.Hosts.OnTaskStart(ctx, hostname)
+	}
+
+	req := &jarviscrawlercore.RequestCrawler{
+		Token:       client.token,
+		CrawlerType: jarviscrawlercore.CrawlerType_CT_TECHINASIA,
+		CrawlerParam: &jarviscrawlercore.RequestCrawler_Techinasia{
+			Techinasia: &jarviscrawlercore.RequestTechInAsia{
+				Mode:        jarviscrawlercore.TechInAsiaMode_TIAM_COMPANY,
+				CompanyCode: company,
 			},
 		},
 	}
