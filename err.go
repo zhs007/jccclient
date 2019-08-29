@@ -42,6 +42,8 @@ var (
 	ErrInvalidTechInAsiaMode = errors.New("invalid techinasia mode")
 	// ErrNoReplyTechInAsiaJob - invalid ReplyTechInAsiaJob
 	ErrNoReplyTechInAsiaJob = errors.New("invalid ReplyTechInAsiaJob")
+	// ErrNoReplyTechInAsiaJobs - invalid ReplyTechInAsiaJobs
+	ErrNoReplyTechInAsiaJobs = errors.New("invalid ReplyTechInAsiaJobs")
 	// ErrNoReplyTechInAsiaCompany - invalid ReplyTechInAsiaCompany
 	ErrNoReplyTechInAsiaCompany = errors.New("invalid ReplyTechInAsiaCompany")
 )
