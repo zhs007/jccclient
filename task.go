@@ -38,7 +38,7 @@ type Task struct {
 	TechInAsia  *TaskTechInAsia
 	Timeout     int
 	RetryNums   int
-	tag         string
+	tags        *Tags
 	hostname    string
 	taskid      int
 	running     bool

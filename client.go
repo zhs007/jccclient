@@ -21,6 +21,7 @@ type Client struct {
 	token    string
 	conn     *grpc.ClientConn
 	client   jarviscrawlercore.JarvisCrawlerServiceClient
+	tags     []string
 }
 
 // NewClient - new Client

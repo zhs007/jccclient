@@ -23,49 +23,57 @@ func main() {
 		return
 	}
 
-	mgr.AddTask("localhost", &jccclient.Task{
-		Callback: func(ctx context.Context, task *jccclient.Task, err error, reply *jarviscrawlercore.ReplyCrawler) {
-			if err != nil {
-				fmt.Printf("callback %v", err)
+	mgr.AddTask(&jccclient.Tags{
+		Tag: "localhost",
+	},
+		&jccclient.Task{
+			Callback: func(ctx context.Context, task *jccclient.Task, err error, reply *jarviscrawlercore.ReplyCrawler) {
+				if err != nil {
+					fmt.Printf("callback %v", err)
 
-				return
-			}
+					return
+				}
 
-			ap, isok := (reply.CrawlerResult).(*jarviscrawlercore.ReplyCrawler_Geoip)
-			if !isok {
-				fmt.Printf("callback %v", jccclient.ErrNoReplyAnalyzePage)
+				ap, isok := (reply.CrawlerResult).(*jarviscrawlercore.ReplyCrawler_Geoip)
+				if !isok {
+					fmt.Printf("callback %v", jccclient.ErrNoReplyAnalyzePage)
 
-				return
-			}
+					return
+				}
 
-			fmt.Printf("callback %v", ap.Geoip)
-		},
-		GeoIP: &jccclient.TaskGeoIP{
-			IP: "47.90.46.159",
-		},
-	})
+				fmt.Printf("callback %v", ap.Geoip)
+			},
+			RetryNums: 3,
+			GeoIP: &jccclient.TaskGeoIP{
+				IP: "47.90.46.159",
+			},
+		})
 
-	mgr.AddTask("localhost", &jccclient.Task{
-		Callback: func(ctx context.Context, task *jccclient.Task, err error, reply *jarviscrawlercore.ReplyCrawler) {
-			if err != nil {
-				fmt.Printf("callback %v", err)
+	mgr.AddTask(&jccclient.Tags{
+		Tag: "localhost",
+	},
+		&jccclient.Task{
+			Callback: func(ctx context.Context, task *jccclient.Task, err error, reply *jarviscrawlercore.ReplyCrawler) {
+				if err != nil {
+					fmt.Printf("callback %v", err)
 
-				return
-			}
+					return
+				}
 
-			ap, isok := (reply.CrawlerResult).(*jarviscrawlercore.ReplyCrawler_Geoip)
-			if !isok {
-				fmt.Printf("callback %v", jccclient.ErrNoReplyAnalyzePage)
+				ap, isok := (reply.CrawlerResult).(*jarviscrawlercore.ReplyCrawler_Geoip)
+				if !isok {
+					fmt.Printf("callback %v", jccclient.ErrNoReplyAnalyzePage)
 
-				return
-			}
+					return
+				}
 
-			fmt.Printf("callback %v", ap.Geoip)
-		},
-		GeoIP: &jccclient.TaskGeoIP{
-			IP: "47.90.46.158",
-		},
-	})
+				fmt.Printf("callback %v", ap.Geoip)
+			},
+			RetryNums: 3,
+			GeoIP: &jccclient.TaskGeoIP{
+				IP: "47.90.46.158",
+			},
+		})
 
 	mgr.StartAllTasks(context.Background())
 

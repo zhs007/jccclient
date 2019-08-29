@@ -3,12 +3,16 @@ package jccclient
 import jccclientdbpb "github.com/zhs007/jccclient/dbpb"
 
 // findClient - find a client with hostname
-func findClient(clients []*Client, hostname string, cfg *Config) *Client {
+func findClient(tags *Tags, clients []*Client, hostname string, cfg *Config) *Client {
 	var c *Client
 	var chi *jccclientdbpb.HostInfo
 
 	for _, v := range clients {
 		if v.Running {
+			continue
+		}
+
+		if tags != nil && !tags.IsMatch(v) {
 			continue
 		}
 

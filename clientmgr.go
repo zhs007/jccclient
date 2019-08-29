@@ -60,6 +60,7 @@ func (mgr *ClientMgr) init() {
 	for _, v := range mgr.cfg.Clients {
 		cc := NewClient(mgr.db, v.ServAddr, v.Token)
 		cc.cfg = mgr.cfg
+		cc.tags = v.Tags
 
 		mgr.Clients[v.ServAddr] = cc
 
@@ -84,11 +85,11 @@ func (mgr *ClientMgr) add2tag(tag string, c *Client) {
 }
 
 // GetClient - get a client with hostname and tag
-func (mgr *ClientMgr) GetClient(tag string, hostname string) *Client {
-	if tag != "" {
-		lst, isok := mgr.Tags[tag]
+func (mgr *ClientMgr) GetClient(tags *Tags, hostname string) *Client {
+	if tags != nil {
+		lst, isok := mgr.Tags[tags.Tag]
 		if isok && len(lst) > 0 {
-			c := findClient(lst, hostname, mgr.cfg)
+			c := findClient(tags, lst, hostname, mgr.cfg)
 			if c != nil {
 				c.Hosts.Hosts[hostname].LastTime = time.Now().Unix()
 			}
@@ -97,7 +98,7 @@ func (mgr *ClientMgr) GetClient(tag string, hostname string) *Client {
 		}
 	}
 
-	c := findClient(mgr.NoTags, hostname, mgr.cfg)
+	c := findClient(nil, mgr.NoTags, hostname, mgr.cfg)
 	if c != nil {
 		c.Hosts.Hosts[hostname].LastTime = time.Now().Unix()
 	}
@@ -106,13 +107,13 @@ func (mgr *ClientMgr) GetClient(tag string, hostname string) *Client {
 }
 
 // AddTask - add a task
-func (mgr *ClientMgr) AddTask(tag string, task *Task) error {
-	if !mgr.HasTag(tag) {
+func (mgr *ClientMgr) AddTask(tags *Tags, task *Task) error {
+	if tags != nil && !mgr.HasTag(tags.Tag) {
 		return ErrNoTag
 	}
 
 	task.taskid = mgr.newTaskID()
-	task.tag = tag
+	task.tags = tags
 
 	if task.AnalyzePage != nil {
 		hostname, err := GetHostName(task.AnalyzePage.URL)
@@ -185,7 +186,7 @@ func (mgr *ClientMgr) onStartTask(ctx context.Context, endchan chan int) {
 			continue
 		}
 
-		cc := mgr.GetClient(v.tag, v.hostname)
+		cc := mgr.GetClient(v.tags, v.hostname)
 		if cc != nil {
 			cc.Running = true
 			v.running = true
@@ -315,7 +316,11 @@ func (mgr *ClientMgr) nextTask(ctx context.Context, endChan chan int, taskid int
 	}
 
 	for _, v := range mgr.Tasks {
-		cc := mgr.GetClient(v.tag, v.hostname)
+		if v.running {
+			continue
+		}
+
+		cc := mgr.GetClient(v.tags, v.hostname)
 		if cc != nil {
 			cc.Running = true
 
