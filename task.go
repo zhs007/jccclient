@@ -22,11 +22,21 @@ type TaskGeoIP struct {
 	Platform string
 }
 
+// TaskTechInAsia - task get data in techinasia
+type TaskTechInAsia struct {
+	Mode        jarviscrawlercore.TechInAsiaMode
+	JobCode     string
+	CompanyCode string
+	JobNums     int
+}
+
 // Task - task
 type Task struct {
 	Callback    FuncTaskCallback
 	AnalyzePage *TaskAnalyzePage
 	GeoIP       *TaskGeoIP
+	TechInAsia  *TaskTechInAsia
+	Timeout     int
 	tag         string
 	hostname    string
 	taskid      int

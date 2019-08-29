@@ -107,6 +107,8 @@ func (mgr *ClientMgr) AddTask(tag string, task *Task) error {
 		if task.GeoIP.Platform == "" || task.GeoIP.Platform == "ipvoid" {
 			task.hostname = "www.ipvoid.com"
 		}
+	} else if task.TechInAsia != nil {
+		task.hostname = "www.techinasia.com"
 	}
 
 	mgr.Tasks = append(mgr.Tasks, task)
@@ -158,6 +160,28 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 		mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
 		return err
+	} else if task.TechInAsia != nil {
+		if task.TechInAsia.Mode == jarviscrawlercore.TechInAsiaMode_TIAM_JOBLIST {
+			reply, err := client.getTechInAsiaJobList(ctx, task.hostname, task.TechInAsia.JobNums, task.Timeout)
+
+			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
+
+			return err
+		} else if task.TechInAsia.Mode == jarviscrawlercore.TechInAsiaMode_TIAM_JOB {
+			reply, err := client.getTechInAsiaJob(ctx, task.hostname, task.TechInAsia.JobCode, task.Timeout)
+
+			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
+
+			return err
+		} else if task.TechInAsia.Mode == jarviscrawlercore.TechInAsiaMode_TIAM_COMPANY {
+			reply, err := client.getTechInAsiaCompany(ctx, task.hostname, task.TechInAsia.CompanyCode, task.Timeout)
+
+			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
+
+			return err
+		}
+
+		return ErrInvalidTechInAsiaMode
 	}
 
 	client.Running = false
