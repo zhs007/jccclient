@@ -30,6 +30,8 @@ type Config struct {
 	EffectiveFailTime int
 	// IgnoreTaskTime - The client will ignore the task for {{IgnoreTaskTime}} seconds.
 	IgnoreTaskTime int
+	// SleepTime - The client will ignore the task for {{SleepTime}} seconds.
+	SleepTime int
 
 	//------------------------------------------------------------------
 	// databse configuration
@@ -77,6 +79,10 @@ func checkConfig(cfg *Config) error {
 
 	if cfg.IgnoreTaskTime <= 0 {
 		cfg.IgnoreTaskTime = IgnoreTaskTime
+	}
+
+	if cfg.SleepTime <= 0 {
+		cfg.SleepTime = DefaultSleepTime
 	}
 
 	if cfg.DBPath == "" {

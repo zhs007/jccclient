@@ -16,6 +16,8 @@ maxmultifailtimes: 3
 effectivefailtime: 180
 # ignoretasktime - The client will ignore the task for {{ignoretasktime}} seconds.
 ignoretasktime: 300
+# sleeptime - After the finished a task, rest for {{sleeptime}} seconds.
+sleeptime: 5
 
 # database root path
 dbpath: ./data
