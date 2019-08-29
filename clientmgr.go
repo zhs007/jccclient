@@ -152,14 +152,7 @@ func (mgr *ClientMgr) StartAllTasks(ctx context.Context) error {
 
 	endchan := make(chan int, 16)
 
-	for _, v := range mgr.Tasks {
-		cc := mgr.GetClient(v.tag, v.hostname)
-		if cc != nil {
-			cc.Running = true
-
-			go mgr.runTask(ctx, cc, v, endchan)
-		}
-	}
+	mgr.onStartTask(ctx, endchan)
 
 	for {
 		curtaskid := <-endchan
@@ -185,6 +178,23 @@ func (mgr *ClientMgr) StopService() error {
 	return nil
 }
 
+// onStartTask
+func (mgr *ClientMgr) onStartTask(ctx context.Context, endchan chan int) {
+	for _, v := range mgr.Tasks {
+		if v.running {
+			continue
+		}
+
+		cc := mgr.GetClient(v.tag, v.hostname)
+		if cc != nil {
+			cc.Running = true
+			v.running = true
+
+			go mgr.runTask(ctx, cc, v, endchan)
+		}
+	}
+}
+
 // StartService - start service
 func (mgr *ClientMgr) StartService(ctx context.Context) error {
 	if mgr.State != ClientMgrStateNormal {
@@ -200,14 +210,7 @@ func (mgr *ClientMgr) StartService(ctx context.Context) error {
 		case curtaskid := <-endchan:
 			mgr.nextTask(ctx, endchan, curtaskid)
 		case <-mgr.AddTaskChan:
-			for _, v := range mgr.Tasks {
-				cc := mgr.GetClient(v.tag, v.hostname)
-				if cc != nil {
-					cc.Running = true
-
-					go mgr.runTask(ctx, cc, v, endchan)
-				}
-			}
+			mgr.onStartTask(ctx, endchan)
 		case <-mgr.StopServiceChan:
 			isend = true
 		}
@@ -275,6 +278,18 @@ func (mgr *ClientMgr) HasTag(tag string) bool {
 func (mgr *ClientMgr) onTaskEnd(ctx context.Context, client *Client, task *Task,
 	err error, reply *jarviscrawlercore.ReplyCrawler, endChan chan int) {
 
+	if err != nil {
+		if task.RetryNums > 0 {
+			task.RetryNums--
+			task.running = false
+
+			client.Running = false
+			endChan <- 0
+
+			return
+		}
+	}
+
 	task.Callback(ctx, task, err, reply)
 
 	client.Running = false
@@ -283,11 +298,13 @@ func (mgr *ClientMgr) onTaskEnd(ctx context.Context, client *Client, task *Task,
 
 // nextTask - on task end
 func (mgr *ClientMgr) nextTask(ctx context.Context, endChan chan int, taskid int) bool {
-	for i, v := range mgr.Tasks {
-		if v.taskid == taskid {
-			mgr.Tasks = append(mgr.Tasks[:i], mgr.Tasks[i+1:]...)
+	if taskid > 0 {
+		for i, v := range mgr.Tasks {
+			if v.taskid == taskid {
+				mgr.Tasks = append(mgr.Tasks[:i], mgr.Tasks[i+1:]...)
 
-			break
+				break
+			}
 		}
 	}
 

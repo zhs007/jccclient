@@ -37,7 +37,9 @@ type Task struct {
 	GeoIP       *TaskGeoIP
 	TechInAsia  *TaskTechInAsia
 	Timeout     int
+	RetryNums   int
 	tag         string
 	hostname    string
 	taskid      int
+	running     bool
 }
