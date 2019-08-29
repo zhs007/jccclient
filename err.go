@@ -46,4 +46,7 @@ var (
 	ErrNoReplyTechInAsiaJobs = errors.New("invalid ReplyTechInAsiaJobs")
 	// ErrNoReplyTechInAsiaCompany - invalid ReplyTechInAsiaCompany
 	ErrNoReplyTechInAsiaCompany = errors.New("invalid ReplyTechInAsiaCompany")
+
+	// ErrInvalidClientMgrState - invalid ClientMgrState
+	ErrInvalidClientMgrState = errors.New("invalid ClientMgrState")
 )

@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	jarviscrawlercore "github.com/zhs007/jccclient/proto"
 	"github.com/zhs007/jccclient"
+	jarviscrawlercore "github.com/zhs007/jccclient/proto"
 )
 
 func main() {
@@ -67,7 +67,7 @@ func main() {
 		},
 	})
 
-	mgr.Start(context.Background())
+	mgr.StartAllTasks(context.Background())
 
 	// lst := []string{"47.90.46.159", "47.90.46.158"}
 

@@ -7,23 +7,41 @@ import (
 	jarviscrawlercore "github.com/zhs007/jccclient/proto"
 )
 
+// ClientMgrState - ClientMgr state
+type ClientMgrState int
+
+const (
+	// ClientMgrStateNormal - nil
+	ClientMgrStateNormal ClientMgrState = 0
+	// ClientMgrStateService - service
+	ClientMgrStateService ClientMgrState = 1
+	// ClientMgrStateTasks - tasks
+	ClientMgrStateTasks ClientMgrState = 2
+)
+
 // ClientMgr -
 type ClientMgr struct {
-	cfg       *Config
-	db        *DB
-	Tags      map[string][]*Client
-	NoTags    []*Client
-	Clients   map[string]*Client
-	Tasks     []*Task
-	MaxTaskID int
+	cfg             *Config
+	db              *DB
+	Tags            map[string][]*Client
+	NoTags          []*Client
+	Clients         map[string]*Client
+	Tasks           []*Task
+	MaxTaskID       int
+	State           ClientMgrState
+	StopServiceChan chan int
+	AddTaskChan     chan int
 }
 
 // NewClientMgr - new clientmgr
 func NewClientMgr(cfg *Config) (*ClientMgr, error) {
 	mgr := &ClientMgr{
-		cfg:     cfg,
-		Tags:    make(map[string][]*Client),
-		Clients: make(map[string]*Client),
+		cfg:             cfg,
+		Tags:            make(map[string][]*Client),
+		Clients:         make(map[string]*Client),
+		State:           ClientMgrStateNormal,
+		StopServiceChan: make(chan int),
+		AddTaskChan:     make(chan int, 16),
 	}
 
 	db, err := NewDB(cfg.DBPath, "", cfg.DBEngine)
@@ -113,14 +131,24 @@ func (mgr *ClientMgr) AddTask(tag string, task *Task) error {
 
 	mgr.Tasks = append(mgr.Tasks, task)
 
+	if mgr.State == ClientMgrStateService {
+		mgr.AddTaskChan <- task.taskid
+	}
+
 	return nil
 }
 
-// Start - start all tasks
-func (mgr *ClientMgr) Start(ctx context.Context) error {
+// StartAllTasks - start all tasks
+func (mgr *ClientMgr) StartAllTasks(ctx context.Context) error {
+	if mgr.State != ClientMgrStateNormal {
+		return ErrInvalidClientMgrState
+	}
+
 	if len(mgr.Tasks) <= 0 {
 		return nil
 	}
+
+	mgr.State = ClientMgrStateTasks
 
 	endchan := make(chan int, 16)
 
@@ -137,6 +165,54 @@ func (mgr *ClientMgr) Start(ctx context.Context) error {
 		curtaskid := <-endchan
 
 		if mgr.nextTask(ctx, endchan, curtaskid) {
+			break
+		}
+	}
+
+	mgr.State = ClientMgrStateNormal
+
+	return nil
+}
+
+// StopService - stop service
+func (mgr *ClientMgr) StopService() error {
+	if mgr.State != ClientMgrStateService {
+		return ErrInvalidClientMgrState
+	}
+
+	mgr.StopServiceChan <- 0
+
+	return nil
+}
+
+// StartService - start service
+func (mgr *ClientMgr) StartService(ctx context.Context) error {
+	if mgr.State != ClientMgrStateNormal {
+		return ErrInvalidClientMgrState
+	}
+
+	endchan := make(chan int, 16)
+
+	for {
+		isend := false
+
+		select {
+		case curtaskid := <-endchan:
+			mgr.nextTask(ctx, endchan, curtaskid)
+		case <-mgr.AddTaskChan:
+			for _, v := range mgr.Tasks {
+				cc := mgr.GetClient(v.tag, v.hostname)
+				if cc != nil {
+					cc.Running = true
+
+					go mgr.runTask(ctx, cc, v, endchan)
+				}
+			}
+		case <-mgr.StopServiceChan:
+			isend = true
+		}
+
+		if isend {
 			break
 		}
 	}
