@@ -295,7 +295,7 @@ func (mgr *ClientMgr) onTaskEnd(ctx context.Context, client *Client, task *Task,
 		}
 	}
 
-	task.Callback(ctx, task, err, reply)
+	go task.Callback(ctx, task, err, reply)
 
 	time.Sleep(time.Second * time.Duration(mgr.cfg.SleepTime))
 
