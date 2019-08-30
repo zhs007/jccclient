@@ -202,6 +202,8 @@ func (mgr *ClientMgr) StartService(ctx context.Context) error {
 		return ErrInvalidClientMgrState
 	}
 
+	mgr.State = ClientMgrStateService
+
 	endchan := make(chan int, 16)
 
 	for {
@@ -220,6 +222,8 @@ func (mgr *ClientMgr) StartService(ctx context.Context) error {
 			break
 		}
 	}
+
+	mgr.State = ClientMgrStateNormal
 
 	return nil
 }
