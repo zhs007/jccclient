@@ -31,7 +31,7 @@ type ClientMgr struct {
 	MaxTaskID       int
 	State           ClientMgrState
 	StopServiceChan chan int
-	AddTaskChan     chan int
+	AddTaskChan     chan *Task
 }
 
 // NewClientMgr - new clientmgr
@@ -42,7 +42,7 @@ func NewClientMgr(cfg *Config) (*ClientMgr, error) {
 		Clients:         make(map[string]*Client),
 		State:           ClientMgrStateNormal,
 		StopServiceChan: make(chan int),
-		AddTaskChan:     make(chan int, 16),
+		AddTaskChan:     make(chan *Task, 16),
 	}
 
 	db, err := NewDB(cfg.DBPath, "", cfg.DBEngine)
@@ -131,10 +131,10 @@ func (mgr *ClientMgr) AddTask(tags *Tags, task *Task) error {
 		task.hostname = "www.techinasia.com"
 	}
 
-	mgr.Tasks = append(mgr.Tasks, task)
-
 	if mgr.State == ClientMgrStateService {
-		mgr.AddTaskChan <- task.taskid
+		mgr.AddTaskChan <- task
+	} else {
+		mgr.Tasks = append(mgr.Tasks, task)
 	}
 
 	return nil
@@ -216,7 +216,9 @@ func (mgr *ClientMgr) StartService(ctx context.Context) error {
 		select {
 		case curtaskid := <-endchan:
 			mgr.nextTask(ctx, endchan, curtaskid)
-		case <-mgr.AddTaskChan:
+		case curtask := <-mgr.AddTaskChan:
+			mgr.Tasks = append(mgr.Tasks, curtask)
+
 			mgr.onStartTask(ctx, endchan)
 		case <-mgr.StopServiceChan:
 			isend = true
@@ -303,6 +305,8 @@ func (mgr *ClientMgr) onTaskEnd(ctx context.Context, client *Client, task *Task,
 		if task.RetryNums > 0 {
 			task.RetryNums--
 			task.running = false
+
+			time.Sleep(time.Second * time.Duration(mgr.cfg.SleepTime))
 
 			client.Running = false
 			endChan <- 0
