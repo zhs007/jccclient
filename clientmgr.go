@@ -2,6 +2,7 @@ package jccclient
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	jarviscrawlercore "github.com/zhs007/jccclient/proto"
@@ -181,6 +182,9 @@ func (mgr *ClientMgr) StopService() error {
 
 // onStartTask
 func (mgr *ClientMgr) onStartTask(ctx context.Context, endchan chan int) {
+	outputLog("info",
+		fmt.Sprintf("onStartTask"))
+
 	for _, v := range mgr.Tasks {
 		if v.running {
 			continue
@@ -230,6 +234,10 @@ func (mgr *ClientMgr) StartService(ctx context.Context) error {
 
 // runTask - run a task
 func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, endChan chan int) error {
+	outputLog("info",
+		fmt.Sprintf("runTask %v",
+			client.servAddr))
+
 	if task.AnalyzePage != nil {
 		reply, err := client.analyzePage(ctx, task.hostname, task.AnalyzePage.URL,
 			&task.AnalyzePage.Viewport, &task.AnalyzePage.Options)
@@ -268,6 +276,10 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 		return ErrInvalidTechInAsiaMode
 	}
 
+	outputLog("info",
+		fmt.Sprintf("runTask %v ErrInvalidTask",
+			client.servAddr))
+
 	client.Running = false
 
 	return ErrInvalidTask
@@ -293,6 +305,8 @@ func (mgr *ClientMgr) onTaskEnd(ctx context.Context, client *Client, task *Task,
 
 			return
 		}
+
+		task.running = false
 	}
 
 	go task.Callback(ctx, task, err, reply)
@@ -305,6 +319,9 @@ func (mgr *ClientMgr) onTaskEnd(ctx context.Context, client *Client, task *Task,
 
 // nextTask - on task end
 func (mgr *ClientMgr) nextTask(ctx context.Context, endChan chan int, taskid int) bool {
+	outputLog("info",
+		fmt.Sprintf("nextTask %v", taskid))
+
 	if taskid > 0 {
 		for i, v := range mgr.Tasks {
 			if v.taskid == taskid {
