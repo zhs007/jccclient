@@ -337,6 +337,9 @@ func (mgr *ClientMgr) nextTask(ctx context.Context, endChan chan int, taskid int
 	}
 
 	if len(mgr.Tasks) == 0 {
+		outputLog("debug",
+			fmt.Sprintf("nextTask no task"))
+
 		return true
 	}
 
