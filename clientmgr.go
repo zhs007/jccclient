@@ -235,7 +235,7 @@ func (mgr *ClientMgr) StartService(ctx context.Context) error {
 // runTask - run a task
 func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, endChan chan int) error {
 	outputLog("info",
-		fmt.Sprintf("runTask %v",
+		fmt.Sprintf("runTask client - [%v]",
 			client.servAddr))
 
 	if task.AnalyzePage != nil {
@@ -277,7 +277,7 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 	}
 
 	outputLog("info",
-		fmt.Sprintf("runTask %v ErrInvalidTask",
+		fmt.Sprintf("runTask client - [%v] error - [ErrInvalidTask]",
 			client.servAddr))
 
 	client.Running = false
@@ -296,6 +296,10 @@ func (mgr *ClientMgr) onTaskEnd(ctx context.Context, client *Client, task *Task,
 	err error, reply *jarviscrawlercore.ReplyCrawler, endChan chan int) {
 
 	if err != nil {
+		outputLog("info",
+			fmt.Sprintf("onTaskEnd client - [%v] error - [%v] RetryNums = [%v]",
+				client.servAddr, err, task.RetryNums))
+
 		if task.RetryNums > 0 {
 			task.RetryNums--
 			task.running = false
@@ -320,7 +324,7 @@ func (mgr *ClientMgr) onTaskEnd(ctx context.Context, client *Client, task *Task,
 // nextTask - on task end
 func (mgr *ClientMgr) nextTask(ctx context.Context, endChan chan int, taskid int) bool {
 	outputLog("info",
-		fmt.Sprintf("nextTask %v", taskid))
+		fmt.Sprintf("nextTask taskid - [%v]", taskid))
 
 	if taskid > 0 {
 		for i, v := range mgr.Tasks {
