@@ -182,7 +182,7 @@ func (mgr *ClientMgr) StopService() error {
 
 // onStartTask
 func (mgr *ClientMgr) onStartTask(ctx context.Context, endchan chan int) {
-	outputLog("info",
+	outputLog("debug",
 		fmt.Sprintf("onStartTask"))
 
 	for _, v := range mgr.Tasks {
@@ -234,7 +234,7 @@ func (mgr *ClientMgr) StartService(ctx context.Context) error {
 
 // runTask - run a task
 func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, endChan chan int) error {
-	outputLog("info",
+	outputLog("debug",
 		fmt.Sprintf("runTask client - [%v]",
 			client.servAddr))
 
@@ -276,7 +276,7 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 		return ErrInvalidTechInAsiaMode
 	}
 
-	outputLog("info",
+	outputLog("error",
 		fmt.Sprintf("runTask client - [%v] error - [ErrInvalidTask]",
 			client.servAddr))
 
@@ -296,7 +296,7 @@ func (mgr *ClientMgr) onTaskEnd(ctx context.Context, client *Client, task *Task,
 	err error, reply *jarviscrawlercore.ReplyCrawler, endChan chan int) {
 
 	if err != nil {
-		outputLog("info",
+		outputLog("warn",
 			fmt.Sprintf("onTaskEnd client - [%v] error - [%v] RetryNums = [%v]",
 				client.servAddr, err, task.RetryNums))
 
@@ -323,7 +323,7 @@ func (mgr *ClientMgr) onTaskEnd(ctx context.Context, client *Client, task *Task,
 
 // nextTask - on task end
 func (mgr *ClientMgr) nextTask(ctx context.Context, endChan chan int, taskid int) bool {
-	outputLog("info",
+	outputLog("debug",
 		fmt.Sprintf("nextTask taskid - [%v]", taskid))
 
 	if taskid > 0 {
