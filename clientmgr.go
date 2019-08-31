@@ -237,8 +237,8 @@ func (mgr *ClientMgr) StartService(ctx context.Context) error {
 // runTask - run a task
 func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, endChan chan int) error {
 	outputLog("debug",
-		fmt.Sprintf("runTask client - [%v]",
-			client.servAddr))
+		fmt.Sprintf("runTask client - [%v] taskid - [%v]",
+			client.servAddr, task.taskid))
 
 	if task.AnalyzePage != nil {
 		reply, err := client.analyzePage(ctx, task.hostname, task.AnalyzePage.URL,
@@ -304,17 +304,17 @@ func (mgr *ClientMgr) onTaskEnd(ctx context.Context, client *Client, task *Task,
 
 		if task.RetryNums > 0 {
 			task.RetryNums--
-			task.running = false
 
 			time.Sleep(time.Second * time.Duration(mgr.cfg.SleepTime))
 
+			task.running = false
 			client.Running = false
 			endChan <- 0
 
 			return
 		}
 
-		task.running = false
+		// task.running = false
 	}
 
 	go task.Callback(ctx, task, err, reply)
@@ -354,6 +354,7 @@ func (mgr *ClientMgr) nextTask(ctx context.Context, endChan chan int, taskid int
 
 		cc := mgr.GetClient(v.tags, v.hostname)
 		if cc != nil {
+			v.running = true
 			cc.Running = true
 
 			go mgr.runTask(ctx, cc, v, endChan)
