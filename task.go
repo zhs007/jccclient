@@ -28,6 +28,8 @@ type TaskTechInAsia struct {
 	JobCode     string
 	CompanyCode string
 	JobNums     int
+	JobTag      string
+	JobSubTag   string
 }
 
 // Task - task

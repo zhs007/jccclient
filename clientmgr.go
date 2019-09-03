@@ -256,7 +256,8 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 		return err
 	} else if task.TechInAsia != nil {
 		if task.TechInAsia.Mode == jarviscrawlercore.TechInAsiaMode_TIAM_JOBLIST {
-			reply, err := client.getTechInAsiaJobList(ctx, task.hostname, task.TechInAsia.JobNums, task.Timeout)
+			reply, err := client.getTechInAsiaJobList(ctx, task.hostname, task.TechInAsia.JobTag, task.TechInAsia.JobSubTag,
+				task.TechInAsia.JobNums, task.Timeout)
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
@@ -269,6 +270,12 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 			return err
 		} else if task.TechInAsia.Mode == jarviscrawlercore.TechInAsiaMode_TIAM_COMPANY {
 			reply, err := client.getTechInAsiaCompany(ctx, task.hostname, task.TechInAsia.CompanyCode, task.Timeout)
+
+			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
+
+			return err
+		} else if task.TechInAsia.Mode == jarviscrawlercore.TechInAsiaMode_TIAM_JOBTAG {
+			reply, err := client.getTechInAsiaJobTagList(ctx, task.hostname, task.TechInAsia.JobTag, task.Timeout)
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 

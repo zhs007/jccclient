@@ -145,12 +145,12 @@ func (client *Client) GetTechInAsiaJob(ctx context.Context, jobcode string, time
 }
 
 // GetTechInAsiaJobList - get techinasia jobs
-func (client *Client) GetTechInAsiaJobList(ctx context.Context, jobnums int, timeout int) (
-	*jarviscrawlercore.TechInAsiaJobList, error) {
+func (client *Client) GetTechInAsiaJobList(ctx context.Context, maintag string, subtag string, jobnums int,
+	timeout int) (*jarviscrawlercore.TechInAsiaJobList, error) {
 
 	hostname := "www.techinasia.com"
 
-	reply, err := client.getTechInAsiaJobList(ctx, hostname, jobnums, timeout)
+	reply, err := client.getTechInAsiaJobList(ctx, hostname, maintag, subtag, jobnums, timeout)
 	if err != nil {
 		return nil, err
 	}
@@ -178,6 +178,41 @@ func (client *Client) GetTechInAsiaJobList(ctx context.Context, jobnums int, tim
 	}
 
 	return replyjobs.Jobs, nil
+}
+
+// GetTechInAsiaJobTagList - get techinasia job tag list
+func (client *Client) GetTechInAsiaJobTagList(ctx context.Context, maintag string, timeout int) (*jarviscrawlercore.TechInAsiaJobTagList, error) {
+
+	hostname := "www.techinasia.com"
+
+	reply, err := client.getTechInAsiaJobTagList(ctx, hostname, maintag, timeout)
+	if err != nil {
+		return nil, err
+	}
+
+	if reply.CrawlerType != jarviscrawlercore.CrawlerType_CT_TECHINASIA {
+		return nil, ErrInvalidCrawlerType
+	}
+
+	if reply.CrawlerResult == nil {
+		return nil, ErrNoCrawlerResult
+	}
+
+	techinasia, isok := (reply.CrawlerResult).(*jarviscrawlercore.ReplyCrawler_Techinasia)
+	if !isok {
+		return nil, ErrNoReplyTechInAsia
+	}
+
+	if techinasia.Techinasia.Mode != jarviscrawlercore.TechInAsiaMode_TIAM_JOBTAG {
+		return nil, ErrInvalidTechInAsiaMode
+	}
+
+	replytags, isok := (techinasia.Techinasia.Reply).(*jarviscrawlercore.ReplyTechInAsia_Tags)
+	if !isok {
+		return nil, ErrNoReplyTechInAsiaJobTags
+	}
+
+	return replytags.Tags, nil
 }
 
 // GetTechInAsiaCompany - get techinasia company
@@ -504,7 +539,53 @@ func (client *Client) getTechInAsiaCompany(ctx context.Context, hostname string,
 }
 
 // getTechInAsiaJobList - get techinasia jobs
-func (client *Client) getTechInAsiaJobList(ctx context.Context, hostname string, jobnums int, timeout int) (
+func (client *Client) getTechInAsiaJobList(ctx context.Context, hostname string, maintag string, subtag string,
+	jobnums int, timeout int) (*jarviscrawlercore.ReplyCrawler, error) {
+
+	if client.cfg != nil {
+		client.Hosts.OnTaskStart(ctx, hostname)
+	}
+
+	req := &jarviscrawlercore.RequestCrawler{
+		Token:       client.token,
+		CrawlerType: jarviscrawlercore.CrawlerType_CT_TECHINASIA,
+		Timeout:     int32(timeout),
+		CrawlerParam: &jarviscrawlercore.RequestCrawler_Techinasia{
+			Techinasia: &jarviscrawlercore.RequestTechInAsia{
+				Mode:      jarviscrawlercore.TechInAsiaMode_TIAM_JOBLIST,
+				JobNums:   int32(jobnums),
+				JobTag:    maintag,
+				JobSubTag: subtag,
+			},
+		},
+	}
+
+	reply, err := client.RequestCrawler(ctx, req)
+	if err != nil {
+		if client.cfg != nil {
+			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
+		}
+
+		return nil, err
+	}
+
+	if reply == nil {
+		if client.cfg != nil {
+			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
+		}
+
+		return nil, ErrNoReplyCrawler
+	}
+
+	if client.cfg != nil {
+		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
+	}
+
+	return reply, nil
+}
+
+// getTechInAsiaJobTagList - get techinasia job tag list
+func (client *Client) getTechInAsiaJobTagList(ctx context.Context, hostname string, maintag string, timeout int) (
 	*jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
@@ -517,8 +598,8 @@ func (client *Client) getTechInAsiaJobList(ctx context.Context, hostname string,
 		Timeout:     int32(timeout),
 		CrawlerParam: &jarviscrawlercore.RequestCrawler_Techinasia{
 			Techinasia: &jarviscrawlercore.RequestTechInAsia{
-				Mode:    jarviscrawlercore.TechInAsiaMode_TIAM_JOBLIST,
-				JobNums: int32(jobnums),
+				Mode:   jarviscrawlercore.TechInAsiaMode_TIAM_JOBTAG,
+				JobTag: maintag,
 			},
 		},
 	}
