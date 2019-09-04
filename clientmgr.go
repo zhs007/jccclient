@@ -210,6 +210,7 @@ func (mgr *ClientMgr) StartService(ctx context.Context) error {
 	mgr.State = ClientMgrStateService
 
 	endchan := make(chan int, 16)
+	timerTick := time.NewTimer(60 * time.Second)
 
 	for {
 		isend := false
@@ -223,6 +224,9 @@ func (mgr *ClientMgr) StartService(ctx context.Context) error {
 			mgr.onStartTask(ctx, endchan)
 		case <-mgr.StopServiceChan:
 			isend = true
+		case <-timerTick.C:
+			mgr.nextTask(ctx, endchan, -1)
+			timerTick.Reset(60 * time.Second)
 		}
 
 		if isend {
@@ -230,6 +234,7 @@ func (mgr *ClientMgr) StartService(ctx context.Context) error {
 		}
 	}
 
+	timerTick.Stop()
 	mgr.State = ClientMgrStateNormal
 
 	return nil
