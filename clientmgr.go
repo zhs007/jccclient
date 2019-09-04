@@ -198,7 +198,7 @@ func (mgr *ClientMgr) StopService() error {
 // onStartTask
 func (mgr *ClientMgr) onStartTask(ctx context.Context, endchan chan int) {
 	outputLog("debug",
-		fmt.Sprintf("onStartTask"))
+		fmt.Sprintf("onStartTask maxtaskid - [%v]", mgr.MaxTaskID))
 
 	for _, v := range mgr.Tasks {
 		if v.running {

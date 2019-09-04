@@ -79,16 +79,16 @@ func (hic *HostInfoCollection) OnTaskStart(ctx context.Context, hostname string,
 	}
 
 	hi.TaskNums++
-	sleepTime := hi.SleepTimeAtStart
+	sleepTimeMs := hi.SleepTimeMsAtStart
 
 	curt := time.Now().Unix()
 	if hi.StartTime <= 0 || curt-hi.LastTime > int64(cfg.IgnoreTaskTime) {
 		hi.StartTime = curt
 
-		sleepTime = 0
+		sleepTimeMs = 0
 
-		if hi.SleepTimeAtStart <= 0 {
-			hi.SleepTimeAtStart = int32(cfg.SleepTime)
+		if hi.SleepTimeMsAtStart <= 0 {
+			hi.SleepTimeMsAtStart = int32(cfg.SleepTime) * 1000
 		}
 	}
 
@@ -98,7 +98,7 @@ func (hic *HostInfoCollection) OnTaskStart(ctx context.Context, hostname string,
 		hic.db.UpdHostInfo(ctx, hic.servAddr, hostname, hi)
 	}
 
-	time.Sleep(time.Duration(sleepTime) * time.Second)
+	time.Sleep(time.Duration(sleepTimeMs) * time.Microsecond)
 }
 
 // OnTaskEnd - on task end
@@ -117,7 +117,7 @@ func (hic *HostInfoCollection) OnTaskEnd(ctx context.Context, hostname string, i
 					hi.MultiNums = 0
 					hi.StartSleepTime = ct
 
-					hi.SleepTimeAtStart = int32(float32(hi.SleepTimeAtStart) * 1.2)
+					hi.SleepTimeMsAtStart = int32(float32(hi.SleepTimeMsAtStart) * 1.2)
 
 					if hi.SleepTime > 0 {
 						hi.SleepTime *= 2

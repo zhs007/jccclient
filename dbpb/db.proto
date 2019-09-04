@@ -16,5 +16,7 @@ message HostInfo {
 	// curNums - 同上
 	int64 curNums = 10;
 	// sleepTimeAtStart - sleep time at start task
-	int32 sleepTimeAtStart = 11;
+	int32 sleepTimeAtStart = 11 [deprecated=true];
+	// sleepTimeMsAtStart - sleep time (ms) at start task
+	int32 sleepTimeMsAtStart = 12;	
 }
