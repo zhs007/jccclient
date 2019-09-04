@@ -68,7 +68,7 @@ func (hic *HostInfoCollection) Get(hostname string) *jccclientdbpb.HostInfo {
 }
 
 // OnTaskStart - on task start
-func (hic *HostInfoCollection) OnTaskStart(ctx context.Context, hostname string) {
+func (hic *HostInfoCollection) OnTaskStart(ctx context.Context, hostname string, cfg *Config) {
 	hi, isok := hic.Hosts[hostname]
 	if !isok || hi == nil {
 		hi = &jccclientdbpb.HostInfo{
@@ -79,11 +79,26 @@ func (hic *HostInfoCollection) OnTaskStart(ctx context.Context, hostname string)
 	}
 
 	hi.TaskNums++
-	hi.LastTime = time.Now().Unix()
+	sleepTime := hi.SleepTimeAtStart
+
+	curt := time.Now().Unix()
+	if hi.StartTime <= 0 || curt-hi.LastTime > int64(cfg.IgnoreTaskTime) {
+		hi.StartTime = curt
+
+		sleepTime = 0
+
+		if hi.SleepTimeAtStart <= 0 {
+			hi.SleepTimeAtStart = int32(cfg.SleepTime)
+		}
+	}
+
+	hi.LastTime = curt
 
 	if hic.db != nil {
 		hic.db.UpdHostInfo(ctx, hic.servAddr, hostname, hi)
 	}
+
+	time.Sleep(time.Duration(sleepTime) * time.Second)
 }
 
 // OnTaskEnd - on task end
@@ -101,6 +116,8 @@ func (hic *HostInfoCollection) OnTaskEnd(ctx context.Context, hostname string, i
 				if int(hi.MultiNums) >= cfg.MaxMultiFailTimes {
 					hi.MultiNums = 0
 					hi.StartSleepTime = ct
+
+					hi.SleepTimeAtStart = int32(float32(hi.SleepTimeAtStart) * 1.2)
 
 					if hi.SleepTime > 0 {
 						hi.SleepTime *= 2

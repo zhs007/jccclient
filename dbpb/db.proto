@@ -11,4 +11,10 @@ message HostInfo {
 	int64 startSleepTime = 6;
 	int64 sleepTime = 7;
 	int32 multiNums = 8;
+	// startTime - 这个用来统计这次错误之前，请求次数用的
+	int64 startTime = 9;
+	// curNums - 同上
+	int64 curNums = 10;
+	// sleepTimeAtStart - sleep time at start task
+	int32 sleepTimeAtStart = 11;
 }

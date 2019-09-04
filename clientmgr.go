@@ -86,6 +86,18 @@ func (mgr *ClientMgr) add2tag(tag string, c *Client) {
 	mgr.Tags[tag] = append(mgr.Tags[tag], c)
 }
 
+// // GetClient - get a client with hostname and tag
+// func (mgr *ClientMgr) onClientStartTask(c *Client, hostname string) {
+// 	curt := time.Now().Unix()
+// 	if curt-c.Hosts.Hosts[hostname].LastTime > int64(mgr.cfg.SleepTime) {
+// 		c.Hosts.Hosts[hostname].StartTime = curt
+// 	} else if c.Hosts.Hosts[hostname].StartTime <= 0 {
+// 		c.Hosts.Hosts[hostname].StartTime = curt
+// 	}
+
+// 	c.Hosts.Hosts[hostname].LastTime = curt
+// }
+
 // GetClient - get a client with hostname and tag
 func (mgr *ClientMgr) GetClient(tags *Tags, hostname string) *Client {
 	if tags != nil {
@@ -93,7 +105,8 @@ func (mgr *ClientMgr) GetClient(tags *Tags, hostname string) *Client {
 		if isok && len(lst) > 0 {
 			c := findClient(tags, lst, hostname, mgr.cfg)
 			if c != nil {
-				c.Hosts.Hosts[hostname].LastTime = time.Now().Unix()
+				// mgr.onClientStartTask(c, hostname)
+				// c.Hosts.Hosts[hostname].LastTime = time.Now().Unix()
 			}
 
 			return c
@@ -102,7 +115,8 @@ func (mgr *ClientMgr) GetClient(tags *Tags, hostname string) *Client {
 
 	c := findClient(nil, mgr.AllClients, hostname, mgr.cfg)
 	if c != nil {
-		c.Hosts.Hosts[hostname].LastTime = time.Now().Unix()
+		// mgr.onClientStartTask(c, hostname)
+		// c.Hosts.Hosts[hostname].LastTime = time.Now().Unix()
 	}
 
 	return c
@@ -318,7 +332,7 @@ func (mgr *ClientMgr) onTaskEnd(ctx context.Context, client *Client, task *Task,
 		if task.RetryNums > 0 {
 			task.RetryNums--
 
-			time.Sleep(time.Second * time.Duration(mgr.cfg.SleepTime))
+			// time.Sleep(time.Second * time.Duration(mgr.cfg.SleepTime))
 
 			task.running = false
 			client.Running = false
@@ -332,7 +346,7 @@ func (mgr *ClientMgr) onTaskEnd(ctx context.Context, client *Client, task *Task,
 
 	go task.Callback(ctx, task, err, reply)
 
-	time.Sleep(time.Second * time.Duration(mgr.cfg.SleepTime))
+	// time.Sleep(time.Second * time.Duration(mgr.cfg.SleepTime))
 
 	client.Running = false
 	endChan <- task.taskid

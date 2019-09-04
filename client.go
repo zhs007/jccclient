@@ -361,7 +361,7 @@ func (client *Client) analyzePage(ctx context.Context, hostname string, url stri
 	options *AnalyzePageOptions) (*jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
-		client.Hosts.OnTaskStart(ctx, hostname)
+		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
 	}
 
 	req := &jarviscrawlercore.RequestCrawler{
@@ -412,7 +412,7 @@ func (client *Client) getGeoIP(ctx context.Context, hostname string, ip string,
 	platform string) (*jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
-		client.Hosts.OnTaskStart(ctx, hostname)
+		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
 	}
 
 	req := &jarviscrawlercore.RequestCrawler{
@@ -455,7 +455,7 @@ func (client *Client) getTechInAsiaJob(ctx context.Context, hostname string, job
 	*jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
-		client.Hosts.OnTaskStart(ctx, hostname)
+		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
 	}
 
 	req := &jarviscrawlercore.RequestCrawler{
@@ -499,7 +499,7 @@ func (client *Client) getTechInAsiaCompany(ctx context.Context, hostname string,
 	*jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
-		client.Hosts.OnTaskStart(ctx, hostname)
+		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
 	}
 
 	req := &jarviscrawlercore.RequestCrawler{
@@ -543,7 +543,7 @@ func (client *Client) getTechInAsiaJobList(ctx context.Context, hostname string,
 	jobnums int, timeout int) (*jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
-		client.Hosts.OnTaskStart(ctx, hostname)
+		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
 	}
 
 	req := &jarviscrawlercore.RequestCrawler{
@@ -589,7 +589,7 @@ func (client *Client) getTechInAsiaJobTagList(ctx context.Context, hostname stri
 	*jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
-		client.Hosts.OnTaskStart(ctx, hostname)
+		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
 	}
 
 	req := &jarviscrawlercore.RequestCrawler{
