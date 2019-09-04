@@ -44,4 +44,5 @@ type Task struct {
 	hostname    string
 	taskid      int
 	running     bool
+	fail        bool
 }

@@ -341,6 +341,7 @@ func (mgr *ClientMgr) onTaskEnd(ctx context.Context, client *Client, task *Task,
 			return
 		}
 
+		task.fail = true
 		// task.running = false
 	}
 
@@ -374,9 +375,14 @@ func (mgr *ClientMgr) nextTask(ctx context.Context, endChan chan int, taskid int
 		return true
 	}
 
+	failnums := 0
 	for _, v := range mgr.Tasks {
 		if v.running {
 			continue
+		}
+
+		if v.fail {
+			failnums++
 		}
 
 		cc := mgr.GetClient(v.tags, v.hostname)
@@ -386,6 +392,13 @@ func (mgr *ClientMgr) nextTask(ctx context.Context, endChan chan int, taskid int
 
 			go mgr.runTask(ctx, cc, v, endChan)
 		}
+	}
+
+	if failnums == len(mgr.Tasks) {
+		outputLog("debug",
+			fmt.Sprintf("nextTask no task fail - [%v]", failnums))
+
+		return true
 	}
 
 	return false
