@@ -25,7 +25,7 @@ type ClientMgr struct {
 	cfg             *Config
 	db              *DB
 	Tags            map[string][]*Client
-	NoTags          []*Client
+	AllClients      []*Client
 	Clients         map[string]*Client
 	Tasks           []*Task
 	MaxTaskID       int
@@ -64,9 +64,10 @@ func (mgr *ClientMgr) init() {
 		cc.tags = v.Tags
 
 		mgr.Clients[v.ServAddr] = cc
+		mgr.AllClients = append(mgr.AllClients, cc)
 
 		if len(v.Tags) == 0 {
-			mgr.NoTags = append(mgr.NoTags, cc)
+			// mgr.NoTags = append(mgr.NoTags, cc)
 		} else {
 			for _, tv := range v.Tags {
 				mgr.add2tag(tv, cc)
@@ -99,7 +100,7 @@ func (mgr *ClientMgr) GetClient(tags *Tags, hostname string) *Client {
 		}
 	}
 
-	c := findClient(nil, mgr.NoTags, hostname, mgr.cfg)
+	c := findClient(nil, mgr.AllClients, hostname, mgr.cfg)
 	if c != nil {
 		c.Hosts.Hosts[hostname].LastTime = time.Now().Unix()
 	}
