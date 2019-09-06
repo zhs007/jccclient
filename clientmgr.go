@@ -303,6 +303,24 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 		}
 
 		return ErrInvalidTechInAsiaMode
+	} else if task.SteepAndCheap != nil {
+		if task.SteepAndCheap.Mode == jarviscrawlercore.SteepAndCheapMode_SACM_PRODUCTS {
+			reply, err := client.getSteepAndCheapProducts(ctx, task.hostname, task.SteepAndCheap.URL,
+				task.SteepAndCheap.Page, task.Timeout)
+
+			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
+
+			return err
+		} else if task.SteepAndCheap.Mode == jarviscrawlercore.SteepAndCheapMode_SACM_PRODUCT {
+			reply, err := client.getSteepAndCheapProduct(ctx, task.hostname, task.SteepAndCheap.URL,
+				task.Timeout)
+
+			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
+
+			return err
+		}
+
+		return ErrInvalidSteepAndCheapMode
 	}
 
 	outputLog("error",
