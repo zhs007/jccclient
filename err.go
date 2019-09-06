@@ -49,6 +49,15 @@ var (
 	// ErrNoReplyTechInAsiaCompany - invalid ReplyTechInAsiaCompany
 	ErrNoReplyTechInAsiaCompany = errors.New("invalid ReplyTechInAsiaCompany")
 
+	// ErrNoReplySteepAndCheap - invalid ReplySteepAndCheap
+	ErrNoReplySteepAndCheap = errors.New("invalid ReplySteepAndCheap")
+	// ErrInvalidSteepAndCheapMode - invalid steepandcheap mode
+	ErrInvalidSteepAndCheapMode = errors.New("invalid steepandcheap mode")
+	// ErrNoReplySteepAndCheapProducts - invalid ReplySteepAndCheapProducts
+	ErrNoReplySteepAndCheapProducts = errors.New("invalid ReplySteepAndCheapProducts")
+	// ErrNoReplySteepAndCheapProduct - invalid ReplySteepAndCheapProduct
+	ErrNoReplySteepAndCheapProduct = errors.New("invalid ReplySteepAndCheapProduct")
+
 	// ErrInvalidClientMgrState - invalid ClientMgrState
 	ErrInvalidClientMgrState = errors.New("invalid ClientMgrState")
 )

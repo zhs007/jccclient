@@ -251,6 +251,78 @@ func (client *Client) GetTechInAsiaCompany(ctx context.Context, companycode stri
 	return replycompany.Company, nil
 }
 
+// GetSteepAndCheapProducts - get steep&cheap products
+func (client *Client) GetSteepAndCheapProducts(ctx context.Context, url string, page int, timeout int) (
+	*jarviscrawlercore.SteepAndCheapProducts, error) {
+
+	hostname := "www.steepandcheap.com"
+
+	reply, err := client.getSteepAndCheapProducts(ctx, hostname, url, page, timeout)
+	if err != nil {
+		return nil, err
+	}
+
+	if reply.CrawlerType != jarviscrawlercore.CrawlerType_CT_STEEPANDCHEAP {
+		return nil, ErrInvalidCrawlerType
+	}
+
+	if reply.CrawlerResult == nil {
+		return nil, ErrNoCrawlerResult
+	}
+
+	steepandcheap, isok := (reply.CrawlerResult).(*jarviscrawlercore.ReplyCrawler_Steepandcheap)
+	if !isok {
+		return nil, ErrNoReplySteepAndCheap
+	}
+
+	if steepandcheap.Steepandcheap.Mode != jarviscrawlercore.SteepAndCheapMode_SACM_PRODUCTS {
+		return nil, ErrInvalidSteepAndCheapMode
+	}
+
+	replyproducts, isok := (steepandcheap.Steepandcheap.Reply).(*jarviscrawlercore.ReplySteepAndCheap_Products)
+	if !isok {
+		return nil, ErrNoReplySteepAndCheapProducts
+	}
+
+	return replyproducts.Products, nil
+}
+
+// GetSteepAndCheapProduct - get steep&cheap product
+func (client *Client) GetSteepAndCheapProduct(ctx context.Context, url string, timeout int) (
+	*jarviscrawlercore.SteepAndCheapProduct, error) {
+
+	hostname := "www.steepandcheap.com"
+
+	reply, err := client.getSteepAndCheapProduct(ctx, hostname, url, timeout)
+	if err != nil {
+		return nil, err
+	}
+
+	if reply.CrawlerType != jarviscrawlercore.CrawlerType_CT_STEEPANDCHEAP {
+		return nil, ErrInvalidCrawlerType
+	}
+
+	if reply.CrawlerResult == nil {
+		return nil, ErrNoCrawlerResult
+	}
+
+	steepandcheap, isok := (reply.CrawlerResult).(*jarviscrawlercore.ReplyCrawler_Steepandcheap)
+	if !isok {
+		return nil, ErrNoReplySteepAndCheap
+	}
+
+	if steepandcheap.Steepandcheap.Mode != jarviscrawlercore.SteepAndCheapMode_SACM_PRODUCT {
+		return nil, ErrInvalidSteepAndCheapMode
+	}
+
+	replyproduct, isok := (steepandcheap.Steepandcheap.Reply).(*jarviscrawlercore.ReplySteepAndCheap_Product)
+	if !isok {
+		return nil, ErrNoReplySteepAndCheapProduct
+	}
+
+	return replyproduct.Product, nil
+}
+
 // RequestCrawler -
 func (client *Client) RequestCrawler(ctx context.Context, req *jarviscrawlercore.RequestCrawler) (
 	*jarviscrawlercore.ReplyCrawler, error) {
@@ -600,6 +672,95 @@ func (client *Client) getTechInAsiaJobTagList(ctx context.Context, hostname stri
 			Techinasia: &jarviscrawlercore.RequestTechInAsia{
 				Mode:   jarviscrawlercore.TechInAsiaMode_TIAM_JOBTAG,
 				JobTag: maintag,
+			},
+		},
+	}
+
+	reply, err := client.RequestCrawler(ctx, req)
+	if err != nil {
+		if client.cfg != nil {
+			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
+		}
+
+		return nil, err
+	}
+
+	if reply == nil {
+		if client.cfg != nil {
+			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
+		}
+
+		return nil, ErrNoReplyCrawler
+	}
+
+	if client.cfg != nil {
+		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
+	}
+
+	return reply, nil
+}
+
+// getSteepAndCheapProducts - get steepandcheap products
+func (client *Client) getSteepAndCheapProducts(ctx context.Context, hostname string, url string, page int, timeout int) (
+	*jarviscrawlercore.ReplyCrawler, error) {
+
+	if client.cfg != nil {
+		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
+	}
+
+	req := &jarviscrawlercore.RequestCrawler{
+		Token:       client.token,
+		CrawlerType: jarviscrawlercore.CrawlerType_CT_STEEPANDCHEAP,
+		Timeout:     int32(timeout),
+		CrawlerParam: &jarviscrawlercore.RequestCrawler_Steepandcheap{
+			Steepandcheap: &jarviscrawlercore.RequestSteepAndCheap{
+				Mode: jarviscrawlercore.SteepAndCheapMode_SACM_PRODUCTS,
+				Url:  url,
+				Page: int32(page),
+			},
+		},
+	}
+
+	reply, err := client.RequestCrawler(ctx, req)
+	if err != nil {
+		if client.cfg != nil {
+			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
+		}
+
+		return nil, err
+	}
+
+	if reply == nil {
+		if client.cfg != nil {
+			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
+		}
+
+		return nil, ErrNoReplyCrawler
+	}
+
+	if client.cfg != nil {
+		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
+	}
+
+	return reply, nil
+}
+
+// getSteepAndCheapProduct - get steepandcheap product
+func (client *Client) getSteepAndCheapProduct(ctx context.Context, hostname string, url string, timeout int) (
+	*jarviscrawlercore.ReplyCrawler, error) {
+
+	if client.cfg != nil {
+		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
+	}
+
+	req := &jarviscrawlercore.RequestCrawler{
+		Token:       client.token,
+		CrawlerType: jarviscrawlercore.CrawlerType_CT_STEEPANDCHEAP,
+		Timeout:     int32(timeout),
+		CrawlerParam: &jarviscrawlercore.RequestCrawler_Steepandcheap{
+			Steepandcheap: &jarviscrawlercore.RequestSteepAndCheap{
+				Mode: jarviscrawlercore.SteepAndCheapMode_SACM_PRODUCT,
+				Url:  url,
 			},
 		},
 	}

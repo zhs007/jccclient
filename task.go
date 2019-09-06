@@ -32,17 +32,25 @@ type TaskTechInAsia struct {
 	JobSubTag   string
 }
 
+// TaskSteepAndCheap - task get data in steepandcheap
+type TaskSteepAndCheap struct {
+	Mode jarviscrawlercore.SteepAndCheapMode
+	URL  string
+	Page int
+}
+
 // Task - task
 type Task struct {
-	Callback    FuncTaskCallback
-	AnalyzePage *TaskAnalyzePage
-	GeoIP       *TaskGeoIP
-	TechInAsia  *TaskTechInAsia
-	Timeout     int
-	RetryNums   int
-	tags        *Tags
-	hostname    string
-	taskid      int
-	running     bool
-	fail        bool
+	Callback      FuncTaskCallback
+	AnalyzePage   *TaskAnalyzePage
+	GeoIP         *TaskGeoIP
+	TechInAsia    *TaskTechInAsia
+	SteepAndCheap *TaskSteepAndCheap
+	Timeout       int
+	RetryNums     int
+	tags          *Tags
+	hostname      string
+	taskid        int
+	running       bool
+	fail          bool
 }
