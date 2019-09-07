@@ -344,8 +344,8 @@ func (mgr *ClientMgr) onTaskEnd(ctx context.Context, client *Client, task *Task,
 
 	if err != nil {
 		outputLog("warn",
-			fmt.Sprintf("onTaskEnd client - [%v] error - [%v] RetryNums = [%v]",
-				client.servAddr, err, task.RetryNums))
+			fmt.Sprintf("onTaskEnd client - [%v] error - [%v] RetryNums = [%v] task = [%+v]",
+				client.servAddr, err, task.RetryNums, task))
 
 		if task.RetryNums > 0 {
 			task.RetryNums--
