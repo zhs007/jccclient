@@ -73,6 +73,8 @@ func (mgr *ClientMgr) init() {
 				mgr.add2tag(tv, cc)
 			}
 		}
+
+		mgr.add2tag("", cc)
 	}
 }
 
