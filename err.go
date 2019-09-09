@@ -58,6 +58,17 @@ var (
 	// ErrNoReplySteepAndCheapProduct - invalid ReplySteepAndCheapProduct
 	ErrNoReplySteepAndCheapProduct = errors.New("invalid ReplySteepAndCheapProduct")
 
+	// ErrNoReplyJRJ - invalid ReplyJRJ
+	ErrNoReplyJRJ = errors.New("invalid ReplyJRJ")
+	// ErrInvalidJRJMode - invalid jrj mode
+	ErrInvalidJRJMode = errors.New("invalid jrj mode")
+	// ErrNoReplyJRJFunds - invalid ReplyJRJFunds
+	ErrNoReplyJRJFunds = errors.New("invalid ReplyJRJFunds")
+	// ErrNoReplyJRJFund - invalid ErrNoReplyJRJFund
+	ErrNoReplyJRJFund = errors.New("invalid ErrNoReplyJRJFund")
+	// ErrNoReplyJRJFundValue - invalid ErrNoReplyJRJFundValue
+	ErrNoReplyJRJFundValue = errors.New("invalid ErrNoReplyJRJFundValue")
+
 	// ErrInvalidClientMgrState - invalid ClientMgrState
 	ErrInvalidClientMgrState = errors.New("invalid ClientMgrState")
 )
