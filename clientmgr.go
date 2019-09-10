@@ -323,6 +323,37 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 		}
 
 		return ErrInvalidSteepAndCheapMode
+	} else if task.JRJ != nil {
+		if task.JRJ.Mode == jarviscrawlercore.JRJMode_JRJM_FUND {
+			reply, err := client.getJRJFund(ctx, task.hostname, task.JRJ.Code, task.Timeout)
+
+			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
+
+			return err
+		} else if task.JRJ.Mode == jarviscrawlercore.JRJMode_JRJM_FUNDS {
+			reply, err := client.getJRJFunds(ctx, task.hostname,
+				task.Timeout)
+
+			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
+
+			return err
+		} else if task.JRJ.Mode == jarviscrawlercore.JRJMode_JRJM_FUNDMANAGER {
+			reply, err := client.getJRJFundManager(ctx, task.hostname, task.JRJ.Code,
+				task.Timeout)
+
+			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
+
+			return err
+		} else if task.JRJ.Mode == jarviscrawlercore.JRJMode_JRJM_FUNDVALUE {
+			reply, err := client.getJRJFundValue(ctx, task.hostname, task.JRJ.Code, task.JRJ.Year,
+				task.Timeout)
+
+			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
+
+			return err
+		}
+
+		return ErrInvalidJRJMode
 	}
 
 	outputLog("error",

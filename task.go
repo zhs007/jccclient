@@ -39,6 +39,13 @@ type TaskSteepAndCheap struct {
 	Page int
 }
 
+// TaskJRJ - task get data in jrj
+type TaskJRJ struct {
+	Mode jarviscrawlercore.JRJMode
+	Code string
+	Year string
+}
+
 // Task - task
 type Task struct {
 	Callback      FuncTaskCallback
@@ -46,6 +53,7 @@ type Task struct {
 	GeoIP         *TaskGeoIP
 	TechInAsia    *TaskTechInAsia
 	SteepAndCheap *TaskSteepAndCheap
+	JRJ           *TaskJRJ
 	Timeout       int
 	RetryNums     int
 	tags          *Tags
