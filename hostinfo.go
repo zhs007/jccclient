@@ -98,7 +98,7 @@ func (hic *HostInfoCollection) OnTaskStart(ctx context.Context, hostname string,
 		hic.db.UpdHostInfo(ctx, hic.servAddr, hostname, hi)
 	}
 
-	time.Sleep(time.Duration(sleepTimeMs) * time.Microsecond)
+	time.Sleep(time.Duration(sleepTimeMs) * time.Millisecond)
 }
 
 // OnTaskEnd - on task end
