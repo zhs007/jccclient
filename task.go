@@ -62,3 +62,9 @@ type Task struct {
 	running       bool
 	fail          bool
 }
+
+// Reset - reset
+func (task *Task) Reset() {
+	task.fail = false
+	task.running = false
+}
