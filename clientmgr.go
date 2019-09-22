@@ -130,8 +130,8 @@ func (mgr *ClientMgr) AddTask(tags *Tags, task *Task) error {
 		return ErrNoTag
 	}
 
-	task.taskid = mgr.newTaskID()
-	task.tags = tags
+	task.TaskID = mgr.newTaskID()
+	task.Tags = tags
 
 	if task.AnalyzePage != nil {
 		hostname, err := GetHostName(task.AnalyzePage.URL)
@@ -139,13 +139,13 @@ func (mgr *ClientMgr) AddTask(tags *Tags, task *Task) error {
 			return err
 		}
 
-		task.hostname = hostname
+		task.Hostname = hostname
 	} else if task.GeoIP != nil {
 		if task.GeoIP.Platform == "" || task.GeoIP.Platform == "ipvoid" {
-			task.hostname = "www.ipvoid.com"
+			task.Hostname = "www.ipvoid.com"
 		}
 	} else if task.TechInAsia != nil {
-		task.hostname = "www.techinasia.com"
+		task.Hostname = "www.techinasia.com"
 	}
 
 	if mgr.State == ClientMgrStateService {
@@ -203,14 +203,14 @@ func (mgr *ClientMgr) onStartTask(ctx context.Context, endchan chan int) {
 		fmt.Sprintf("onStartTask maxtaskid - [%v]", mgr.MaxTaskID))
 
 	for _, v := range mgr.Tasks {
-		if v.running {
+		if v.Running {
 			continue
 		}
 
-		cc := mgr.GetClient(v.tags, v.hostname)
+		cc := mgr.GetClient(v.Tags, v.Hostname)
 		if cc != nil {
 			cc.Running = true
-			v.running = true
+			v.Running = true
 
 			go mgr.runTask(ctx, cc, v, endchan)
 		}
@@ -260,10 +260,10 @@ func (mgr *ClientMgr) StartService(ctx context.Context) error {
 func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, endChan chan int) error {
 	outputLog("debug",
 		fmt.Sprintf("runTask client - [%v] taskid - [%v]",
-			client.servAddr, task.taskid))
+			client.servAddr, task.TaskID))
 
 	if task.AnalyzePage != nil {
-		reply, err := client.analyzePage(ctx, task.hostname, task.AnalyzePage.URL,
+		reply, err := client.analyzePage(ctx, task.Hostname, task.AnalyzePage.URL,
 			&task.AnalyzePage.Viewport, &task.AnalyzePage.Options)
 
 		mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
@@ -271,33 +271,33 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 		return err
 
 	} else if task.GeoIP != nil {
-		reply, err := client.getGeoIP(ctx, task.hostname, task.GeoIP.IP, task.GeoIP.Platform)
+		reply, err := client.getGeoIP(ctx, task.Hostname, task.GeoIP.IP, task.GeoIP.Platform)
 
 		mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
 		return err
 	} else if task.TechInAsia != nil {
 		if task.TechInAsia.Mode == jarviscrawlercore.TechInAsiaMode_TIAM_JOBLIST {
-			reply, err := client.getTechInAsiaJobList(ctx, task.hostname, task.TechInAsia.JobTag, task.TechInAsia.JobSubTag,
-				task.TechInAsia.JobNums, task.Timeout)
+			reply, err := client.getTechInAsiaJobList(ctx, task.Hostname, task.TechInAsia.JobTag,
+				task.TechInAsia.JobSubTag, task.TechInAsia.JobNums, task.Timeout)
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
 			return err
 		} else if task.TechInAsia.Mode == jarviscrawlercore.TechInAsiaMode_TIAM_JOB {
-			reply, err := client.getTechInAsiaJob(ctx, task.hostname, task.TechInAsia.JobCode, task.Timeout)
+			reply, err := client.getTechInAsiaJob(ctx, task.Hostname, task.TechInAsia.JobCode, task.Timeout)
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
 			return err
 		} else if task.TechInAsia.Mode == jarviscrawlercore.TechInAsiaMode_TIAM_COMPANY {
-			reply, err := client.getTechInAsiaCompany(ctx, task.hostname, task.TechInAsia.CompanyCode, task.Timeout)
+			reply, err := client.getTechInAsiaCompany(ctx, task.Hostname, task.TechInAsia.CompanyCode, task.Timeout)
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
 			return err
 		} else if task.TechInAsia.Mode == jarviscrawlercore.TechInAsiaMode_TIAM_JOBTAG {
-			reply, err := client.getTechInAsiaJobTagList(ctx, task.hostname, task.TechInAsia.JobTag, task.Timeout)
+			reply, err := client.getTechInAsiaJobTagList(ctx, task.Hostname, task.TechInAsia.JobTag, task.Timeout)
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
@@ -307,14 +307,14 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 		return ErrInvalidTechInAsiaMode
 	} else if task.SteepAndCheap != nil {
 		if task.SteepAndCheap.Mode == jarviscrawlercore.SteepAndCheapMode_SACM_PRODUCTS {
-			reply, err := client.getSteepAndCheapProducts(ctx, task.hostname, task.SteepAndCheap.URL,
+			reply, err := client.getSteepAndCheapProducts(ctx, task.Hostname, task.SteepAndCheap.URL,
 				task.SteepAndCheap.Page, task.Timeout)
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
 			return err
 		} else if task.SteepAndCheap.Mode == jarviscrawlercore.SteepAndCheapMode_SACM_PRODUCT {
-			reply, err := client.getSteepAndCheapProduct(ctx, task.hostname, task.SteepAndCheap.URL,
+			reply, err := client.getSteepAndCheapProduct(ctx, task.Hostname, task.SteepAndCheap.URL,
 				task.Timeout)
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
@@ -325,27 +325,27 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 		return ErrInvalidSteepAndCheapMode
 	} else if task.JRJ != nil {
 		if task.JRJ.Mode == jarviscrawlercore.JRJMode_JRJM_FUND {
-			reply, err := client.getJRJFund(ctx, task.hostname, task.JRJ.Code, task.Timeout)
+			reply, err := client.getJRJFund(ctx, task.Hostname, task.JRJ.Code, task.Timeout)
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
 			return err
 		} else if task.JRJ.Mode == jarviscrawlercore.JRJMode_JRJM_FUNDS {
-			reply, err := client.getJRJFunds(ctx, task.hostname,
+			reply, err := client.getJRJFunds(ctx, task.Hostname,
 				task.Timeout)
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
 			return err
 		} else if task.JRJ.Mode == jarviscrawlercore.JRJMode_JRJM_FUNDMANAGER {
-			reply, err := client.getJRJFundManager(ctx, task.hostname, task.JRJ.Code,
+			reply, err := client.getJRJFundManager(ctx, task.Hostname, task.JRJ.Code,
 				task.Timeout)
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
 			return err
 		} else if task.JRJ.Mode == jarviscrawlercore.JRJMode_JRJM_FUNDVALUE {
-			reply, err := client.getJRJFundValue(ctx, task.hostname, task.JRJ.Code, task.JRJ.Year,
+			reply, err := client.getJRJFundValue(ctx, task.Hostname, task.JRJ.Code, task.JRJ.Year,
 				task.Timeout)
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
@@ -377,22 +377,22 @@ func (mgr *ClientMgr) onTaskEnd(ctx context.Context, client *Client, task *Task,
 
 	if err != nil {
 		outputLog("warn",
-			fmt.Sprintf("onTaskEnd client - [%v] error - [%v] RetryNums = [%v] task = [%+v]",
-				client.servAddr, err, task.RetryNums, task))
+			fmt.Sprintf("onTaskEnd client - [%v] error - [%v] RetryNums = [%v] task = %v",
+				client.servAddr, err, task.RetryNums, task.ToString()))
 
 		if task.RetryNums > 0 {
 			task.RetryNums--
 
 			// time.Sleep(time.Second * time.Duration(mgr.cfg.SleepTime))
 
-			task.running = false
+			task.Running = false
 			client.Running = false
 			endChan <- 0
 
 			return
 		}
 
-		task.fail = true
+		task.Fail = true
 		// task.running = false
 	}
 
@@ -401,7 +401,7 @@ func (mgr *ClientMgr) onTaskEnd(ctx context.Context, client *Client, task *Task,
 	// time.Sleep(time.Second * time.Duration(mgr.cfg.SleepTime))
 
 	client.Running = false
-	endChan <- task.taskid
+	endChan <- task.TaskID
 }
 
 // nextTask - on task end
@@ -411,7 +411,7 @@ func (mgr *ClientMgr) nextTask(ctx context.Context, endChan chan int, taskid int
 
 	if taskid > 0 {
 		for i, v := range mgr.Tasks {
-			if v.taskid == taskid {
+			if v.TaskID == taskid {
 				mgr.Tasks = append(mgr.Tasks[:i], mgr.Tasks[i+1:]...)
 
 				break
@@ -428,17 +428,17 @@ func (mgr *ClientMgr) nextTask(ctx context.Context, endChan chan int, taskid int
 
 	failnums := 0
 	for _, v := range mgr.Tasks {
-		if v.running {
+		if v.Running {
 			continue
 		}
 
-		if v.fail {
+		if v.Fail {
 			failnums++
 		}
 
-		cc := mgr.GetClient(v.tags, v.hostname)
+		cc := mgr.GetClient(v.Tags, v.Hostname)
 		if cc != nil {
-			v.running = true
+			v.Running = true
 			cc.Running = true
 
 			go mgr.runTask(ctx, cc, v, endChan)

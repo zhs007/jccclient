@@ -2,6 +2,7 @@ package jccclient
 
 import (
 	"context"
+	"encoding/json"
 
 	jarviscrawlercore "github.com/zhs007/jccclient/proto"
 )
@@ -48,23 +49,33 @@ type TaskJRJ struct {
 
 // Task - task
 type Task struct {
-	Callback      FuncTaskCallback
-	AnalyzePage   *TaskAnalyzePage
-	GeoIP         *TaskGeoIP
-	TechInAsia    *TaskTechInAsia
-	SteepAndCheap *TaskSteepAndCheap
-	JRJ           *TaskJRJ
-	Timeout       int
-	RetryNums     int
-	tags          *Tags
-	hostname      string
-	taskid        int
-	running       bool
-	fail          bool
+	Callback      FuncTaskCallback   `json:"-"`
+	AnalyzePage   *TaskAnalyzePage   `json:"AnalyzePage"`
+	GeoIP         *TaskGeoIP         `json:"GeoIP"`
+	TechInAsia    *TaskTechInAsia    `json:"TechInAsia"`
+	SteepAndCheap *TaskSteepAndCheap `json:"SteepAndCheap"`
+	JRJ           *TaskJRJ           `json:"JRJ"`
+	Timeout       int                `json:"timeout"`
+	RetryNums     int                `json:"retrynums"`
+	Tags          *Tags              `json:"tags"`
+	Hostname      string             `json:"hostname"`
+	TaskID        int                `json:"taskID"`
+	Running       bool               `json:"running"`
+	Fail          bool               `json:"fail"`
 }
 
 // Reset - reset
 func (task *Task) Reset() {
-	task.fail = false
-	task.running = false
+	task.Fail = false
+	task.Running = false
+}
+
+// ToString - to string
+func (task *Task) ToString() string {
+	result, err := json.Marshal(task)
+	if err != nil {
+		return err.Error()
+	}
+
+	return string(result)
 }
