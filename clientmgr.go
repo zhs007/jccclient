@@ -400,6 +400,7 @@ func (mgr *ClientMgr) onTaskEnd(ctx context.Context, client *Client, task *Task,
 
 	// time.Sleep(time.Second * time.Duration(mgr.cfg.SleepTime))
 
+	task.Running = false
 	client.Running = false
 	endChan <- task.TaskID
 }
