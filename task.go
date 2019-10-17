@@ -62,6 +62,7 @@ type Task struct {
 	TaskID        int                `json:"taskID"`
 	Running       bool               `json:"running"`
 	Fail          bool               `json:"fail"`
+	ServAddr      string             `json:"servaddr"`
 }
 
 // Reset - reset

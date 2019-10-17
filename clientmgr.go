@@ -262,6 +262,8 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 		fmt.Sprintf("runTask client - [%v] taskid - [%v]",
 			client.servAddr, task.TaskID))
 
+	task.ServAddr = client.servAddr
+
 	if task.AnalyzePage != nil {
 		reply, err := client.analyzePage(ctx, task.Hostname, task.AnalyzePage.URL,
 			&task.AnalyzePage.Viewport, &task.AnalyzePage.Options)
