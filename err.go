@@ -65,9 +65,18 @@ var (
 	// ErrNoReplyJRJFunds - invalid ReplyJRJFunds
 	ErrNoReplyJRJFunds = errors.New("invalid ReplyJRJFunds")
 	// ErrNoReplyJRJFund - invalid ErrNoReplyJRJFund
-	ErrNoReplyJRJFund = errors.New("invalid ErrNoReplyJRJFund")
+	ErrNoReplyJRJFund = errors.New("invalid NoReplyJRJFund")
 	// ErrNoReplyJRJFundValue - invalid ErrNoReplyJRJFundValue
 	ErrNoReplyJRJFundValue = errors.New("invalid ErrNoReplyJRJFundValue")
+
+	// ErrNoReplyJD - invalid ReplyJD
+	ErrNoReplyJD = errors.New("invalid ReplyJD")
+	// ErrInvalidJDMode - invalid jd mode
+	ErrInvalidJDMode = errors.New("invalid jd mode")
+	// ErrNoReplyJDActive - no ReplyJDActive
+	ErrNoReplyJDActive = errors.New("no ReplyJDActive")
+	// ErrNoReplyJDProduct - no ReplyJDProduct
+	ErrNoReplyJDProduct = errors.New("no ReplyJDProduct")
 
 	// ErrInvalidClientMgrState - invalid ClientMgrState
 	ErrInvalidClientMgrState = errors.New("invalid ClientMgrState")
