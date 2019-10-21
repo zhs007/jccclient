@@ -47,6 +47,12 @@ type TaskJRJ struct {
 	Year string
 }
 
+// TaskJD - task get data in jd
+type TaskJD struct {
+	Mode jarviscrawlercore.JDMode
+	URL  string
+}
+
 // Task - task
 type Task struct {
 	Callback      FuncTaskCallback   `json:"-"`
@@ -55,6 +61,7 @@ type Task struct {
 	TechInAsia    *TaskTechInAsia    `json:"TechInAsia"`
 	SteepAndCheap *TaskSteepAndCheap `json:"SteepAndCheap"`
 	JRJ           *TaskJRJ           `json:"JRJ"`
+	JD            *TaskJD            `json:"JD"`
 	Timeout       int                `json:"timeout"`
 	RetryNums     int                `json:"retrynums"`
 	Tags          *Tags              `json:"tags"`

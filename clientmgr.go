@@ -356,6 +356,24 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 		}
 
 		return ErrInvalidJRJMode
+	} else if task.JD != nil {
+		if task.JD.Mode == jarviscrawlercore.JDMode_JDM_ACTIVE {
+			reply, err := client.getJDActive(ctx, task.Hostname, task.JD.URL,
+				task.Timeout)
+
+			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
+
+			return err
+		} else if task.JD.Mode == jarviscrawlercore.JDMode_JDM_PRODUCT {
+			reply, err := client.getJDProduct(ctx, task.Hostname, task.JD.URL,
+				task.Timeout)
+
+			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
+
+			return err
+		}
+
+		return ErrInvalidJRJMode
 	}
 
 	outputLog("error",
