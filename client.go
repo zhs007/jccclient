@@ -1268,3 +1268,83 @@ func (client *Client) GetJDProduct(ctx context.Context, url string, timeout int)
 
 	return replyproduct.Product, nil
 }
+
+// getJDActivePage - get jd activepage
+func (client *Client) getJDActivePage(ctx context.Context, hostname string, url string,
+	timeout int) (*jarviscrawlercore.ReplyCrawler, error) {
+
+	if client.cfg != nil {
+		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
+	}
+
+	req := &jarviscrawlercore.RequestCrawler{
+		Token:       client.token,
+		CrawlerType: jarviscrawlercore.CrawlerType_CT_JD,
+		Timeout:     int32(timeout),
+		CrawlerParam: &jarviscrawlercore.RequestCrawler_Jd{
+			Jd: &jarviscrawlercore.RequestJD{
+				Mode: jarviscrawlercore.JDMode_JDM_ACTIVEPAGE,
+				Url:  url,
+			},
+		},
+	}
+
+	reply, err := client.RequestCrawler(ctx, req)
+	if err != nil {
+		if client.cfg != nil {
+			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
+		}
+
+		return nil, err
+	}
+
+	if reply == nil {
+		if client.cfg != nil {
+			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
+		}
+
+		return nil, ErrNoReplyCrawler
+	}
+
+	if client.cfg != nil {
+		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
+	}
+
+	return reply, nil
+}
+
+// GetJDActivePage - get jd activepage
+func (client *Client) GetJDActivePage(ctx context.Context, url string, timeout int) (
+	*jarviscrawlercore.JDActive, error) {
+
+	hostname := "jd.com"
+
+	reply, err := client.getJDActivePage(ctx, hostname, url, timeout)
+	if err != nil {
+		return nil, err
+	}
+
+	if reply.CrawlerType != jarviscrawlercore.CrawlerType_CT_JD {
+		return nil, ErrInvalidCrawlerType
+	}
+
+	if reply.CrawlerResult == nil {
+		return nil, ErrNoCrawlerResult
+	}
+
+	jd, isok := (reply.CrawlerResult).(*jarviscrawlercore.ReplyCrawler_Jd)
+	if !isok {
+		return nil, ErrNoReplyJD
+	}
+
+	if jd.Jd.Mode != jarviscrawlercore.JDMode_JDM_ACTIVEPAGE {
+		return nil, ErrInvalidJDMode
+	}
+
+	replyactive, isok := (jd.Jd.Reply).(*jarviscrawlercore.ReplyJD_Active)
+	if !isok {
+		return nil, ErrNoReplyJDActive
+	}
+
+	return replyactive.Active, nil
+}

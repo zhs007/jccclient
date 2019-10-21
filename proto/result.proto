@@ -862,6 +862,8 @@ enum JDMode {
     JDM_PRODUCT = 0;
     // JDM_ACTIVE - active
     JDM_ACTIVE = 1;
+    // JDM_ACTIVEPAGE - active page
+    JDM_ACTIVEPAGE = 2;
 }
 
 // JDPingou - jd pingou

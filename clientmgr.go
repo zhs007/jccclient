@@ -371,6 +371,13 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
 			return err
+		} else if task.JD.Mode == jarviscrawlercore.JDMode_JDM_ACTIVEPAGE {
+			reply, err := client.getJDActivePage(ctx, task.Hostname, task.JD.URL,
+				task.Timeout)
+
+			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
+
+			return err
 		}
 
 		return ErrInvalidJRJMode

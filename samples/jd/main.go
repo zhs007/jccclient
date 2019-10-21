@@ -35,7 +35,21 @@ func main() {
 	}
 
 	if reply1 != nil {
-		fmt.Printf("%v", reply1)
+		fmt.Printf("\n%v", reply1)
+	}
+
+	reply2, err := client.GetJDActivePage(context.Background(),
+		"https://h5.m.jd.com/pc/dev/391BqWHzwykzEcW9DR3zTek4PC8h/index.html",
+		3*60*1000)
+
+	if err != nil {
+		fmt.Printf("GetJDActivePage %v", err)
+
+		return
+	}
+
+	if reply2 != nil {
+		fmt.Printf("\n%v", reply2)
 	}
 
 	return
