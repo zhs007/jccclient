@@ -908,6 +908,7 @@ message JDSKUInfo {
     bool disabled = 9;
     bool selected = 10;
     string category = 11;
+    string productType = 12;
 }
 
 // JDCommentType - jd comments type
