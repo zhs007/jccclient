@@ -902,6 +902,7 @@ message JDSKUInfo {
     string color = 3;
     string series = 4;
     string variety = 5;
+    string size = 6;
 }
 
 // JDCommentType - jd comments type
