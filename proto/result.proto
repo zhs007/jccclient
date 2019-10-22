@@ -903,6 +903,10 @@ message JDSKUInfo {
     string series = 4;
     string variety = 5;
     string size = 6;
+    string model = 7;
+    string purchase = 8;
+    bool disabled = 9;
+    bool selected = 10;
 }
 
 // JDCommentType - jd comments type
