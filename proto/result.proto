@@ -874,11 +874,26 @@ message JDPingou {
     float price = 4;
 }
 
+// JDPromotional - jd promotional
+message JDPromotional {
+    string title = 1;
+    string info = 2;
+}
+
+// JDNormalPrice - jd normal price
+message JDNormalPrice {
+    float oldPrice = 1;
+    float price = 2;
+    repeated JDPromotional promotionals = 3;
+    repeated string coupons = 4;
+}
+
 // JDSKUInfo - jd sku info
 message JDSKUInfo {
     string skuID = 1;
     string type = 2;
     string color = 3;
+    string series = 4;
 }
 
 // JDCommentType - jd comments type
@@ -919,6 +934,7 @@ message JDProduct {
     repeated JDSKUInfo SKUs = 12;
     JDCommentsInfo comment = 13;
     int64 lastUpdatedTime = 14;
+    JDNormalPrice price = 15;
 }
 
 // RequestJD - request jd
