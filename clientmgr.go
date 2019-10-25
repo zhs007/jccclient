@@ -408,7 +408,9 @@ func (mgr *ClientMgr) onTaskEnd(ctx context.Context, client *Client, task *Task,
 			fmt.Sprintf("onTaskEnd client - [%v] error - [%v] RetryNums = [%v] task = %v",
 				client.servAddr, err, task.RetryNums, task.ToString()))
 
-		if strings.Index(err.Error(), "noretry:") != 0 {
+		if strings.Index(err.Error(), "Error: noretry:") != 0 ||
+			strings.Index(err.Error(), "noretry:") != 0 {
+
 			if task.RetryNums > 0 {
 				task.RetryNums--
 
