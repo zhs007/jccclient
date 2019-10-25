@@ -3,6 +3,7 @@ package jccclient
 import (
 	"context"
 	"fmt"
+	"strings"
 	"time"
 
 	jarviscrawlercore "github.com/zhs007/jccclient/proto"
@@ -407,20 +408,22 @@ func (mgr *ClientMgr) onTaskEnd(ctx context.Context, client *Client, task *Task,
 			fmt.Sprintf("onTaskEnd client - [%v] error - [%v] RetryNums = [%v] task = %v",
 				client.servAddr, err, task.RetryNums, task.ToString()))
 
-		if task.RetryNums > 0 {
-			task.RetryNums--
+		if strings.Index(err.Error(), "noretry:") != 0 {
+			if task.RetryNums > 0 {
+				task.RetryNums--
 
-			// time.Sleep(time.Second * time.Duration(mgr.cfg.SleepTime))
+				// time.Sleep(time.Second * time.Duration(mgr.cfg.SleepTime))
 
-			task.Running = false
-			client.Running = false
-			endChan <- 0
+				task.Running = false
+				client.Running = false
+				endChan <- 0
 
-			return
+				return
+			}
+
+			task.Fail = true
+			// task.running = false
 		}
-
-		task.Fail = true
-		// task.running = false
 	}
 
 	go task.Callback(ctx, task, err, reply)
