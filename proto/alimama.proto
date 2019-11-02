@@ -22,20 +22,20 @@ message AlimamaProduct {
     float rebate = 7;
     float commission = 8;
     float moneyQuan = 9;
-    string shopType = 10;
+    repeated string shopType = 10;
     int32 salesVolume = 11;
     string shopurl = 12;
 }
 
-// AlimamaTopProduct - alimama top product
-message AlimamaTopProduct {
+// AlimamaTopProducts - alimama top products
+message AlimamaTopProducts {
     repeated string category = 1;
     repeated AlimamaProduct products = 2;
 }
 
 // AlimamaTopInfo - alimama top info
 message AlimamaTopInfo {
-    repeated AlimamaTopProduct lst = 1;
+    repeated AlimamaTopProducts lst = 1;
 }
 
 // AlimamaProducts - alimama products
