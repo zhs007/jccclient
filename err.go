@@ -78,6 +78,15 @@ var (
 	// ErrNoReplyJDProduct - no ReplyJDProduct
 	ErrNoReplyJDProduct = errors.New("no ReplyJDProduct")
 
+	// ErrNoReplyAlimama - invalid ReplyAlimama
+	ErrNoReplyAlimama = errors.New("invalid ReplyAlimama")
+	// ErrInvalidAlimamaMode - invalid alimama mode
+	ErrInvalidAlimamaMode = errors.New("invalid alimama mode")
+	// ErrNoReplyAlimamaGetTop - no ReplyAlimamaGetTop
+	ErrNoReplyAlimamaGetTop = errors.New("no ReplyAlimamaGetTop")
+	// ErrNoReplyAlimamaProducts - no ReplyAlimamaProducts
+	ErrNoReplyAlimamaProducts = errors.New("no ReplyAlimamaProducts")
+
 	// ErrInvalidClientMgrState - invalid ClientMgrState
 	ErrInvalidClientMgrState = errors.New("invalid ClientMgrState")
 )

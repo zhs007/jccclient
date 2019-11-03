@@ -381,7 +381,32 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 			return err
 		}
 
-		return ErrInvalidJRJMode
+		return ErrInvalidJDMode
+	} else if task.Alimama != nil {
+		if task.Alimama.Mode == jarviscrawlercore.AlimamaMode_ALIMMM_KEEPALIVE {
+			reply, err := client.alimamaKeepalive(ctx, task.Hostname,
+				task.Timeout)
+
+			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
+
+			return err
+		} else if task.Alimama.Mode == jarviscrawlercore.AlimamaMode_ALIMMM_GETTOP {
+			reply, err := client.alimamaGetTop(ctx, task.Hostname,
+				task.Timeout)
+
+			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
+
+			return err
+		} else if task.Alimama.Mode == jarviscrawlercore.AlimamaMode_ALIMMM_SEARCH {
+			reply, err := client.alimamaSearch(ctx, task.Hostname, task.Alimama.Text,
+				task.Timeout)
+
+			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
+
+			return err
+		}
+
+		return ErrInvalidAlimamaMode
 	}
 
 	outputLog("error",
