@@ -59,6 +59,12 @@ type TaskAlimama struct {
 	Text string
 }
 
+// TaskTmall - task get data in tmall
+type TaskTmall struct {
+	Mode jarviscrawlercore.TmallMode
+	URL  string
+}
+
 // Task - task
 type Task struct {
 	Callback      FuncTaskCallback   `json:"-"`
@@ -69,6 +75,7 @@ type Task struct {
 	JRJ           *TaskJRJ           `json:"JRJ"`
 	JD            *TaskJD            `json:"JD"`
 	Alimama       *TaskAlimama       `json:"Alimama"`
+	Tmall         *TaskTmall         `json:"Tmall"`
 	Timeout       int                `json:"timeout"`
 	RetryNums     int                `json:"retrynums"`
 	Tags          *Tags              `json:"tags"`

@@ -87,6 +87,13 @@ var (
 	// ErrNoReplyAlimamaProducts - no ReplyAlimamaProducts
 	ErrNoReplyAlimamaProducts = errors.New("no ReplyAlimamaProducts")
 
+	// ErrNoReplyTmall - invalid ReplyTmall
+	ErrNoReplyTmall = errors.New("invalid ReplyTmall")
+	// ErrInvalidTmallMode - invalid tmall mode
+	ErrInvalidTmallMode = errors.New("invalid tmall mode")
+	// ErrNoReplyTmallProduct - no ReplyTmallProduct
+	ErrNoReplyTmallProduct = errors.New("no ReplyTmallProduct")
+
 	// ErrInvalidClientMgrState - invalid ClientMgrState
 	ErrInvalidClientMgrState = errors.New("invalid ClientMgrState")
 )
