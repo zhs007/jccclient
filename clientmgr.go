@@ -407,6 +407,28 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 		}
 
 		return ErrInvalidAlimamaMode
+	} else if task.Tmall != nil {
+		if task.Tmall.Mode == jarviscrawlercore.TmallMode_TMM_PRODUCT {
+			reply, err := client.tmallProduct(ctx, task.Hostname, task.Tmall.URL,
+				task.Timeout)
+
+			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
+
+			return err
+		}
+
+		return ErrInvalidTmallMode
+	} else if task.Taobao != nil {
+		if task.Taobao.Mode == jarviscrawlercore.TaobaoMode_TBM_PRODUCT {
+			reply, err := client.taobaoProduct(ctx, task.Hostname, task.Taobao.ItemID,
+				task.Timeout)
+
+			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
+
+			return err
+		}
+
+		return ErrInvalidTmallMode
 	}
 
 	outputLog("error",
