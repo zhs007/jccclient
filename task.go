@@ -65,6 +65,12 @@ type TaskTmall struct {
 	URL  string
 }
 
+// TaskTaobao - task get data in taobao
+type TaskTaobao struct {
+	Mode   jarviscrawlercore.TaobaoMode
+	ItemID string
+}
+
 // Task - task
 type Task struct {
 	Callback      FuncTaskCallback   `json:"-"`
@@ -76,6 +82,7 @@ type Task struct {
 	JD            *TaskJD            `json:"JD"`
 	Alimama       *TaskAlimama       `json:"Alimama"`
 	Tmall         *TaskTmall         `json:"Tmall"`
+	Taobao        *TaskTaobao        `json:"Taobao"`
 	Timeout       int                `json:"timeout"`
 	RetryNums     int                `json:"retrynums"`
 	Tags          *Tags              `json:"tags"`

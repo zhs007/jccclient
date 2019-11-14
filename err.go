@@ -94,6 +94,13 @@ var (
 	// ErrNoReplyTmallProduct - no ReplyTmallProduct
 	ErrNoReplyTmallProduct = errors.New("no ReplyTmallProduct")
 
+	// ErrNoReplyTaobao - invalid ReplyTaobao
+	ErrNoReplyTaobao = errors.New("invalid ReplyTaobao")
+	// ErrInvalidTaobaoMode - invalid taobao mode
+	ErrInvalidTaobaoMode = errors.New("invalid taobao mode")
+	// ErrNoReplyTaobaoProduct - no ReplyTaobaoProduct
+	ErrNoReplyTaobaoProduct = errors.New("no ReplyTaobaoProduct")
+
 	// ErrInvalidClientMgrState - invalid ClientMgrState
 	ErrInvalidClientMgrState = errors.New("invalid ClientMgrState")
 )
