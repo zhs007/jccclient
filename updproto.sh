@@ -1,0 +1,1 @@
+cp -rf ../jarviscrawlercore/proto/*.proto ./proto/
