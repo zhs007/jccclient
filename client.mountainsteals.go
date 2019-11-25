@@ -94,8 +94,8 @@ func (client *Client) mountainstealsProduct(ctx context.Context, hostname string
 	return reply, nil
 }
 
-// MountainstealsSale - mountainsteals sale
-func (client *Client) MountainstealsSale(ctx context.Context, url string, timeout int) (
+// MountainStealsSale - mountainsteals sale
+func (client *Client) MountainStealsSale(ctx context.Context, url string, timeout int) (
 	*jarviscrawlercore.MountainStealsSale, error) {
 
 	hostname := "mountainsteals.com"
@@ -130,8 +130,8 @@ func (client *Client) MountainstealsSale(ctx context.Context, url string, timeou
 	return replysale.Sale, nil
 }
 
-// MountainstealsProduct - mountainsteals product
-func (client *Client) MountainstealsProduct(ctx context.Context, url string, timeout int) (
+// MountainStealsProduct - mountainsteals product
+func (client *Client) MountainStealsProduct(ctx context.Context, url string, timeout int) (
 	*jarviscrawlercore.MountainStealsProduct, error) {
 
 	hostname := "mountainsteals.com"

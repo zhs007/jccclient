@@ -19,12 +19,12 @@ func main() {
 	// 	return
 	// }
 
-	reply1, err := client.MountainstealsSale(context.Background(),
+	reply1, err := client.MountainStealsSale(context.Background(),
 		"531445101234",
 		3*60*1000)
 
 	if err != nil {
-		fmt.Printf("TmallProduct %v", err)
+		fmt.Printf("MountainStealsSale %v", err)
 
 		return
 	}

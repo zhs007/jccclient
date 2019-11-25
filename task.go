@@ -71,8 +71,8 @@ type TaskTaobao struct {
 	ItemID string
 }
 
-// TaskMountainsteals - task get data in mountainsteals
-type TaskMountainsteals struct {
+// TaskMountainSteals - task get data in mountainsteals
+type TaskMountainSteals struct {
 	Mode jarviscrawlercore.MountainStealsMode
 	URL  string
 }
@@ -89,7 +89,7 @@ type Task struct {
 	Alimama        *TaskAlimama        `json:"Alimama"`
 	Tmall          *TaskTmall          `json:"Tmall"`
 	Taobao         *TaskTaobao         `json:"Taobao"`
-	Mountainsteals *TaskMountainsteals `json:"mountainsteals"`
+	MountainSteals *TaskMountainSteals `json:"mountainsteals"`
 	Timeout        int                 `json:"timeout"`
 	RetryNums      int                 `json:"retrynums"`
 	Tags           *Tags               `json:"tags"`
