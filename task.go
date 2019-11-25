@@ -71,26 +71,33 @@ type TaskTaobao struct {
 	ItemID string
 }
 
+// TaskMountainSteals - task get data in mountainsteals
+type TaskMountainSteals struct {
+	Mode jarviscrawlercore.MountainStealsMode
+	URL  string
+}
+
 // Task - task
 type Task struct {
-	Callback      FuncTaskCallback   `json:"-"`
-	AnalyzePage   *TaskAnalyzePage   `json:"AnalyzePage"`
-	GeoIP         *TaskGeoIP         `json:"GeoIP"`
-	TechInAsia    *TaskTechInAsia    `json:"TechInAsia"`
-	SteepAndCheap *TaskSteepAndCheap `json:"SteepAndCheap"`
-	JRJ           *TaskJRJ           `json:"JRJ"`
-	JD            *TaskJD            `json:"JD"`
-	Alimama       *TaskAlimama       `json:"Alimama"`
-	Tmall         *TaskTmall         `json:"Tmall"`
-	Taobao        *TaskTaobao        `json:"Taobao"`
-	Timeout       int                `json:"timeout"`
-	RetryNums     int                `json:"retrynums"`
-	Tags          *Tags              `json:"tags"`
-	Hostname      string             `json:"hostname"`
-	TaskID        int                `json:"taskID"`
-	Running       bool               `json:"running"`
-	Fail          bool               `json:"fail"`
-	ServAddr      string             `json:"servaddr"`
+	Callback       FuncTaskCallback    `json:"-"`
+	AnalyzePage    *TaskAnalyzePage    `json:"AnalyzePage"`
+	GeoIP          *TaskGeoIP          `json:"GeoIP"`
+	TechInAsia     *TaskTechInAsia     `json:"TechInAsia"`
+	SteepAndCheap  *TaskSteepAndCheap  `json:"SteepAndCheap"`
+	JRJ            *TaskJRJ            `json:"JRJ"`
+	JD             *TaskJD             `json:"JD"`
+	Alimama        *TaskAlimama        `json:"Alimama"`
+	Tmall          *TaskTmall          `json:"Tmall"`
+	Taobao         *TaskTaobao         `json:"Taobao"`
+	MountainSteals *TaskMountainSteals `json:"mountainsteals"`
+	Timeout        int                 `json:"timeout"`
+	RetryNums      int                 `json:"retrynums"`
+	Tags           *Tags               `json:"tags"`
+	Hostname       string              `json:"hostname"`
+	TaskID         int                 `json:"taskID"`
+	Running        bool                `json:"running"`
+	Fail           bool                `json:"fail"`
+	ServAddr       string              `json:"servaddr"`
 }
 
 // Reset - reset

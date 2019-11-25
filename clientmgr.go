@@ -429,6 +429,24 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 		}
 
 		return ErrInvalidTmallMode
+	} else if task.MountainSteals != nil {
+		if task.MountainSteals.Mode == jarviscrawlercore.MountainStealsMode_MSM_SALE {
+			reply, err := client.mountainstealsSale(ctx, task.Hostname, task.MountainSteals.URL,
+				task.Timeout)
+
+			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
+
+			return err
+		} else if task.MountainSteals.Mode == jarviscrawlercore.MountainStealsMode_MSM_PRODUCT {
+			reply, err := client.mountainstealsProduct(ctx, task.Hostname, task.MountainSteals.URL,
+				task.Timeout)
+
+			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
+
+			return err
+		}
+
+		return ErrInvalidMountainstealsMode
 	}
 
 	outputLog("error",

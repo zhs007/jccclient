@@ -101,6 +101,15 @@ var (
 	// ErrNoReplyTaobaoProduct - no ReplyTaobaoProduct
 	ErrNoReplyTaobaoProduct = errors.New("no ReplyTaobaoProduct")
 
+	// ErrNoReplyMountainsteals - invalid ReplyMountainsteals
+	ErrNoReplyMountainsteals = errors.New("invalid ReplyMountainsteals")
+	// ErrInvalidMountainstealsMode - invalid mountainsteals mode
+	ErrInvalidMountainstealsMode = errors.New("invalid mountainsteals mode")
+	// ErrNoReplyMountainstealsProduct - no ReplyMountainstealsProduct
+	ErrNoReplyMountainstealsProduct = errors.New("no ReplyMountainstealsProduct")
+	// ErrNoReplyMountainstealsSale - no ReplyMountainstealsSale
+	ErrNoReplyMountainstealsSale = errors.New("no ReplyMountainstealsSale")
+
 	// ErrInvalidClientMgrState - invalid ClientMgrState
 	ErrInvalidClientMgrState = errors.New("invalid ClientMgrState")
 )
