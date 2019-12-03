@@ -1,7 +1,7 @@
 package jccclient
 
 // VERSION - jccclient version
-const VERSION = "0.2.20"
+const VERSION = "0.2.21"
 
 // MaxMultiFailTimes - If the client fail {{MaxMultiFailTimes}} times in succession, it need to ignore some task
 const MaxMultiFailTimes = 3
