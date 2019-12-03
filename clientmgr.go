@@ -404,6 +404,13 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
 			return err
+		} else if task.Alimama.Mode == jarviscrawlercore.AlimamaMode_ALIMMM_GETSHOP {
+			reply, err := client.alimamaShop(ctx, task.Hostname, task.Alimama.URL,
+				task.Timeout)
+
+			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
+
+			return err
 		}
 
 		return ErrInvalidAlimamaMode

@@ -57,6 +57,7 @@ type TaskJD struct {
 type TaskAlimama struct {
 	Mode jarviscrawlercore.AlimamaMode
 	Text string
+	URL  string
 }
 
 // TaskTmall - task get data in tmall

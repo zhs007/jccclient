@@ -136,6 +136,50 @@ func (client *Client) alimamaSearch(ctx context.Context, hostname string, text s
 	return reply, nil
 }
 
+// alimamaShop - alimama shop
+func (client *Client) alimamaShop(ctx context.Context, hostname string, url string,
+	timeout int) (*jarviscrawlercore.ReplyCrawler, error) {
+
+	if client.cfg != nil {
+		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
+	}
+
+	req := &jarviscrawlercore.RequestCrawler{
+		Token:       client.token,
+		CrawlerType: jarviscrawlercore.CrawlerType_CT_ALIMAMA,
+		Timeout:     int32(timeout),
+		CrawlerParam: &jarviscrawlercore.RequestCrawler_Alimama{
+			Alimama: &jarviscrawlercore.RequestAlimama{
+				Mode: jarviscrawlercore.AlimamaMode_ALIMMM_GETSHOP,
+				Url:  url,
+			},
+		},
+	}
+
+	reply, err := client.RequestCrawler(ctx, req)
+	if err != nil {
+		if client.cfg != nil {
+			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
+		}
+
+		return nil, err
+	}
+
+	if reply == nil {
+		if client.cfg != nil {
+			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
+		}
+
+		return nil, ErrNoReplyCrawler
+	}
+
+	if client.cfg != nil {
+		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
+	}
+
+	return reply, nil
+}
+
 // AlimamaKeepalive - alimama keepalive
 func (client *Client) AlimamaKeepalive(ctx context.Context, timeout int) error {
 
@@ -236,4 +280,40 @@ func (client *Client) AlimamaSearch(ctx context.Context, text string, timeout in
 	}
 
 	return replyproducts.Products, nil
+}
+
+// AlimamaShop - alimama shop
+func (client *Client) AlimamaShop(ctx context.Context, url string, timeout int) (
+	*jarviscrawlercore.AlimamaShop, error) {
+
+	hostname := "alimama.com"
+
+	reply, err := client.alimamaShop(ctx, hostname, url, timeout)
+	if err != nil {
+		return nil, err
+	}
+
+	if reply.CrawlerType != jarviscrawlercore.CrawlerType_CT_ALIMAMA {
+		return nil, ErrInvalidCrawlerType
+	}
+
+	if reply.CrawlerResult == nil {
+		return nil, ErrNoCrawlerResult
+	}
+
+	alimama, isok := (reply.CrawlerResult).(*jarviscrawlercore.ReplyCrawler_Alimama)
+	if !isok {
+		return nil, ErrNoReplyAlimama
+	}
+
+	if alimama.Alimama.Mode != jarviscrawlercore.AlimamaMode_ALIMMM_GETSHOP {
+		return nil, ErrInvalidAlimamaMode
+	}
+
+	replyshop, isok := (alimama.Alimama.Reply).(*jarviscrawlercore.ReplyAlimama_Shop)
+	if !isok {
+		return nil, ErrNoReplyAlimamaShop
+	}
+
+	return replyshop.Shop, nil
 }
