@@ -19,19 +19,19 @@ func main() {
 	// 	return
 	// }
 
-	reply1, err := client.AlimamaSearch(context.Background(),
-		"森贝儿家族",
-		3*60*1000)
+	// reply1, err := client.AlimamaSearch(context.Background(),
+	// 	"森贝儿家族",
+	// 	3*60*1000)
 
-	if err != nil {
-		fmt.Printf("AlimamaSearch %v", err)
+	// if err != nil {
+	// 	fmt.Printf("AlimamaSearch %v", err)
 
-		return
-	}
+	// 	return
+	// }
 
-	if reply1 != nil {
-		fmt.Printf("\n%v", reply1)
-	}
+	// if reply1 != nil {
+	// 	fmt.Printf("\n%v", reply1)
+	// }
 
 	// reply2, err := client.AlimamaGetTop(context.Background(),
 	// 	3*60*1000)
@@ -45,6 +45,20 @@ func main() {
 	// if reply2 != nil {
 	// 	fmt.Printf("\n%v", reply2)
 	// }
+
+	reply3, err := client.AlimamaShop(context.Background(),
+		"https://pub.alimama.com/myunion.htm?#!/promo/self/shop_detail?userNumberId=2783286164",
+		3*60*1000)
+
+	if err != nil {
+		fmt.Printf("AlimamaShop %v", err)
+
+		return
+	}
+
+	if reply3 != nil {
+		fmt.Printf("\n%v", reply3)
+	}
 
 	return
 }

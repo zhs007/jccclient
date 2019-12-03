@@ -86,6 +86,8 @@ var (
 	ErrNoReplyAlimamaGetTop = errors.New("no ReplyAlimamaGetTop")
 	// ErrNoReplyAlimamaProducts - no ReplyAlimamaProducts
 	ErrNoReplyAlimamaProducts = errors.New("no ReplyAlimamaProducts")
+	// ErrNoReplyAlimamaShop - no ReplyAlimamaShop
+	ErrNoReplyAlimamaShop = errors.New("no ReplyAlimamaShop")
 
 	// ErrNoReplyTmall - invalid ReplyTmall
 	ErrNoReplyTmall = errors.New("invalid ReplyTmall")
