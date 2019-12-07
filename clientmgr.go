@@ -477,11 +477,11 @@ func (mgr *ClientMgr) onTaskEnd(ctx context.Context, client *Client, task *Task,
 
 	if err != nil {
 		outputLog("warn",
-			fmt.Sprintf("onTaskEnd client - [%v] erro....zhenr - [%v] RetryNums = [%v] task = %v",
+			fmt.Sprintf("onTaskEnd client - [%v] error - [%v] RetryNums = [%v] task = %v",
 				client.servAddr, err, task.RetryNums, task.ToString()))
 
-		if strings.Index(err.Error(), "Error: noretry:") != 0 ||
-			strings.Index(err.Error(), "noretry:") != 0 {
+		if !(strings.Index(err.Error(), "Error: noretry:") == 0 ||
+			strings.Index(err.Error(), "noretry:") == 0) {
 
 			if task.RetryNums > 0 {
 				task.RetryNums--
@@ -495,9 +495,11 @@ func (mgr *ClientMgr) onTaskEnd(ctx context.Context, client *Client, task *Task,
 				return
 			}
 
-			task.Fail = true
+			// task.Fail = true
 			// task.running = false
 		}
+
+		task.Fail = true
 	}
 
 	go task.Callback(ctx, task, err, reply)
