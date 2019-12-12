@@ -102,6 +102,8 @@ var (
 	ErrInvalidTaobaoMode = errors.New("invalid taobao mode")
 	// ErrNoReplyTaobaoProduct - no ReplyTaobaoProduct
 	ErrNoReplyTaobaoProduct = errors.New("no ReplyTaobaoProduct")
+	// ErrNoReplyTaobaoSearchResult - no ReplyTaobaoSearchResult
+	ErrNoReplyTaobaoSearchResult = errors.New("no ReplyTaobaoSearchResult")
 
 	// ErrNoReplyMountainsteals - invalid ReplyMountainsteals
 	ErrNoReplyMountainsteals = errors.New("invalid ReplyMountainsteals")
