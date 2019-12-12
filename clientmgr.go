@@ -416,8 +416,15 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 		return ErrInvalidAlimamaMode
 	} else if task.Tmall != nil {
 		if task.Tmall.Mode == jarviscrawlercore.TmallMode_TMM_PRODUCT {
-			reply, err := client.tmallProduct(ctx, task.Hostname, task.Tmall.URL,
+			reply, err := client.tmallProduct(ctx, task.Hostname, task.Tmall.ItemID,
 				task.Timeout)
+
+			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
+
+			return err
+		} else if task.Tmall.Mode == jarviscrawlercore.TmallMode_TMM_MOBILEPRODUCT {
+			reply, err := client.tmallMobileProduct(ctx, task.Hostname, task.Tmall.ItemID,
+				task.Tmall.Device, task.Timeout)
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
@@ -429,6 +436,20 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 		if task.Taobao.Mode == jarviscrawlercore.TaobaoMode_TBM_PRODUCT {
 			reply, err := client.taobaoProduct(ctx, task.Hostname, task.Taobao.ItemID,
 				task.Timeout)
+
+			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
+
+			return err
+		} else if task.Taobao.Mode == jarviscrawlercore.TaobaoMode_TBM_MOBILEPRODUCT {
+			reply, err := client.taobaoMobileProduct(ctx, task.Hostname, task.Taobao.ItemID,
+				task.Taobao.Device, task.Timeout)
+
+			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
+
+			return err
+		} else if task.Taobao.Mode == jarviscrawlercore.TaobaoMode_TBM_SEARCH {
+			reply, err := client.taobaoSearch(ctx, task.Hostname,
+				task.Taobao.Text, task.Timeout)
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 

@@ -62,14 +62,17 @@ type TaskAlimama struct {
 
 // TaskTmall - task get data in tmall
 type TaskTmall struct {
-	Mode jarviscrawlercore.TmallMode
-	URL  string
+	Mode   jarviscrawlercore.TmallMode
+	ItemID string
+	Device string
 }
 
 // TaskTaobao - task get data in taobao
 type TaskTaobao struct {
 	Mode   jarviscrawlercore.TaobaoMode
 	ItemID string
+	Device string
+	Text   string
 }
 
 // TaskMountainSteals - task get data in mountainsteals
