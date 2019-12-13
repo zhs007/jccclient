@@ -19,10 +19,10 @@ ignoretasktime: 300
 # sleeptime - After the finished a task, rest for {{sleeptime}} seconds.
 sleeptime: 5
 
+# default mobile device
+defaultmobiledevice: iPhone X
+
 # database root path
 dbpath: ./data
 # database engine
 dbengine: leveldb
-
-# default mobile device
-defaultmobiledevice: iPhone X

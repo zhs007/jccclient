@@ -589,3 +589,8 @@ func (mgr *ClientMgr) newTaskID() int {
 
 	return mgr.MaxTaskID
 }
+
+// GetConfig - get config
+func (mgr *ClientMgr) GetConfig() Config {
+	return *mgr.cfg
+}
