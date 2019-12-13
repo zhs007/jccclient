@@ -32,6 +32,8 @@ type Config struct {
 	IgnoreTaskTime int
 	// SleepTime - The client will ignore the task for {{SleepTime}} seconds.
 	SleepTime int
+	// DefaultMobileDevice - default mobile device
+	DefaultMobileDevice string
 
 	//------------------------------------------------------------------
 	// databse configuration

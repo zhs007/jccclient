@@ -23,3 +23,6 @@ sleeptime: 5
 dbpath: ./data
 # database engine
 dbengine: leveldb
+
+# default mobile device
+defaultmobiledevice: iPhone X
