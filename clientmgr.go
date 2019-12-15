@@ -6,6 +6,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/zhs007/ankadb"
 	jarviscrawlercore "github.com/zhs007/jccclient/proto"
 )
 
@@ -593,4 +594,9 @@ func (mgr *ClientMgr) newTaskID() int {
 // GetConfig - get config
 func (mgr *ClientMgr) GetConfig() Config {
 	return *mgr.cfg
+}
+
+// GetAnkaDB - get ankaDB
+func (mgr *ClientMgr) GetAnkaDB() ankadb.AnkaDB {
+	return mgr.db.ankaDB
 }
