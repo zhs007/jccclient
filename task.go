@@ -119,3 +119,12 @@ func (task *Task) ToString() string {
 
 	return string(result)
 }
+
+// GetPipelineCode - get pipeline code
+func (task *Task) GetPipelineCode() (PipelineCode, bool) {
+	if task.Tmall != nil || task.Taobao != nil {
+		return "taobao.com", true
+	}
+
+	return PipelineCode(task.Hostname), false
+}
