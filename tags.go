@@ -19,7 +19,7 @@ func findtags(tag string, tags []string) bool {
 
 // IsMatch - is match tags
 func (tags *Tags) IsMatch(client *Client) bool {
-	if !findtags(tags.Tag, client.tags) {
+	if tags.Tag != "" && !findtags(tags.Tag, client.tags) {
 		return false
 	}
 
