@@ -114,6 +114,13 @@ var (
 	// ErrNoReplyMountainstealsSale - no ReplyMountainstealsSale
 	ErrNoReplyMountainstealsSale = errors.New("no ReplyMountainstealsSale")
 
+	// ErrNoReplyDouban - invalid ReplyDouban
+	ErrNoReplyDouban = errors.New("invalid ReplyDouban")
+	// ErrInvalidDoubanMode - invalid douban mode
+	ErrInvalidDoubanMode = errors.New("invalid douban mode")
+	// ErrNoReplyDoubanSearch - no ReplyDoubanSearch
+	ErrNoReplyDoubanSearch = errors.New("no ReplyDoubanSearch")
+
 	// ErrInvalidClientMgrState - invalid ClientMgrState
 	ErrInvalidClientMgrState = errors.New("invalid ClientMgrState")
 )

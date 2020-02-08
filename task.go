@@ -81,6 +81,14 @@ type TaskMountainSteals struct {
 	URL  string
 }
 
+// TaskDouban - task get data in douban
+type TaskDouban struct {
+	Mode       jarviscrawlercore.DoubanMode
+	Text       string
+	ID         string
+	DoubanType jarviscrawlercore.DoubanType
+}
+
 // Task - task
 type Task struct {
 	Callback       FuncTaskCallback    `json:"-"`
@@ -94,6 +102,7 @@ type Task struct {
 	Tmall          *TaskTmall          `json:"Tmall"`
 	Taobao         *TaskTaobao         `json:"Taobao"`
 	MountainSteals *TaskMountainSteals `json:"mountainsteals"`
+	Douban         *TaskDouban         `json:"douban"`
 	Timeout        int                 `json:"timeout"`
 	RetryNums      int                 `json:"retrynums"`
 	Tags           *Tags               `json:"tags"`
