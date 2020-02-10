@@ -123,6 +123,13 @@ var (
 	// ErrNoReplyDoubanBook - no ReplyDoubanBook
 	ErrNoReplyDoubanBook = errors.New("no ReplyDoubanBook")
 
+	// ErrNoReplyManhuaDB - invalid ReplyManhuaDB
+	ErrNoReplyManhuaDB = errors.New("invalid ReplyManhuaDB")
+	// ErrInvalidManhuaDBMode - invalid manhuadb mode
+	ErrInvalidManhuaDBMode = errors.New("invalid manhuadb mode")
+	// ErrNoReplyManhuaDBAuthor - no ReplyManhuaDBAuthor
+	ErrNoReplyManhuaDBAuthor = errors.New("no ReplyManhuaDBAuthor")
+
 	// ErrInvalidClientMgrState - invalid ClientMgrState
 	ErrInvalidClientMgrState = errors.New("invalid ClientMgrState")
 )
