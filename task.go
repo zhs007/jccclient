@@ -89,6 +89,12 @@ type TaskDouban struct {
 	DoubanType jarviscrawlercore.DoubanType
 }
 
+// TaskManhuaDB - task get data in manhuadb
+type TaskManhuaDB struct {
+	Mode     jarviscrawlercore.ManhuaDBMode
+	AuthorID string
+}
+
 // Task - task
 type Task struct {
 	Callback       FuncTaskCallback    `json:"-"`
@@ -103,6 +109,7 @@ type Task struct {
 	Taobao         *TaskTaobao         `json:"Taobao"`
 	MountainSteals *TaskMountainSteals `json:"mountainsteals"`
 	Douban         *TaskDouban         `json:"douban"`
+	ManhuaDB       *TaskManhuaDB       `json:"manhuadb"`
 	Timeout        int                 `json:"timeout"`
 	RetryNums      int                 `json:"retrynums"`
 	Tags           *Tags               `json:"tags"`
