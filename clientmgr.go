@@ -489,8 +489,8 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 		return ErrInvalidTmallMode
 	} else if task.ManhuaDB != nil {
 		if task.ManhuaDB.Mode == jarviscrawlercore.ManhuaDBMode_MHDB_AUTHOR {
-			reply, err := client.doubanSearch(ctx, task.Hostname, task.Douban.DoubanType,
-				task.Douban.Text, task.Timeout)
+			reply, err := client.manhuadbAuthor(ctx, task.Hostname, task.ManhuaDB.AuthorID,
+				task.Timeout)
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
