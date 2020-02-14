@@ -483,6 +483,13 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
 			return err
+		} else if task.Douban.Mode == jarviscrawlercore.DoubanMode_DBM_BOOK {
+			reply, err := client.doubanBook(ctx, task.Hostname, task.Douban.ID,
+				task.Timeout)
+
+			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
+
+			return err
 		}
 
 		return ErrInvalidTmallMode
