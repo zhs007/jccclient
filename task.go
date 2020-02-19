@@ -95,6 +95,12 @@ type TaskManhuaDB struct {
 	AuthorID string
 }
 
+// TaskOABT - task get data in oabt
+type TaskOABT struct {
+	Mode      jarviscrawlercore.OABTMode
+	PageIndex int32
+}
+
 // Task - task
 type Task struct {
 	Callback       FuncTaskCallback    `json:"-"`
@@ -110,6 +116,7 @@ type Task struct {
 	MountainSteals *TaskMountainSteals `json:"mountainsteals"`
 	Douban         *TaskDouban         `json:"douban"`
 	ManhuaDB       *TaskManhuaDB       `json:"manhuadb"`
+	OABT           *TaskOABT           `json:"oabt"`
 	Timeout        int                 `json:"timeout"`
 	RetryNums      int                 `json:"retrynums"`
 	Tags           *Tags               `json:"tags"`

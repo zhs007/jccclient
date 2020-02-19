@@ -504,6 +504,17 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 		}
 
 		return ErrInvalidTmallMode
+	} else if task.OABT != nil {
+		if task.OABT.Mode == jarviscrawlercore.OABTMode_OABTM_PAGE {
+			reply, err := client.oabtPage(ctx, task.Hostname, task.OABT.PageIndex,
+				task.Timeout)
+
+			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
+
+			return err
+		}
+
+		return ErrInvalidTmallMode
 	}
 
 	outputLog("error",
