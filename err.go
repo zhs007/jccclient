@@ -130,6 +130,13 @@ var (
 	// ErrNoReplyManhuaDBAuthor - no ReplyManhuaDBAuthor
 	ErrNoReplyManhuaDBAuthor = errors.New("no ReplyManhuaDBAuthor")
 
+	// ErrNoReplyOABT - invalid ReplyOABT
+	ErrNoReplyOABT = errors.New("invalid ReplyOABT")
+	// ErrInvalidOABTMode - invalid oabt mode
+	ErrInvalidOABTMode = errors.New("invalid oabt mode")
+	// ErrNoReplyOABTPage - no ReplyOABTPage
+	ErrNoReplyOABTPage = errors.New("no ReplyOABTPage")
+
 	// ErrInvalidClientMgrState - invalid ClientMgrState
 	ErrInvalidClientMgrState = errors.New("invalid ClientMgrState")
 )

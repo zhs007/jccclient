@@ -1,0 +1,122 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "analyzepage",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/samples/analyzepage/main.go",
+            "env": {},
+            "args": []
+        },
+        {
+            "name": "geoip",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/samples/geoip/main.go",
+            "env": {},
+            "args": []
+        },
+        {
+            "name": "multijcc",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/samples/multijcc/main.go",
+            "env": {},
+            "args": []
+        },
+        {
+            "name": "steep&cheap",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/samples/steepandcheap/main.go",
+            "env": {},
+            "args": []
+        },
+        {
+            "name": "jrj",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/samples/jrj/main.go",
+            "env": {},
+            "args": []
+        },
+        {
+            "name": "jd",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/samples/jd/main.go",
+            "env": {},
+            "args": []
+        },
+        {
+            "name": "alimama",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/samples/alimama/main.go",
+            "env": {},
+            "args": []
+        },
+        {
+            "name": "tmall",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/samples/tmall/main.go",
+            "env": {},
+            "args": []
+        },
+        {
+            "name": "taobao",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/samples/taobao/main.go",
+            "env": {},
+            "args": []
+        },
+        {
+            "name": "mountainsteals",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/samples/mountainsteals/main.go",
+            "env": {},
+            "args": []
+        },
+        {
+            "name": "douban",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/samples/douban/main.go",
+            "env": {},
+            "args": []
+        },
+        {
+            "name": "manhuadb",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/samples/manhuadb/main.go",
+            "env": {},
+            "args": []
+        },
+        {
+            "name": "oabt",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/samples/oabt/main.go",
+            "env": {},
+            "args": []
+        }
+    ]
+}
