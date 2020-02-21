@@ -515,6 +515,22 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 		}
 
 		return ErrInvalidTmallMode
+	} else if task.Hao6v != nil {
+		if task.Hao6v.Mode == jarviscrawlercore.Hao6VMode_H6VM_NEWPAGE {
+			reply, err := client.hao6vNewest(ctx, task.Hostname, task.Timeout)
+
+			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
+
+			return err
+		} else if task.Hao6v.Mode == jarviscrawlercore.Hao6VMode_H6VM_RESPAGE {
+			reply, err := client.hao6vRes(ctx, task.Hostname, task.Hao6v.URL, task.Timeout)
+
+			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
+
+			return err
+		}
+
+		return ErrInvalidTmallMode
 	}
 
 	outputLog("error",
