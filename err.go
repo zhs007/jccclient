@@ -137,6 +137,15 @@ var (
 	// ErrNoReplyOABTPage - no ReplyOABTPage
 	ErrNoReplyOABTPage = errors.New("no ReplyOABTPage")
 
+	// ErrNoReplyHao6v - invalid ReplyHao6v
+	ErrNoReplyHao6v = errors.New("invalid ReplyHao6v")
+	// ErrInvalidHao6vMode - invalid hao6v mode
+	ErrInvalidHao6vMode = errors.New("invalid hao6v mode")
+	// ErrNoReplyHao6vNewPage - no ReplyHao6vNewPage
+	ErrNoReplyHao6vNewPage = errors.New("no ReplyHao6vNewPage")
+	// ErrNoReplyHao6vResPage - no ReplyHao6vResPage
+	ErrNoReplyHao6vResPage = errors.New("no ReplyHao6vResPage")
+
 	// ErrInvalidClientMgrState - invalid ClientMgrState
 	ErrInvalidClientMgrState = errors.New("invalid ClientMgrState")
 )

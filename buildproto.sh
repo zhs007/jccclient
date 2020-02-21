@@ -9,5 +9,6 @@ protoc -I proto/ proto/douban.proto --go_out=plugins=grpc:proto
 protoc -I proto/ proto/jrj.proto --go_out=plugins=grpc:proto
 protoc -I proto/ proto/telegraph.proto --go_out=plugins=grpc:proto
 protoc -I proto/ proto/oabt.proto --go_out=plugins=grpc:proto
+protoc -I proto/ proto/hao6v.proto --go_out=plugins=grpc:proto
 protoc -I proto/ proto/result.proto --go_out=plugins=grpc:proto
 protoc -I dbpb/ dbpb/db.proto --go_out=plugins=grpc:dbpb

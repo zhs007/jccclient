@@ -101,6 +101,12 @@ type TaskOABT struct {
 	PageIndex int32
 }
 
+// TaskHao6v - task get data in hao6v
+type TaskHao6v struct {
+	Mode jarviscrawlercore.Hao6VMode
+	URL  string
+}
+
 // Task - task
 type Task struct {
 	Callback       FuncTaskCallback    `json:"-"`
@@ -117,6 +123,7 @@ type Task struct {
 	Douban         *TaskDouban         `json:"douban"`
 	ManhuaDB       *TaskManhuaDB       `json:"manhuadb"`
 	OABT           *TaskOABT           `json:"oabt"`
+	Hao6v          *TaskHao6v          `json:"hao6v"`
 	Timeout        int                 `json:"timeout"`
 	RetryNums      int                 `json:"retrynums"`
 	Tags           *Tags               `json:"tags"`
