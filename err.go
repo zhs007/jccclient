@@ -146,6 +146,15 @@ var (
 	// ErrNoReplyHao6vResPage - no ReplyHao6vResPage
 	ErrNoReplyHao6vResPage = errors.New("no ReplyHao6vResPage")
 
+	// ErrNoReplyP6vdy - invalid ReplyP6vdy
+	ErrNoReplyP6vdy = errors.New("invalid ReplyP6vdy")
+	// ErrInvalidP6vdyMode - invalid 6vdy mode
+	ErrInvalidP6vdyMode = errors.New("invalid 6vdy mode")
+	// ErrNoReplyP6vdyMovies - no ReplyP6vdyMovies
+	ErrNoReplyP6vdyMovies = errors.New("no ReplyP6vdyMovies")
+	// ErrNoReplyP6vdyMovie - no ReplyP6vdyMovie
+	ErrNoReplyP6vdyMovie = errors.New("no ReplyP6vdyMovie")
+
 	// ErrInvalidClientMgrState - invalid ClientMgrState
 	ErrInvalidClientMgrState = errors.New("invalid ClientMgrState")
 )
