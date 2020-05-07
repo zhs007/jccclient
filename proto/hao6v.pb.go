@@ -50,7 +50,7 @@ func (x Hao6VResType) String() string {
 	return proto.EnumName(Hao6VResType_name, int32(x))
 }
 func (Hao6VResType) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_hao6v_ec3593462fd02aa0, []int{0}
+	return fileDescriptor_hao6v_c76f3bae12605f2e, []int{0}
 }
 
 // Hao6vMode - hao6v mode
@@ -76,7 +76,7 @@ func (x Hao6VMode) String() string {
 	return proto.EnumName(Hao6VMode_name, int32(x))
 }
 func (Hao6VMode) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_hao6v_ec3593462fd02aa0, []int{1}
+	return fileDescriptor_hao6v_c76f3bae12605f2e, []int{1}
 }
 
 // Hao6v Resource infomation
@@ -94,7 +94,7 @@ func (m *Hao6VResInfo) Reset()         { *m = Hao6VResInfo{} }
 func (m *Hao6VResInfo) String() string { return proto.CompactTextString(m) }
 func (*Hao6VResInfo) ProtoMessage()    {}
 func (*Hao6VResInfo) Descriptor() ([]byte, []int) {
-	return fileDescriptor_hao6v_ec3593462fd02aa0, []int{0}
+	return fileDescriptor_hao6v_c76f3bae12605f2e, []int{0}
 }
 func (m *Hao6VResInfo) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Hao6VResInfo.Unmarshal(m, b)
@@ -169,7 +169,7 @@ func (m *Hao6VNode) Reset()         { *m = Hao6VNode{} }
 func (m *Hao6VNode) String() string { return proto.CompactTextString(m) }
 func (*Hao6VNode) ProtoMessage()    {}
 func (*Hao6VNode) Descriptor() ([]byte, []int) {
-	return fileDescriptor_hao6v_ec3593462fd02aa0, []int{1}
+	return fileDescriptor_hao6v_c76f3bae12605f2e, []int{1}
 }
 func (m *Hao6VNode) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Hao6VNode.Unmarshal(m, b)
@@ -257,7 +257,7 @@ func (m *Hao6VNewPage) Reset()         { *m = Hao6VNewPage{} }
 func (m *Hao6VNewPage) String() string { return proto.CompactTextString(m) }
 func (*Hao6VNewPage) ProtoMessage()    {}
 func (*Hao6VNewPage) Descriptor() ([]byte, []int) {
-	return fileDescriptor_hao6v_ec3593462fd02aa0, []int{2}
+	return fileDescriptor_hao6v_c76f3bae12605f2e, []int{2}
 }
 func (m *Hao6VNewPage) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Hao6VNewPage.Unmarshal(m, b)
@@ -297,7 +297,7 @@ func (m *RequestHao6V) Reset()         { *m = RequestHao6V{} }
 func (m *RequestHao6V) String() string { return proto.CompactTextString(m) }
 func (*RequestHao6V) ProtoMessage()    {}
 func (*RequestHao6V) Descriptor() ([]byte, []int) {
-	return fileDescriptor_hao6v_ec3593462fd02aa0, []int{3}
+	return fileDescriptor_hao6v_c76f3bae12605f2e, []int{3}
 }
 func (m *RequestHao6V) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_RequestHao6V.Unmarshal(m, b)
@@ -347,7 +347,7 @@ func (m *ReplyHao6V) Reset()         { *m = ReplyHao6V{} }
 func (m *ReplyHao6V) String() string { return proto.CompactTextString(m) }
 func (*ReplyHao6V) ProtoMessage()    {}
 func (*ReplyHao6V) Descriptor() ([]byte, []int) {
-	return fileDescriptor_hao6v_ec3593462fd02aa0, []int{4}
+	return fileDescriptor_hao6v_c76f3bae12605f2e, []int{4}
 }
 func (m *ReplyHao6V) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ReplyHao6V.Unmarshal(m, b)
@@ -493,9 +493,9 @@ func init() {
 	proto.RegisterEnum("jarviscrawlercore.Hao6VMode", Hao6VMode_name, Hao6VMode_value)
 }
 
-func init() { proto.RegisterFile("hao6v.proto", fileDescriptor_hao6v_ec3593462fd02aa0) }
+func init() { proto.RegisterFile("hao6v.proto", fileDescriptor_hao6v_c76f3bae12605f2e) }
 
-var fileDescriptor_hao6v_ec3593462fd02aa0 = []byte{
+var fileDescriptor_hao6v_c76f3bae12605f2e = []byte{
 	// 469 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x53, 0xc1, 0x6e, 0xda, 0x40,
 	0x10, 0x65, 0x63, 0x13, 0x92, 0x09, 0x42, 0xee, 0x2a, 0x87, 0x55, 0x55, 0xa9, 0xc8, 0x27, 0x94,

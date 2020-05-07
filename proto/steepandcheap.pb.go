@@ -41,7 +41,7 @@ func (x SteepAndCheapMode) String() string {
 	return proto.EnumName(SteepAndCheapMode_name, int32(x))
 }
 func (SteepAndCheapMode) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_steepandcheap_34b10a55924f46c1, []int{0}
+	return fileDescriptor_steepandcheap_58b6bd430aa2f106, []int{0}
 }
 
 // SteepAndCheapSaleProductInfo - Steep&Cheap product infomation for sale
@@ -58,7 +58,7 @@ func (m *SteepAndCheapSaleProductInfo) Reset()         { *m = SteepAndCheapSaleP
 func (m *SteepAndCheapSaleProductInfo) String() string { return proto.CompactTextString(m) }
 func (*SteepAndCheapSaleProductInfo) ProtoMessage()    {}
 func (*SteepAndCheapSaleProductInfo) Descriptor() ([]byte, []int) {
-	return fileDescriptor_steepandcheap_34b10a55924f46c1, []int{0}
+	return fileDescriptor_steepandcheap_58b6bd430aa2f106, []int{0}
 }
 func (m *SteepAndCheapSaleProductInfo) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SteepAndCheapSaleProductInfo.Unmarshal(m, b)
@@ -112,7 +112,7 @@ func (m *SteepAndCheapColorSizeData) Reset()         { *m = SteepAndCheapColorSi
 func (m *SteepAndCheapColorSizeData) String() string { return proto.CompactTextString(m) }
 func (*SteepAndCheapColorSizeData) ProtoMessage()    {}
 func (*SteepAndCheapColorSizeData) Descriptor() ([]byte, []int) {
-	return fileDescriptor_steepandcheap_34b10a55924f46c1, []int{1}
+	return fileDescriptor_steepandcheap_58b6bd430aa2f106, []int{1}
 }
 func (m *SteepAndCheapColorSizeData) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SteepAndCheapColorSizeData.Unmarshal(m, b)
@@ -161,7 +161,7 @@ func (m *SteepAndCheapColorSize) Reset()         { *m = SteepAndCheapColorSize{}
 func (m *SteepAndCheapColorSize) String() string { return proto.CompactTextString(m) }
 func (*SteepAndCheapColorSize) ProtoMessage()    {}
 func (*SteepAndCheapColorSize) Descriptor() ([]byte, []int) {
-	return fileDescriptor_steepandcheap_34b10a55924f46c1, []int{2}
+	return fileDescriptor_steepandcheap_58b6bd430aa2f106, []int{2}
 }
 func (m *SteepAndCheapColorSize) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SteepAndCheapColorSize.Unmarshal(m, b)
@@ -223,7 +223,7 @@ func (m *SteepAndCheapColorSize2) Reset()         { *m = SteepAndCheapColorSize2
 func (m *SteepAndCheapColorSize2) String() string { return proto.CompactTextString(m) }
 func (*SteepAndCheapColorSize2) ProtoMessage()    {}
 func (*SteepAndCheapColorSize2) Descriptor() ([]byte, []int) {
-	return fileDescriptor_steepandcheap_34b10a55924f46c1, []int{3}
+	return fileDescriptor_steepandcheap_58b6bd430aa2f106, []int{3}
 }
 func (m *SteepAndCheapColorSize2) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SteepAndCheapColorSize2.Unmarshal(m, b)
@@ -279,7 +279,7 @@ func (m *SteepAndCheapUser) Reset()         { *m = SteepAndCheapUser{} }
 func (m *SteepAndCheapUser) String() string { return proto.CompactTextString(m) }
 func (*SteepAndCheapUser) ProtoMessage()    {}
 func (*SteepAndCheapUser) Descriptor() ([]byte, []int) {
-	return fileDescriptor_steepandcheap_34b10a55924f46c1, []int{4}
+	return fileDescriptor_steepandcheap_58b6bd430aa2f106, []int{4}
 }
 func (m *SteepAndCheapUser) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SteepAndCheapUser.Unmarshal(m, b)
@@ -347,7 +347,7 @@ func (m *SteepAndCheapReview) Reset()         { *m = SteepAndCheapReview{} }
 func (m *SteepAndCheapReview) String() string { return proto.CompactTextString(m) }
 func (*SteepAndCheapReview) ProtoMessage()    {}
 func (*SteepAndCheapReview) Descriptor() ([]byte, []int) {
-	return fileDescriptor_steepandcheap_34b10a55924f46c1, []int{5}
+	return fileDescriptor_steepandcheap_58b6bd430aa2f106, []int{5}
 }
 func (m *SteepAndCheapReview) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SteepAndCheapReview.Unmarshal(m, b)
@@ -450,7 +450,7 @@ func (m *SteepAndCheapHistory) Reset()         { *m = SteepAndCheapHistory{} }
 func (m *SteepAndCheapHistory) String() string { return proto.CompactTextString(m) }
 func (*SteepAndCheapHistory) ProtoMessage()    {}
 func (*SteepAndCheapHistory) Descriptor() ([]byte, []int) {
-	return fileDescriptor_steepandcheap_34b10a55924f46c1, []int{6}
+	return fileDescriptor_steepandcheap_58b6bd430aa2f106, []int{6}
 }
 func (m *SteepAndCheapHistory) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SteepAndCheapHistory.Unmarshal(m, b)
@@ -578,7 +578,7 @@ func (m *SteepAndCheapProduct) Reset()         { *m = SteepAndCheapProduct{} }
 func (m *SteepAndCheapProduct) String() string { return proto.CompactTextString(m) }
 func (*SteepAndCheapProduct) ProtoMessage()    {}
 func (*SteepAndCheapProduct) Descriptor() ([]byte, []int) {
-	return fileDescriptor_steepandcheap_34b10a55924f46c1, []int{7}
+	return fileDescriptor_steepandcheap_58b6bd430aa2f106, []int{7}
 }
 func (m *SteepAndCheapProduct) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SteepAndCheapProduct.Unmarshal(m, b)
@@ -844,7 +844,7 @@ func (m *SteepAndCheapProducts) Reset()         { *m = SteepAndCheapProducts{} }
 func (m *SteepAndCheapProducts) String() string { return proto.CompactTextString(m) }
 func (*SteepAndCheapProducts) ProtoMessage()    {}
 func (*SteepAndCheapProducts) Descriptor() ([]byte, []int) {
-	return fileDescriptor_steepandcheap_34b10a55924f46c1, []int{8}
+	return fileDescriptor_steepandcheap_58b6bd430aa2f106, []int{8}
 }
 func (m *SteepAndCheapProducts) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SteepAndCheapProducts.Unmarshal(m, b)
@@ -899,7 +899,7 @@ func (m *RequestSteepAndCheap) Reset()         { *m = RequestSteepAndCheap{} }
 func (m *RequestSteepAndCheap) String() string { return proto.CompactTextString(m) }
 func (*RequestSteepAndCheap) ProtoMessage()    {}
 func (*RequestSteepAndCheap) Descriptor() ([]byte, []int) {
-	return fileDescriptor_steepandcheap_34b10a55924f46c1, []int{9}
+	return fileDescriptor_steepandcheap_58b6bd430aa2f106, []int{9}
 }
 func (m *RequestSteepAndCheap) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_RequestSteepAndCheap.Unmarshal(m, b)
@@ -956,7 +956,7 @@ func (m *ReplySteepAndCheap) Reset()         { *m = ReplySteepAndCheap{} }
 func (m *ReplySteepAndCheap) String() string { return proto.CompactTextString(m) }
 func (*ReplySteepAndCheap) ProtoMessage()    {}
 func (*ReplySteepAndCheap) Descriptor() ([]byte, []int) {
-	return fileDescriptor_steepandcheap_34b10a55924f46c1, []int{10}
+	return fileDescriptor_steepandcheap_58b6bd430aa2f106, []int{10}
 }
 func (m *ReplySteepAndCheap) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ReplySteepAndCheap.Unmarshal(m, b)
@@ -1107,9 +1107,9 @@ func init() {
 	proto.RegisterEnum("jarviscrawlercore.SteepAndCheapMode", SteepAndCheapMode_name, SteepAndCheapMode_value)
 }
 
-func init() { proto.RegisterFile("steepandcheap.proto", fileDescriptor_steepandcheap_34b10a55924f46c1) }
+func init() { proto.RegisterFile("steepandcheap.proto", fileDescriptor_steepandcheap_58b6bd430aa2f106) }
 
-var fileDescriptor_steepandcheap_34b10a55924f46c1 = []byte{
+var fileDescriptor_steepandcheap_58b6bd430aa2f106 = []byte{
 	// 1103 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x56, 0xdb, 0x72, 0x5b, 0x35,
 	0x17, 0x8e, 0x4f, 0xb1, 0xbd, 0x72, 0xa8, 0xa3, 0xb8, 0xa9, 0xfe, 0xfc, 0xa1, 0x98, 0x3d, 0x9d,

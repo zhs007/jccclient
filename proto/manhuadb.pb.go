@@ -45,7 +45,7 @@ func (x ManhuaDBMode) String() string {
 	return proto.EnumName(ManhuaDBMode_name, int32(x))
 }
 func (ManhuaDBMode) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_manhuadb_351b21c94d8b6da9, []int{0}
+	return fileDescriptor_manhuadb_3d0fb2819613978f, []int{0}
 }
 
 // ManhuaDBBook - manhuadb book
@@ -64,7 +64,7 @@ func (m *ManhuaDBBook) Reset()         { *m = ManhuaDBBook{} }
 func (m *ManhuaDBBook) String() string { return proto.CompactTextString(m) }
 func (*ManhuaDBBook) ProtoMessage()    {}
 func (*ManhuaDBBook) Descriptor() ([]byte, []int) {
-	return fileDescriptor_manhuadb_351b21c94d8b6da9, []int{0}
+	return fileDescriptor_manhuadb_3d0fb2819613978f, []int{0}
 }
 func (m *ManhuaDBBook) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ManhuaDBBook.Unmarshal(m, b)
@@ -136,7 +136,7 @@ func (m *ManhuaDBManhua) Reset()         { *m = ManhuaDBManhua{} }
 func (m *ManhuaDBManhua) String() string { return proto.CompactTextString(m) }
 func (*ManhuaDBManhua) ProtoMessage()    {}
 func (*ManhuaDBManhua) Descriptor() ([]byte, []int) {
-	return fileDescriptor_manhuadb_351b21c94d8b6da9, []int{1}
+	return fileDescriptor_manhuadb_3d0fb2819613978f, []int{1}
 }
 func (m *ManhuaDBManhua) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ManhuaDBManhua.Unmarshal(m, b)
@@ -214,7 +214,7 @@ func (m *ManhuaDBAuthor) Reset()         { *m = ManhuaDBAuthor{} }
 func (m *ManhuaDBAuthor) String() string { return proto.CompactTextString(m) }
 func (*ManhuaDBAuthor) ProtoMessage()    {}
 func (*ManhuaDBAuthor) Descriptor() ([]byte, []int) {
-	return fileDescriptor_manhuadb_351b21c94d8b6da9, []int{2}
+	return fileDescriptor_manhuadb_3d0fb2819613978f, []int{2}
 }
 func (m *ManhuaDBAuthor) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ManhuaDBAuthor.Unmarshal(m, b)
@@ -283,7 +283,7 @@ func (m *ManhuaDBPage) Reset()         { *m = ManhuaDBPage{} }
 func (m *ManhuaDBPage) String() string { return proto.CompactTextString(m) }
 func (*ManhuaDBPage) ProtoMessage()    {}
 func (*ManhuaDBPage) Descriptor() ([]byte, []int) {
-	return fileDescriptor_manhuadb_351b21c94d8b6da9, []int{3}
+	return fileDescriptor_manhuadb_3d0fb2819613978f, []int{3}
 }
 func (m *ManhuaDBPage) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ManhuaDBPage.Unmarshal(m, b)
@@ -339,7 +339,7 @@ func (m *ManhuaDBBookInfo) Reset()         { *m = ManhuaDBBookInfo{} }
 func (m *ManhuaDBBookInfo) String() string { return proto.CompactTextString(m) }
 func (*ManhuaDBBookInfo) ProtoMessage()    {}
 func (*ManhuaDBBookInfo) Descriptor() ([]byte, []int) {
-	return fileDescriptor_manhuadb_351b21c94d8b6da9, []int{4}
+	return fileDescriptor_manhuadb_3d0fb2819613978f, []int{4}
 }
 func (m *ManhuaDBBookInfo) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ManhuaDBBookInfo.Unmarshal(m, b)
@@ -403,7 +403,7 @@ func (m *RequestManhuaDB) Reset()         { *m = RequestManhuaDB{} }
 func (m *RequestManhuaDB) String() string { return proto.CompactTextString(m) }
 func (*RequestManhuaDB) ProtoMessage()    {}
 func (*RequestManhuaDB) Descriptor() ([]byte, []int) {
-	return fileDescriptor_manhuadb_351b21c94d8b6da9, []int{5}
+	return fileDescriptor_manhuadb_3d0fb2819613978f, []int{5}
 }
 func (m *RequestManhuaDB) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_RequestManhuaDB.Unmarshal(m, b)
@@ -475,7 +475,7 @@ func (m *ReplyManhuaDB) Reset()         { *m = ReplyManhuaDB{} }
 func (m *ReplyManhuaDB) String() string { return proto.CompactTextString(m) }
 func (*ReplyManhuaDB) ProtoMessage()    {}
 func (*ReplyManhuaDB) Descriptor() ([]byte, []int) {
-	return fileDescriptor_manhuadb_351b21c94d8b6da9, []int{6}
+	return fileDescriptor_manhuadb_3d0fb2819613978f, []int{6}
 }
 func (m *ReplyManhuaDB) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ReplyManhuaDB.Unmarshal(m, b)
@@ -652,9 +652,9 @@ func init() {
 	proto.RegisterEnum("jarviscrawlercore.ManhuaDBMode", ManhuaDBMode_name, ManhuaDBMode_value)
 }
 
-func init() { proto.RegisterFile("manhuadb.proto", fileDescriptor_manhuadb_351b21c94d8b6da9) }
+func init() { proto.RegisterFile("manhuadb.proto", fileDescriptor_manhuadb_3d0fb2819613978f) }
 
-var fileDescriptor_manhuadb_351b21c94d8b6da9 = []byte{
+var fileDescriptor_manhuadb_3d0fb2819613978f = []byte{
 	// 540 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xa4, 0x54, 0xcf, 0x6f, 0xd3, 0x30,
 	0x14, 0xae, 0x9b, 0xa4, 0xa3, 0xaf, 0x5b, 0x57, 0xac, 0x69, 0xb2, 0xd0, 0x24, 0x4a, 0xb8, 0x54,

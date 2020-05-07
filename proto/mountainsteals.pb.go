@@ -41,7 +41,7 @@ func (x MountainStealsMode) String() string {
 	return proto.EnumName(MountainStealsMode_name, int32(x))
 }
 func (MountainStealsMode) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_mountainsteals_f144d4f51b8f6f5e, []int{0}
+	return fileDescriptor_mountainsteals_81b219c6c1a1ba9d, []int{0}
 }
 
 // MountainStealsSale - mountain steals sale
@@ -59,7 +59,7 @@ func (m *MountainStealsSale) Reset()         { *m = MountainStealsSale{} }
 func (m *MountainStealsSale) String() string { return proto.CompactTextString(m) }
 func (*MountainStealsSale) ProtoMessage()    {}
 func (*MountainStealsSale) Descriptor() ([]byte, []int) {
-	return fileDescriptor_mountainsteals_f144d4f51b8f6f5e, []int{0}
+	return fileDescriptor_mountainsteals_81b219c6c1a1ba9d, []int{0}
 }
 func (m *MountainStealsSale) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_MountainStealsSale.Unmarshal(m, b)
@@ -123,7 +123,7 @@ func (m *MountainStealsColorSize) Reset()         { *m = MountainStealsColorSize
 func (m *MountainStealsColorSize) String() string { return proto.CompactTextString(m) }
 func (*MountainStealsColorSize) ProtoMessage()    {}
 func (*MountainStealsColorSize) Descriptor() ([]byte, []int) {
-	return fileDescriptor_mountainsteals_f144d4f51b8f6f5e, []int{1}
+	return fileDescriptor_mountainsteals_81b219c6c1a1ba9d, []int{1}
 }
 func (m *MountainStealsColorSize) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_MountainStealsColorSize.Unmarshal(m, b)
@@ -195,7 +195,7 @@ func (m *MountainStealsHistory) Reset()         { *m = MountainStealsHistory{} }
 func (m *MountainStealsHistory) String() string { return proto.CompactTextString(m) }
 func (*MountainStealsHistory) ProtoMessage()    {}
 func (*MountainStealsHistory) Descriptor() ([]byte, []int) {
-	return fileDescriptor_mountainsteals_f144d4f51b8f6f5e, []int{2}
+	return fileDescriptor_mountainsteals_81b219c6c1a1ba9d, []int{2}
 }
 func (m *MountainStealsHistory) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_MountainStealsHistory.Unmarshal(m, b)
@@ -285,7 +285,7 @@ func (m *MountainStealsProduct) Reset()         { *m = MountainStealsProduct{} }
 func (m *MountainStealsProduct) String() string { return proto.CompactTextString(m) }
 func (*MountainStealsProduct) ProtoMessage()    {}
 func (*MountainStealsProduct) Descriptor() ([]byte, []int) {
-	return fileDescriptor_mountainsteals_f144d4f51b8f6f5e, []int{3}
+	return fileDescriptor_mountainsteals_81b219c6c1a1ba9d, []int{3}
 }
 func (m *MountainStealsProduct) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_MountainStealsProduct.Unmarshal(m, b)
@@ -437,7 +437,7 @@ func (m *RequestMountainSteals) Reset()         { *m = RequestMountainSteals{} }
 func (m *RequestMountainSteals) String() string { return proto.CompactTextString(m) }
 func (*RequestMountainSteals) ProtoMessage()    {}
 func (*RequestMountainSteals) Descriptor() ([]byte, []int) {
-	return fileDescriptor_mountainsteals_f144d4f51b8f6f5e, []int{4}
+	return fileDescriptor_mountainsteals_81b219c6c1a1ba9d, []int{4}
 }
 func (m *RequestMountainSteals) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_RequestMountainSteals.Unmarshal(m, b)
@@ -487,7 +487,7 @@ func (m *ReplyMountainSteals) Reset()         { *m = ReplyMountainSteals{} }
 func (m *ReplyMountainSteals) String() string { return proto.CompactTextString(m) }
 func (*ReplyMountainSteals) ProtoMessage()    {}
 func (*ReplyMountainSteals) Descriptor() ([]byte, []int) {
-	return fileDescriptor_mountainsteals_f144d4f51b8f6f5e, []int{5}
+	return fileDescriptor_mountainsteals_81b219c6c1a1ba9d, []int{5}
 }
 func (m *ReplyMountainSteals) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ReplyMountainSteals.Unmarshal(m, b)
@@ -635,10 +635,10 @@ func init() {
 }
 
 func init() {
-	proto.RegisterFile("mountainsteals.proto", fileDescriptor_mountainsteals_f144d4f51b8f6f5e)
+	proto.RegisterFile("mountainsteals.proto", fileDescriptor_mountainsteals_81b219c6c1a1ba9d)
 }
 
-var fileDescriptor_mountainsteals_f144d4f51b8f6f5e = []byte{
+var fileDescriptor_mountainsteals_81b219c6c1a1ba9d = []byte{
 	// 684 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x55, 0xcd, 0x6e, 0x13, 0x31,
 	0x10, 0xee, 0x66, 0xf3, 0x3b, 0x29, 0x6d, 0x6a, 0x5a, 0xb0, 0x7a, 0x40, 0xab, 0x48, 0x48, 0xab,
