@@ -53,7 +53,7 @@ func (x SearchParam2Type) String() string {
 	return proto.EnumName(SearchParam2Type_name, int32(x))
 }
 func (SearchParam2Type) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_searchparam2_6f42ded0f7840ce6, []int{0}
+	return fileDescriptor_searchparam2_1d61c0f0fd071bd3, []int{0}
 }
 
 // SearchParam2 - Search Param v2
@@ -71,7 +71,7 @@ func (m *SearchParam2) Reset()         { *m = SearchParam2{} }
 func (m *SearchParam2) String() string { return proto.CompactTextString(m) }
 func (*SearchParam2) ProtoMessage()    {}
 func (*SearchParam2) Descriptor() ([]byte, []int) {
-	return fileDescriptor_searchparam2_6f42ded0f7840ce6, []int{0}
+	return fileDescriptor_searchparam2_1d61c0f0fd071bd3, []int{0}
 }
 func (m *SearchParam2) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SearchParam2.Unmarshal(m, b)
@@ -124,9 +124,9 @@ func init() {
 	proto.RegisterEnum("jarviscrawlercore.SearchParam2Type", SearchParam2Type_name, SearchParam2Type_value)
 }
 
-func init() { proto.RegisterFile("searchparam2.proto", fileDescriptor_searchparam2_6f42ded0f7840ce6) }
+func init() { proto.RegisterFile("searchparam2.proto", fileDescriptor_searchparam2_1d61c0f0fd071bd3) }
 
-var fileDescriptor_searchparam2_6f42ded0f7840ce6 = []byte{
+var fileDescriptor_searchparam2_1d61c0f0fd071bd3 = []byte{
 	// 236 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x90, 0x31, 0x4f, 0xc3, 0x30,
 	0x10, 0x46, 0x71, 0x13, 0x41, 0x73, 0x0d, 0xc8, 0x9c, 0x18, 0xb2, 0x11, 0xc1, 0x12, 0x31, 0x64,

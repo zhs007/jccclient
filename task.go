@@ -107,6 +107,12 @@ type TaskHao6v struct {
 	URL  string
 }
 
+// TaskP6vdy - task get data in 6vdy
+type TaskP6vdy struct {
+	Mode jarviscrawlercore.P6VdyMode
+	URL  string
+}
+
 // Task - task
 type Task struct {
 	Callback       FuncTaskCallback    `json:"-"`
@@ -124,6 +130,7 @@ type Task struct {
 	ManhuaDB       *TaskManhuaDB       `json:"manhuadb"`
 	OABT           *TaskOABT           `json:"oabt"`
 	Hao6v          *TaskHao6v          `json:"hao6v"`
+	P6vdy          *TaskP6vdy          `json:"p6vdy"`
 	Timeout        int                 `json:"timeout"`
 	RetryNums      int                 `json:"retrynums"`
 	Tags           *Tags               `json:"tags"`

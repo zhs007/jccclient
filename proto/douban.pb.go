@@ -41,7 +41,7 @@ func (x DoubanMode) String() string {
 	return proto.EnumName(DoubanMode_name, int32(x))
 }
 func (DoubanMode) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_douban_8cb72b1eb1343c53, []int{0}
+	return fileDescriptor_douban_2fb068a47a6bdf64, []int{0}
 }
 
 // DoubanType - douban type
@@ -63,7 +63,7 @@ func (x DoubanType) String() string {
 	return proto.EnumName(DoubanType_name, int32(x))
 }
 func (DoubanType) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_douban_8cb72b1eb1343c53, []int{1}
+	return fileDescriptor_douban_2fb068a47a6bdf64, []int{1}
 }
 
 // DoubanSubject - douban subject
@@ -81,7 +81,7 @@ func (m *DoubanSubject) Reset()         { *m = DoubanSubject{} }
 func (m *DoubanSubject) String() string { return proto.CompactTextString(m) }
 func (*DoubanSubject) ProtoMessage()    {}
 func (*DoubanSubject) Descriptor() ([]byte, []int) {
-	return fileDescriptor_douban_8cb72b1eb1343c53, []int{0}
+	return fileDescriptor_douban_2fb068a47a6bdf64, []int{0}
 }
 func (m *DoubanSubject) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_DoubanSubject.Unmarshal(m, b)
@@ -143,7 +143,7 @@ func (m *DoubanSearch) Reset()         { *m = DoubanSearch{} }
 func (m *DoubanSearch) String() string { return proto.CompactTextString(m) }
 func (*DoubanSearch) ProtoMessage()    {}
 func (*DoubanSearch) Descriptor() ([]byte, []int) {
-	return fileDescriptor_douban_8cb72b1eb1343c53, []int{1}
+	return fileDescriptor_douban_2fb068a47a6bdf64, []int{1}
 }
 func (m *DoubanSearch) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_DoubanSearch.Unmarshal(m, b)
@@ -207,7 +207,7 @@ func (m *DoubanBook) Reset()         { *m = DoubanBook{} }
 func (m *DoubanBook) String() string { return proto.CompactTextString(m) }
 func (*DoubanBook) ProtoMessage()    {}
 func (*DoubanBook) Descriptor() ([]byte, []int) {
-	return fileDescriptor_douban_8cb72b1eb1343c53, []int{2}
+	return fileDescriptor_douban_2fb068a47a6bdf64, []int{2}
 }
 func (m *DoubanBook) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_DoubanBook.Unmarshal(m, b)
@@ -333,7 +333,7 @@ func (m *DoubanComic) Reset()         { *m = DoubanComic{} }
 func (m *DoubanComic) String() string { return proto.CompactTextString(m) }
 func (*DoubanComic) ProtoMessage()    {}
 func (*DoubanComic) Descriptor() ([]byte, []int) {
-	return fileDescriptor_douban_8cb72b1eb1343c53, []int{3}
+	return fileDescriptor_douban_2fb068a47a6bdf64, []int{3}
 }
 func (m *DoubanComic) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_DoubanComic.Unmarshal(m, b)
@@ -445,7 +445,7 @@ func (m *RequestDouban) Reset()         { *m = RequestDouban{} }
 func (m *RequestDouban) String() string { return proto.CompactTextString(m) }
 func (*RequestDouban) ProtoMessage()    {}
 func (*RequestDouban) Descriptor() ([]byte, []int) {
-	return fileDescriptor_douban_8cb72b1eb1343c53, []int{4}
+	return fileDescriptor_douban_2fb068a47a6bdf64, []int{4}
 }
 func (m *RequestDouban) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_RequestDouban.Unmarshal(m, b)
@@ -509,7 +509,7 @@ func (m *ReplyDouban) Reset()         { *m = ReplyDouban{} }
 func (m *ReplyDouban) String() string { return proto.CompactTextString(m) }
 func (*ReplyDouban) ProtoMessage()    {}
 func (*ReplyDouban) Descriptor() ([]byte, []int) {
-	return fileDescriptor_douban_8cb72b1eb1343c53, []int{5}
+	return fileDescriptor_douban_2fb068a47a6bdf64, []int{5}
 }
 func (m *ReplyDouban) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ReplyDouban.Unmarshal(m, b)
@@ -656,9 +656,9 @@ func init() {
 	proto.RegisterEnum("jarviscrawlercore.DoubanType", DoubanType_name, DoubanType_value)
 }
 
-func init() { proto.RegisterFile("douban.proto", fileDescriptor_douban_8cb72b1eb1343c53) }
+func init() { proto.RegisterFile("douban.proto", fileDescriptor_douban_2fb068a47a6bdf64) }
 
-var fileDescriptor_douban_8cb72b1eb1343c53 = []byte{
+var fileDescriptor_douban_2fb068a47a6bdf64 = []byte{
 	// 578 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xa4, 0x94, 0xcd, 0x6e, 0x13, 0x31,
 	0x10, 0xc7, 0xe3, 0xfd, 0xc8, 0xc7, 0x24, 0x2d, 0xc5, 0x42, 0xc8, 0x42, 0xa2, 0xac, 0x72, 0x5a,

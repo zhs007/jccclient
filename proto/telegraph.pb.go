@@ -37,7 +37,7 @@ func (x TelegraphMode) String() string {
 	return proto.EnumName(TelegraphMode_name, int32(x))
 }
 func (TelegraphMode) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_telegraph_ee91a30410949888, []int{0}
+	return fileDescriptor_telegraph_9639935e888ece67, []int{0}
 }
 
 // TelegraphArticle - telegraph article
@@ -53,7 +53,7 @@ func (m *TelegraphArticle) Reset()         { *m = TelegraphArticle{} }
 func (m *TelegraphArticle) String() string { return proto.CompactTextString(m) }
 func (*TelegraphArticle) ProtoMessage()    {}
 func (*TelegraphArticle) Descriptor() ([]byte, []int) {
-	return fileDescriptor_telegraph_ee91a30410949888, []int{0}
+	return fileDescriptor_telegraph_9639935e888ece67, []int{0}
 }
 func (m *TelegraphArticle) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_TelegraphArticle.Unmarshal(m, b)
@@ -100,7 +100,7 @@ func (m *TelegraphImage) Reset()         { *m = TelegraphImage{} }
 func (m *TelegraphImage) String() string { return proto.CompactTextString(m) }
 func (*TelegraphImage) ProtoMessage()    {}
 func (*TelegraphImage) Descriptor() ([]byte, []int) {
-	return fileDescriptor_telegraph_ee91a30410949888, []int{1}
+	return fileDescriptor_telegraph_9639935e888ece67, []int{1}
 }
 func (m *TelegraphImage) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_TelegraphImage.Unmarshal(m, b)
@@ -147,7 +147,7 @@ func (m *TelegraphImages) Reset()         { *m = TelegraphImages{} }
 func (m *TelegraphImages) String() string { return proto.CompactTextString(m) }
 func (*TelegraphImages) ProtoMessage()    {}
 func (*TelegraphImages) Descriptor() ([]byte, []int) {
-	return fileDescriptor_telegraph_ee91a30410949888, []int{2}
+	return fileDescriptor_telegraph_9639935e888ece67, []int{2}
 }
 func (m *TelegraphImages) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_TelegraphImages.Unmarshal(m, b)
@@ -194,7 +194,7 @@ func (m *RequestTelegraph) Reset()         { *m = RequestTelegraph{} }
 func (m *RequestTelegraph) String() string { return proto.CompactTextString(m) }
 func (*RequestTelegraph) ProtoMessage()    {}
 func (*RequestTelegraph) Descriptor() ([]byte, []int) {
-	return fileDescriptor_telegraph_ee91a30410949888, []int{3}
+	return fileDescriptor_telegraph_9639935e888ece67, []int{3}
 }
 func (m *RequestTelegraph) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_RequestTelegraph.Unmarshal(m, b)
@@ -243,7 +243,7 @@ func (m *ReplyTelegraph) Reset()         { *m = ReplyTelegraph{} }
 func (m *ReplyTelegraph) String() string { return proto.CompactTextString(m) }
 func (*ReplyTelegraph) ProtoMessage()    {}
 func (*ReplyTelegraph) Descriptor() ([]byte, []int) {
-	return fileDescriptor_telegraph_ee91a30410949888, []int{4}
+	return fileDescriptor_telegraph_9639935e888ece67, []int{4}
 }
 func (m *ReplyTelegraph) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ReplyTelegraph.Unmarshal(m, b)
@@ -358,9 +358,9 @@ func init() {
 	proto.RegisterEnum("jarviscrawlercore.TelegraphMode", TelegraphMode_name, TelegraphMode_value)
 }
 
-func init() { proto.RegisterFile("telegraph.proto", fileDescriptor_telegraph_ee91a30410949888) }
+func init() { proto.RegisterFile("telegraph.proto", fileDescriptor_telegraph_9639935e888ece67) }
 
-var fileDescriptor_telegraph_ee91a30410949888 = []byte{
+var fileDescriptor_telegraph_9639935e888ece67 = []byte{
 	// 270 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0x2f, 0x49, 0xcd, 0x49,
 	0x4d, 0x2f, 0x4a, 0x2c, 0xc8, 0xd0, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x12, 0xcc, 0x4a, 0x2c,

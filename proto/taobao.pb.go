@@ -45,7 +45,7 @@ func (x TaobaoMode) String() string {
 	return proto.EnumName(TaobaoMode_name, int32(x))
 }
 func (TaobaoMode) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_taobao_8dc4eb4fd83dc173, []int{0}
+	return fileDescriptor_taobao_1f11dd54bcec27c8, []int{0}
 }
 
 // TaobaoSKUInfo - taobao sku infomation
@@ -66,7 +66,7 @@ func (m *TaobaoSKUInfo) Reset()         { *m = TaobaoSKUInfo{} }
 func (m *TaobaoSKUInfo) String() string { return proto.CompactTextString(m) }
 func (*TaobaoSKUInfo) ProtoMessage()    {}
 func (*TaobaoSKUInfo) Descriptor() ([]byte, []int) {
-	return fileDescriptor_taobao_8dc4eb4fd83dc173, []int{0}
+	return fileDescriptor_taobao_1f11dd54bcec27c8, []int{0}
 }
 func (m *TaobaoSKUInfo) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_TaobaoSKUInfo.Unmarshal(m, b)
@@ -161,7 +161,7 @@ func (m *TaobaoShopInfo) Reset()         { *m = TaobaoShopInfo{} }
 func (m *TaobaoShopInfo) String() string { return proto.CompactTextString(m) }
 func (*TaobaoShopInfo) ProtoMessage()    {}
 func (*TaobaoShopInfo) Descriptor() ([]byte, []int) {
-	return fileDescriptor_taobao_8dc4eb4fd83dc173, []int{1}
+	return fileDescriptor_taobao_1f11dd54bcec27c8, []int{1}
 }
 func (m *TaobaoShopInfo) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_TaobaoShopInfo.Unmarshal(m, b)
@@ -299,7 +299,7 @@ func (m *TaobaoProductHistory) Reset()         { *m = TaobaoProductHistory{} }
 func (m *TaobaoProductHistory) String() string { return proto.CompactTextString(m) }
 func (*TaobaoProductHistory) ProtoMessage()    {}
 func (*TaobaoProductHistory) Descriptor() ([]byte, []int) {
-	return fileDescriptor_taobao_8dc4eb4fd83dc173, []int{2}
+	return fileDescriptor_taobao_1f11dd54bcec27c8, []int{2}
 }
 func (m *TaobaoProductHistory) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_TaobaoProductHistory.Unmarshal(m, b)
@@ -348,7 +348,7 @@ func (m *TaobaoProperty) Reset()         { *m = TaobaoProperty{} }
 func (m *TaobaoProperty) String() string { return proto.CompactTextString(m) }
 func (*TaobaoProperty) ProtoMessage()    {}
 func (*TaobaoProperty) Descriptor() ([]byte, []int) {
-	return fileDescriptor_taobao_8dc4eb4fd83dc173, []int{3}
+	return fileDescriptor_taobao_1f11dd54bcec27c8, []int{3}
 }
 func (m *TaobaoProperty) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_TaobaoProperty.Unmarshal(m, b)
@@ -410,7 +410,7 @@ func (m *TaobaoReviewTag) Reset()         { *m = TaobaoReviewTag{} }
 func (m *TaobaoReviewTag) String() string { return proto.CompactTextString(m) }
 func (*TaobaoReviewTag) ProtoMessage()    {}
 func (*TaobaoReviewTag) Descriptor() ([]byte, []int) {
-	return fileDescriptor_taobao_8dc4eb4fd83dc173, []int{4}
+	return fileDescriptor_taobao_1f11dd54bcec27c8, []int{4}
 }
 func (m *TaobaoReviewTag) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_TaobaoReviewTag.Unmarshal(m, b)
@@ -465,7 +465,7 @@ func (m *TaobaoRelatedItem) Reset()         { *m = TaobaoRelatedItem{} }
 func (m *TaobaoRelatedItem) String() string { return proto.CompactTextString(m) }
 func (*TaobaoRelatedItem) ProtoMessage()    {}
 func (*TaobaoRelatedItem) Descriptor() ([]byte, []int) {
-	return fileDescriptor_taobao_8dc4eb4fd83dc173, []int{5}
+	return fileDescriptor_taobao_1f11dd54bcec27c8, []int{5}
 }
 func (m *TaobaoRelatedItem) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_TaobaoRelatedItem.Unmarshal(m, b)
@@ -546,7 +546,7 @@ func (m *TaobaoProduct) Reset()         { *m = TaobaoProduct{} }
 func (m *TaobaoProduct) String() string { return proto.CompactTextString(m) }
 func (*TaobaoProduct) ProtoMessage()    {}
 func (*TaobaoProduct) Descriptor() ([]byte, []int) {
-	return fileDescriptor_taobao_8dc4eb4fd83dc173, []int{6}
+	return fileDescriptor_taobao_1f11dd54bcec27c8, []int{6}
 }
 func (m *TaobaoProduct) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_TaobaoProduct.Unmarshal(m, b)
@@ -744,7 +744,7 @@ func (m *TaobaoItem) Reset()         { *m = TaobaoItem{} }
 func (m *TaobaoItem) String() string { return proto.CompactTextString(m) }
 func (*TaobaoItem) ProtoMessage()    {}
 func (*TaobaoItem) Descriptor() ([]byte, []int) {
-	return fileDescriptor_taobao_8dc4eb4fd83dc173, []int{7}
+	return fileDescriptor_taobao_1f11dd54bcec27c8, []int{7}
 }
 func (m *TaobaoItem) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_TaobaoItem.Unmarshal(m, b)
@@ -869,7 +869,7 @@ func (m *TaobaoSearchResult) Reset()         { *m = TaobaoSearchResult{} }
 func (m *TaobaoSearchResult) String() string { return proto.CompactTextString(m) }
 func (*TaobaoSearchResult) ProtoMessage()    {}
 func (*TaobaoSearchResult) Descriptor() ([]byte, []int) {
-	return fileDescriptor_taobao_8dc4eb4fd83dc173, []int{8}
+	return fileDescriptor_taobao_1f11dd54bcec27c8, []int{8}
 }
 func (m *TaobaoSearchResult) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_TaobaoSearchResult.Unmarshal(m, b)
@@ -925,7 +925,7 @@ func (m *RequestTaobao) Reset()         { *m = RequestTaobao{} }
 func (m *RequestTaobao) String() string { return proto.CompactTextString(m) }
 func (*RequestTaobao) ProtoMessage()    {}
 func (*RequestTaobao) Descriptor() ([]byte, []int) {
-	return fileDescriptor_taobao_8dc4eb4fd83dc173, []int{9}
+	return fileDescriptor_taobao_1f11dd54bcec27c8, []int{9}
 }
 func (m *RequestTaobao) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_RequestTaobao.Unmarshal(m, b)
@@ -989,7 +989,7 @@ func (m *ReplyTaobao) Reset()         { *m = ReplyTaobao{} }
 func (m *ReplyTaobao) String() string { return proto.CompactTextString(m) }
 func (*ReplyTaobao) ProtoMessage()    {}
 func (*ReplyTaobao) Descriptor() ([]byte, []int) {
-	return fileDescriptor_taobao_8dc4eb4fd83dc173, []int{10}
+	return fileDescriptor_taobao_1f11dd54bcec27c8, []int{10}
 }
 func (m *ReplyTaobao) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ReplyTaobao.Unmarshal(m, b)
@@ -1140,9 +1140,9 @@ func init() {
 	proto.RegisterEnum("jarviscrawlercore.TaobaoMode", TaobaoMode_name, TaobaoMode_value)
 }
 
-func init() { proto.RegisterFile("taobao.proto", fileDescriptor_taobao_8dc4eb4fd83dc173) }
+func init() { proto.RegisterFile("taobao.proto", fileDescriptor_taobao_1f11dd54bcec27c8) }
 
-var fileDescriptor_taobao_8dc4eb4fd83dc173 = []byte{
+var fileDescriptor_taobao_1f11dd54bcec27c8 = []byte{
 	// 1151 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x56, 0x4d, 0x6f, 0x1b, 0x37,
 	0x13, 0x8e, 0x3e, 0x56, 0x1f, 0x63, 0x47, 0xb6, 0xf9, 0x26, 0x01, 0x11, 0xe4, 0x2d, 0x94, 0x45,

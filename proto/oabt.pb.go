@@ -38,7 +38,7 @@ func (x OABTResType) String() string {
 	return proto.EnumName(OABTResType_name, int32(x))
 }
 func (OABTResType) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_oabt_93fa2b56b27b082d, []int{0}
+	return fileDescriptor_oabt_6454b68c94e70bc0, []int{0}
 }
 
 // OABTMode - oabt mode
@@ -60,7 +60,7 @@ func (x OABTMode) String() string {
 	return proto.EnumName(OABTMode_name, int32(x))
 }
 func (OABTMode) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_oabt_93fa2b56b27b082d, []int{1}
+	return fileDescriptor_oabt_6454b68c94e70bc0, []int{1}
 }
 
 // OABT Resource infomation
@@ -76,7 +76,7 @@ func (m *OABTResInfo) Reset()         { *m = OABTResInfo{} }
 func (m *OABTResInfo) String() string { return proto.CompactTextString(m) }
 func (*OABTResInfo) ProtoMessage()    {}
 func (*OABTResInfo) Descriptor() ([]byte, []int) {
-	return fileDescriptor_oabt_93fa2b56b27b082d, []int{0}
+	return fileDescriptor_oabt_6454b68c94e70bc0, []int{0}
 }
 func (m *OABTResInfo) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_OABTResInfo.Unmarshal(m, b)
@@ -129,7 +129,7 @@ func (m *OABTNode) Reset()         { *m = OABTNode{} }
 func (m *OABTNode) String() string { return proto.CompactTextString(m) }
 func (*OABTNode) ProtoMessage()    {}
 func (*OABTNode) Descriptor() ([]byte, []int) {
-	return fileDescriptor_oabt_93fa2b56b27b082d, []int{1}
+	return fileDescriptor_oabt_6454b68c94e70bc0, []int{1}
 }
 func (m *OABTNode) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_OABTNode.Unmarshal(m, b)
@@ -188,7 +188,7 @@ func (m *OABTPage) Reset()         { *m = OABTPage{} }
 func (m *OABTPage) String() string { return proto.CompactTextString(m) }
 func (*OABTPage) ProtoMessage()    {}
 func (*OABTPage) Descriptor() ([]byte, []int) {
-	return fileDescriptor_oabt_93fa2b56b27b082d, []int{2}
+	return fileDescriptor_oabt_6454b68c94e70bc0, []int{2}
 }
 func (m *OABTPage) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_OABTPage.Unmarshal(m, b)
@@ -228,7 +228,7 @@ func (m *RequestOABT) Reset()         { *m = RequestOABT{} }
 func (m *RequestOABT) String() string { return proto.CompactTextString(m) }
 func (*RequestOABT) ProtoMessage()    {}
 func (*RequestOABT) Descriptor() ([]byte, []int) {
-	return fileDescriptor_oabt_93fa2b56b27b082d, []int{3}
+	return fileDescriptor_oabt_6454b68c94e70bc0, []int{3}
 }
 func (m *RequestOABT) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_RequestOABT.Unmarshal(m, b)
@@ -277,7 +277,7 @@ func (m *ReplyOABT) Reset()         { *m = ReplyOABT{} }
 func (m *ReplyOABT) String() string { return proto.CompactTextString(m) }
 func (*ReplyOABT) ProtoMessage()    {}
 func (*ReplyOABT) Descriptor() ([]byte, []int) {
-	return fileDescriptor_oabt_93fa2b56b27b082d, []int{4}
+	return fileDescriptor_oabt_6454b68c94e70bc0, []int{4}
 }
 func (m *ReplyOABT) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ReplyOABT.Unmarshal(m, b)
@@ -393,9 +393,9 @@ func init() {
 	proto.RegisterEnum("jarviscrawlercore.OABTMode", OABTMode_name, OABTMode_value)
 }
 
-func init() { proto.RegisterFile("oabt.proto", fileDescriptor_oabt_93fa2b56b27b082d) }
+func init() { proto.RegisterFile("oabt.proto", fileDescriptor_oabt_6454b68c94e70bc0) }
 
-var fileDescriptor_oabt_93fa2b56b27b082d = []byte{
+var fileDescriptor_oabt_6454b68c94e70bc0 = []byte{
 	// 342 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x92, 0xc1, 0x4f, 0xea, 0x40,
 	0x10, 0xc6, 0xd9, 0xd7, 0xf2, 0x1e, 0x1d, 0xf2, 0xb0, 0x6c, 0x3c, 0x34, 0x68, 0x4c, 0xd3, 0x53,

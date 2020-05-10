@@ -49,7 +49,7 @@ func (x JRJMode) String() string {
 	return proto.EnumName(JRJMode_name, int32(x))
 }
 func (JRJMode) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_jrj_5707464fb197bfbd, []int{0}
+	return fileDescriptor_jrj_cd99293c9d948a14, []int{0}
 }
 
 // JRJFundSize - jrj fund size
@@ -65,7 +65,7 @@ func (m *JRJFundSize) Reset()         { *m = JRJFundSize{} }
 func (m *JRJFundSize) String() string { return proto.CompactTextString(m) }
 func (*JRJFundSize) ProtoMessage()    {}
 func (*JRJFundSize) Descriptor() ([]byte, []int) {
-	return fileDescriptor_jrj_5707464fb197bfbd, []int{0}
+	return fileDescriptor_jrj_cd99293c9d948a14, []int{0}
 }
 func (m *JRJFundSize) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_JRJFundSize.Unmarshal(m, b)
@@ -118,7 +118,7 @@ func (m *JRJFundManager) Reset()         { *m = JRJFundManager{} }
 func (m *JRJFundManager) String() string { return proto.CompactTextString(m) }
 func (*JRJFundManager) ProtoMessage()    {}
 func (*JRJFundManager) Descriptor() ([]byte, []int) {
-	return fileDescriptor_jrj_5707464fb197bfbd, []int{1}
+	return fileDescriptor_jrj_cd99293c9d948a14, []int{1}
 }
 func (m *JRJFundManager) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_JRJFundManager.Unmarshal(m, b)
@@ -207,7 +207,7 @@ func (m *JRJFundDayValue) Reset()         { *m = JRJFundDayValue{} }
 func (m *JRJFundDayValue) String() string { return proto.CompactTextString(m) }
 func (*JRJFundDayValue) ProtoMessage()    {}
 func (*JRJFundDayValue) Descriptor() ([]byte, []int) {
-	return fileDescriptor_jrj_5707464fb197bfbd, []int{2}
+	return fileDescriptor_jrj_cd99293c9d948a14, []int{2}
 }
 func (m *JRJFundDayValue) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_JRJFundDayValue.Unmarshal(m, b)
@@ -266,7 +266,7 @@ func (m *JRJFundValue) Reset()         { *m = JRJFundValue{} }
 func (m *JRJFundValue) String() string { return proto.CompactTextString(m) }
 func (*JRJFundValue) ProtoMessage()    {}
 func (*JRJFundValue) Descriptor() ([]byte, []int) {
-	return fileDescriptor_jrj_5707464fb197bfbd, []int{3}
+	return fileDescriptor_jrj_cd99293c9d948a14, []int{3}
 }
 func (m *JRJFundValue) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_JRJFundValue.Unmarshal(m, b)
@@ -358,7 +358,7 @@ func (m *JRJFund) Reset()         { *m = JRJFund{} }
 func (m *JRJFund) String() string { return proto.CompactTextString(m) }
 func (*JRJFund) ProtoMessage()    {}
 func (*JRJFund) Descriptor() ([]byte, []int) {
-	return fileDescriptor_jrj_5707464fb197bfbd, []int{4}
+	return fileDescriptor_jrj_cd99293c9d948a14, []int{4}
 }
 func (m *JRJFund) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_JRJFund.Unmarshal(m, b)
@@ -439,7 +439,7 @@ func (m *JRJFunds) Reset()         { *m = JRJFunds{} }
 func (m *JRJFunds) String() string { return proto.CompactTextString(m) }
 func (*JRJFunds) ProtoMessage()    {}
 func (*JRJFunds) Descriptor() ([]byte, []int) {
-	return fileDescriptor_jrj_5707464fb197bfbd, []int{5}
+	return fileDescriptor_jrj_cd99293c9d948a14, []int{5}
 }
 func (m *JRJFunds) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_JRJFunds.Unmarshal(m, b)
@@ -480,7 +480,7 @@ func (m *RequestJRJ) Reset()         { *m = RequestJRJ{} }
 func (m *RequestJRJ) String() string { return proto.CompactTextString(m) }
 func (*RequestJRJ) ProtoMessage()    {}
 func (*RequestJRJ) Descriptor() ([]byte, []int) {
-	return fileDescriptor_jrj_5707464fb197bfbd, []int{6}
+	return fileDescriptor_jrj_cd99293c9d948a14, []int{6}
 }
 func (m *RequestJRJ) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_RequestJRJ.Unmarshal(m, b)
@@ -538,7 +538,7 @@ func (m *ReplyJRJ) Reset()         { *m = ReplyJRJ{} }
 func (m *ReplyJRJ) String() string { return proto.CompactTextString(m) }
 func (*ReplyJRJ) ProtoMessage()    {}
 func (*ReplyJRJ) Descriptor() ([]byte, []int) {
-	return fileDescriptor_jrj_5707464fb197bfbd, []int{7}
+	return fileDescriptor_jrj_cd99293c9d948a14, []int{7}
 }
 func (m *ReplyJRJ) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ReplyJRJ.Unmarshal(m, b)
@@ -716,9 +716,9 @@ func init() {
 	proto.RegisterEnum("jarviscrawlercore.JRJMode", JRJMode_name, JRJMode_value)
 }
 
-func init() { proto.RegisterFile("jrj.proto", fileDescriptor_jrj_5707464fb197bfbd) }
+func init() { proto.RegisterFile("jrj.proto", fileDescriptor_jrj_cd99293c9d948a14) }
 
-var fileDescriptor_jrj_5707464fb197bfbd = []byte{
+var fileDescriptor_jrj_cd99293c9d948a14 = []byte{
 	// 633 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x54, 0x4f, 0x6f, 0xd3, 0x4e,
 	0x10, 0x8d, 0xe3, 0x38, 0x89, 0x27, 0xbf, 0x5f, 0x09, 0xa3, 0xaa, 0x5a, 0x05, 0x54, 0x8c, 0xc5,

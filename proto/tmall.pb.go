@@ -41,7 +41,7 @@ func (x TmallMode) String() string {
 	return proto.EnumName(TmallMode_name, int32(x))
 }
 func (TmallMode) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_tmall_20a1b50895471166, []int{0}
+	return fileDescriptor_tmall_e9a194832176bc5f, []int{0}
 }
 
 // TmallSKUInfo - tmall sku infomation
@@ -65,7 +65,7 @@ func (m *TmallSKUInfo) Reset()         { *m = TmallSKUInfo{} }
 func (m *TmallSKUInfo) String() string { return proto.CompactTextString(m) }
 func (*TmallSKUInfo) ProtoMessage()    {}
 func (*TmallSKUInfo) Descriptor() ([]byte, []int) {
-	return fileDescriptor_tmall_20a1b50895471166, []int{0}
+	return fileDescriptor_tmall_e9a194832176bc5f, []int{0}
 }
 func (m *TmallSKUInfo) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_TmallSKUInfo.Unmarshal(m, b)
@@ -168,7 +168,7 @@ func (m *TmallProductHistory) Reset()         { *m = TmallProductHistory{} }
 func (m *TmallProductHistory) String() string { return proto.CompactTextString(m) }
 func (*TmallProductHistory) ProtoMessage()    {}
 func (*TmallProductHistory) Descriptor() ([]byte, []int) {
-	return fileDescriptor_tmall_20a1b50895471166, []int{1}
+	return fileDescriptor_tmall_e9a194832176bc5f, []int{1}
 }
 func (m *TmallProductHistory) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_TmallProductHistory.Unmarshal(m, b)
@@ -216,7 +216,7 @@ func (m *TmallReviewTag) Reset()         { *m = TmallReviewTag{} }
 func (m *TmallReviewTag) String() string { return proto.CompactTextString(m) }
 func (*TmallReviewTag) ProtoMessage()    {}
 func (*TmallReviewTag) Descriptor() ([]byte, []int) {
-	return fileDescriptor_tmall_20a1b50895471166, []int{2}
+	return fileDescriptor_tmall_e9a194832176bc5f, []int{2}
 }
 func (m *TmallReviewTag) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_TmallReviewTag.Unmarshal(m, b)
@@ -283,7 +283,7 @@ func (m *TmallShopInfo) Reset()         { *m = TmallShopInfo{} }
 func (m *TmallShopInfo) String() string { return proto.CompactTextString(m) }
 func (*TmallShopInfo) ProtoMessage()    {}
 func (*TmallShopInfo) Descriptor() ([]byte, []int) {
-	return fileDescriptor_tmall_20a1b50895471166, []int{3}
+	return fileDescriptor_tmall_e9a194832176bc5f, []int{3}
 }
 func (m *TmallShopInfo) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_TmallShopInfo.Unmarshal(m, b)
@@ -423,7 +423,7 @@ func (m *TmallProperty) Reset()         { *m = TmallProperty{} }
 func (m *TmallProperty) String() string { return proto.CompactTextString(m) }
 func (*TmallProperty) ProtoMessage()    {}
 func (*TmallProperty) Descriptor() ([]byte, []int) {
-	return fileDescriptor_tmall_20a1b50895471166, []int{4}
+	return fileDescriptor_tmall_e9a194832176bc5f, []int{4}
 }
 func (m *TmallProperty) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_TmallProperty.Unmarshal(m, b)
@@ -485,7 +485,7 @@ func (m *TmallRelatedItem) Reset()         { *m = TmallRelatedItem{} }
 func (m *TmallRelatedItem) String() string { return proto.CompactTextString(m) }
 func (*TmallRelatedItem) ProtoMessage()    {}
 func (*TmallRelatedItem) Descriptor() ([]byte, []int) {
-	return fileDescriptor_tmall_20a1b50895471166, []int{5}
+	return fileDescriptor_tmall_e9a194832176bc5f, []int{5}
 }
 func (m *TmallRelatedItem) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_TmallRelatedItem.Unmarshal(m, b)
@@ -567,7 +567,7 @@ func (m *TmallProduct) Reset()         { *m = TmallProduct{} }
 func (m *TmallProduct) String() string { return proto.CompactTextString(m) }
 func (*TmallProduct) ProtoMessage()    {}
 func (*TmallProduct) Descriptor() ([]byte, []int) {
-	return fileDescriptor_tmall_20a1b50895471166, []int{6}
+	return fileDescriptor_tmall_e9a194832176bc5f, []int{6}
 }
 func (m *TmallProduct) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_TmallProduct.Unmarshal(m, b)
@@ -762,7 +762,7 @@ func (m *RequestTmall) Reset()         { *m = RequestTmall{} }
 func (m *RequestTmall) String() string { return proto.CompactTextString(m) }
 func (*RequestTmall) ProtoMessage()    {}
 func (*RequestTmall) Descriptor() ([]byte, []int) {
-	return fileDescriptor_tmall_20a1b50895471166, []int{7}
+	return fileDescriptor_tmall_e9a194832176bc5f, []int{7}
 }
 func (m *RequestTmall) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_RequestTmall.Unmarshal(m, b)
@@ -818,7 +818,7 @@ func (m *ReplyTmall) Reset()         { *m = ReplyTmall{} }
 func (m *ReplyTmall) String() string { return proto.CompactTextString(m) }
 func (*ReplyTmall) ProtoMessage()    {}
 func (*ReplyTmall) Descriptor() ([]byte, []int) {
-	return fileDescriptor_tmall_20a1b50895471166, []int{8}
+	return fileDescriptor_tmall_e9a194832176bc5f, []int{8}
 }
 func (m *ReplyTmall) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ReplyTmall.Unmarshal(m, b)
@@ -937,9 +937,9 @@ func init() {
 	proto.RegisterEnum("jarviscrawlercore.TmallMode", TmallMode_name, TmallMode_value)
 }
 
-func init() { proto.RegisterFile("tmall.proto", fileDescriptor_tmall_20a1b50895471166) }
+func init() { proto.RegisterFile("tmall.proto", fileDescriptor_tmall_e9a194832176bc5f) }
 
-var fileDescriptor_tmall_20a1b50895471166 = []byte{
+var fileDescriptor_tmall_e9a194832176bc5f = []byte{
 	// 997 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x56, 0x5f, 0x6f, 0x23, 0x35,
 	0x10, 0xbf, 0xfc, 0x6f, 0x26, 0x6d, 0xda, 0xfa, 0x7a, 0xc5, 0x42, 0x15, 0xb7, 0x04, 0x74, 0x8a,

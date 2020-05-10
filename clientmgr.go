@@ -530,7 +530,23 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 			return err
 		}
 
-		return ErrInvalidTmallMode
+		return ErrInvalidHao6vMode
+	} else if task.P6vdy != nil {
+		if task.P6vdy.Mode == jarviscrawlercore.P6VdyMode_P6VDY_MOVIES {
+			reply, err := client.p6vdyMovies(ctx, task.Hostname, task.P6vdy.URL, task.Timeout)
+
+			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
+
+			return err
+		} else if task.P6vdy.Mode == jarviscrawlercore.P6VdyMode_P6VDY_MOVIE {
+			reply, err := client.p6vdyMovie(ctx, task.Hostname, task.P6vdy.URL, task.Timeout)
+
+			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
+
+			return err
+		}
+
+		return ErrInvalidP6vdyMode
 	}
 
 	outputLog("error",

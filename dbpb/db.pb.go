@@ -45,7 +45,7 @@ func (m *HostInfo) Reset()         { *m = HostInfo{} }
 func (m *HostInfo) String() string { return proto.CompactTextString(m) }
 func (*HostInfo) ProtoMessage()    {}
 func (*HostInfo) Descriptor() ([]byte, []int) {
-	return fileDescriptor_db_d8efbce692cc52c4, []int{0}
+	return fileDescriptor_db_7d446f04a8c0b5e6, []int{0}
 }
 func (m *HostInfo) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_HostInfo.Unmarshal(m, b)
@@ -154,9 +154,9 @@ func init() {
 	proto.RegisterType((*HostInfo)(nil), "jccclientdbpb.HostInfo")
 }
 
-func init() { proto.RegisterFile("db.proto", fileDescriptor_db_d8efbce692cc52c4) }
+func init() { proto.RegisterFile("db.proto", fileDescriptor_db_7d446f04a8c0b5e6) }
 
-var fileDescriptor_db_d8efbce692cc52c4 = []byte{
+var fileDescriptor_db_7d446f04a8c0b5e6 = []byte{
 	// 253 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x6c, 0x91, 0xc1, 0x4e, 0xc3, 0x30,
 	0x10, 0x44, 0xe5, 0x86, 0xb6, 0xc9, 0x52, 0x10, 0xda, 0x93, 0x85, 0x38, 0x44, 0x3d, 0xa0, 0x9c,

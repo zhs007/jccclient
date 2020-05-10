@@ -49,7 +49,7 @@ func (x AlimamaMode) String() string {
 	return proto.EnumName(AlimamaMode_name, int32(x))
 }
 func (AlimamaMode) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_alimama_24aac104b98f2c52, []int{0}
+	return fileDescriptor_alimama_fa0483cc0192f44e, []int{0}
 }
 
 // AlimamaProduct - alimama product
@@ -80,7 +80,7 @@ func (m *AlimamaProduct) Reset()         { *m = AlimamaProduct{} }
 func (m *AlimamaProduct) String() string { return proto.CompactTextString(m) }
 func (*AlimamaProduct) ProtoMessage()    {}
 func (*AlimamaProduct) Descriptor() ([]byte, []int) {
-	return fileDescriptor_alimama_24aac104b98f2c52, []int{0}
+	return fileDescriptor_alimama_fa0483cc0192f44e, []int{0}
 }
 func (m *AlimamaProduct) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_AlimamaProduct.Unmarshal(m, b)
@@ -243,7 +243,7 @@ func (m *AlimamaShop) Reset()         { *m = AlimamaShop{} }
 func (m *AlimamaShop) String() string { return proto.CompactTextString(m) }
 func (*AlimamaShop) ProtoMessage()    {}
 func (*AlimamaShop) Descriptor() ([]byte, []int) {
-	return fileDescriptor_alimama_24aac104b98f2c52, []int{1}
+	return fileDescriptor_alimama_fa0483cc0192f44e, []int{1}
 }
 func (m *AlimamaShop) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_AlimamaShop.Unmarshal(m, b)
@@ -371,7 +371,7 @@ func (m *AliProduct) Reset()         { *m = AliProduct{} }
 func (m *AliProduct) String() string { return proto.CompactTextString(m) }
 func (*AliProduct) ProtoMessage()    {}
 func (*AliProduct) Descriptor() ([]byte, []int) {
-	return fileDescriptor_alimama_24aac104b98f2c52, []int{2}
+	return fileDescriptor_alimama_fa0483cc0192f44e, []int{2}
 }
 func (m *AliProduct) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_AliProduct.Unmarshal(m, b)
@@ -446,7 +446,7 @@ func (m *AlimamaTopProducts) Reset()         { *m = AlimamaTopProducts{} }
 func (m *AlimamaTopProducts) String() string { return proto.CompactTextString(m) }
 func (*AlimamaTopProducts) ProtoMessage()    {}
 func (*AlimamaTopProducts) Descriptor() ([]byte, []int) {
-	return fileDescriptor_alimama_24aac104b98f2c52, []int{3}
+	return fileDescriptor_alimama_fa0483cc0192f44e, []int{3}
 }
 func (m *AlimamaTopProducts) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_AlimamaTopProducts.Unmarshal(m, b)
@@ -492,7 +492,7 @@ func (m *AlimamaTopInfo) Reset()         { *m = AlimamaTopInfo{} }
 func (m *AlimamaTopInfo) String() string { return proto.CompactTextString(m) }
 func (*AlimamaTopInfo) ProtoMessage()    {}
 func (*AlimamaTopInfo) Descriptor() ([]byte, []int) {
-	return fileDescriptor_alimama_24aac104b98f2c52, []int{4}
+	return fileDescriptor_alimama_fa0483cc0192f44e, []int{4}
 }
 func (m *AlimamaTopInfo) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_AlimamaTopInfo.Unmarshal(m, b)
@@ -536,7 +536,7 @@ func (m *AlimamaProducts) Reset()         { *m = AlimamaProducts{} }
 func (m *AlimamaProducts) String() string { return proto.CompactTextString(m) }
 func (*AlimamaProducts) ProtoMessage()    {}
 func (*AlimamaProducts) Descriptor() ([]byte, []int) {
-	return fileDescriptor_alimama_24aac104b98f2c52, []int{5}
+	return fileDescriptor_alimama_fa0483cc0192f44e, []int{5}
 }
 func (m *AlimamaProducts) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_AlimamaProducts.Unmarshal(m, b)
@@ -612,7 +612,7 @@ func (m *RequestAlimama) Reset()         { *m = RequestAlimama{} }
 func (m *RequestAlimama) String() string { return proto.CompactTextString(m) }
 func (*RequestAlimama) ProtoMessage()    {}
 func (*RequestAlimama) Descriptor() ([]byte, []int) {
-	return fileDescriptor_alimama_24aac104b98f2c52, []int{6}
+	return fileDescriptor_alimama_fa0483cc0192f44e, []int{6}
 }
 func (m *RequestAlimama) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_RequestAlimama.Unmarshal(m, b)
@@ -670,7 +670,7 @@ func (m *ReplyAlimama) Reset()         { *m = ReplyAlimama{} }
 func (m *ReplyAlimama) String() string { return proto.CompactTextString(m) }
 func (*ReplyAlimama) ProtoMessage()    {}
 func (*ReplyAlimama) Descriptor() ([]byte, []int) {
-	return fileDescriptor_alimama_24aac104b98f2c52, []int{7}
+	return fileDescriptor_alimama_fa0483cc0192f44e, []int{7}
 }
 func (m *ReplyAlimama) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ReplyAlimama.Unmarshal(m, b)
@@ -848,9 +848,9 @@ func init() {
 	proto.RegisterEnum("jarviscrawlercore.AlimamaMode", AlimamaMode_name, AlimamaMode_value)
 }
 
-func init() { proto.RegisterFile("alimama.proto", fileDescriptor_alimama_24aac104b98f2c52) }
+func init() { proto.RegisterFile("alimama.proto", fileDescriptor_alimama_fa0483cc0192f44e) }
 
-var fileDescriptor_alimama_24aac104b98f2c52 = []byte{
+var fileDescriptor_alimama_fa0483cc0192f44e = []byte{
 	// 865 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xa4, 0x55, 0x5f, 0x6f, 0x1b, 0x45,
 	0x10, 0x8f, 0x7d, 0xf9, 0xe7, 0x71, 0xec, 0x38, 0x2b, 0x54, 0xad, 0xaa, 0xaa, 0x98, 0x53, 0x91,
