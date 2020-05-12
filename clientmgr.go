@@ -214,6 +214,8 @@ func (mgr *ClientMgr) onStartTask(ctx context.Context, endchan chan int) {
 			v.Running = true
 
 			go mgr.runTask(ctx, cc, v, endchan)
+		} else {
+			outputLog("warn", fmt.Sprintf("onStartTask can't find client - [%v]", v))
 		}
 	}
 }
