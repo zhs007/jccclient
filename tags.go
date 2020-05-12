@@ -1,6 +1,10 @@
 package jccclient
 
 // Tags - tags
+//		Tag: 如果Tag不为空，目标一定要包含这个Tag
+//		Or: 如果Or不为空，目标至少要包含一个Or
+//		And: 如果And不为空，目标必须包含全部And
+//		Exclude: 如果Exclude不为空，目标不嫩包含任何And
 type Tags struct {
 	Tag     string
 	Or      []string
