@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 
 	jarviscrawlercore "github.com/zhs007/jccclient/proto"
+	"go.uber.org/zap"
 )
 
 // FuncTaskCallback - callback
@@ -139,6 +140,7 @@ type Task struct {
 	Running        bool                `json:"running"`
 	Fail           bool                `json:"fail"`
 	ServAddr       string              `json:"servaddr"`
+	Logger         *zap.Logger         `json:"-"`
 }
 
 // Reset - reset
