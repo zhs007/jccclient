@@ -2,11 +2,11 @@ package jccclient
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"github.com/zhs007/ankadb"
 	jarviscrawlercore "github.com/zhs007/jccclient/proto"
+	"go.uber.org/zap"
 )
 
 // ClientMgrState - ClientMgr state
@@ -200,8 +200,7 @@ func (mgr *ClientMgr) StopService() error {
 
 // onStartTask
 func (mgr *ClientMgr) onStartTask(ctx context.Context, endchan chan int) {
-	outputLog("debug",
-		fmt.Sprintf("onStartTask maxtaskid - [%v]", mgr.MaxTaskID))
+	mainLogger.Debug("onStartTask", zap.Int("MaxTaskID", mgr.MaxTaskID))
 
 	for _, v := range mgr.Tasks {
 		if v.Running {
@@ -215,7 +214,9 @@ func (mgr *ClientMgr) onStartTask(ctx context.Context, endchan chan int) {
 
 			go mgr.runTask(ctx, cc, v, endchan)
 		} else {
-			outputLog("warn", fmt.Sprintf("onStartTask can't find client - [%v]", v))
+			if v.Logger != nil {
+				v.Logger.Warn("onStartTask: Can't find client", JSON("task", v))
+			}
 		}
 	}
 }
@@ -261,9 +262,9 @@ func (mgr *ClientMgr) StartService(ctx context.Context) error {
 
 // runTask - run a task
 func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, endChan chan int) error {
-	outputLog("debug",
-		fmt.Sprintf("runTask client - [%v] taskid - [%v]",
-			client.servAddr, task.TaskID))
+	if task.Logger != nil {
+		task.Logger.Debug("runTask", zap.String("servaddr", client.servAddr), JSON("task", task))
+	}
 
 	task.ServAddr = client.servAddr
 
@@ -551,9 +552,9 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 		return ErrInvalidP6vdyMode
 	}
 
-	outputLog("error",
-		fmt.Sprintf("runTask client - [%v] error - [ErrInvalidTask]",
-			client.servAddr))
+	if task.Logger != nil {
+		task.Logger.Error("runTask: ErrInvalidTask", zap.String("servaddr", client.servAddr), JSON("task", task))
+	}
 
 	client.Running = false
 
@@ -571,9 +572,9 @@ func (mgr *ClientMgr) onTaskEnd(ctx context.Context, client *Client, task *Task,
 	err error, reply *jarviscrawlercore.ReplyCrawler, endChan chan int) {
 
 	if err != nil {
-		outputLog("warn",
-			fmt.Sprintf("onTaskEnd client - [%v] error - [%v] RetryNums = [%v] task = %v",
-				client.servAddr, err, task.RetryNums, task.ToString()))
+		if task.Logger != nil {
+			task.Logger.Warn("onTaskEnd: error", zap.String("servaddr", client.servAddr), JSON("task", task))
+		}
 
 		// if !(strings.Index(err.Error(), "Error: noretry:") == 0 ||
 		// 	strings.Index(err.Error(), "noretry:") == 0) {
@@ -609,8 +610,7 @@ func (mgr *ClientMgr) onTaskEnd(ctx context.Context, client *Client, task *Task,
 
 // nextTask - on task end
 func (mgr *ClientMgr) nextTask(ctx context.Context, endChan chan int, taskid int) bool {
-	outputLog("debug",
-		fmt.Sprintf("nextTask taskid - [%v]", taskid))
+	mainLogger.Debug("nextTask", zap.Int("taskid", taskid))
 
 	if taskid > 0 {
 		for i, v := range mgr.Tasks {
@@ -623,8 +623,7 @@ func (mgr *ClientMgr) nextTask(ctx context.Context, endChan chan int, taskid int
 	}
 
 	if len(mgr.Tasks) == 0 {
-		outputLog("debug",
-			fmt.Sprintf("nextTask no task"))
+		mainLogger.Debug("nextTask: no task")
 
 		return true
 	}
@@ -649,8 +648,7 @@ func (mgr *ClientMgr) nextTask(ctx context.Context, endChan chan int, taskid int
 	}
 
 	if failnums == len(mgr.Tasks) {
-		outputLog("debug",
-			fmt.Sprintf("nextTask no task fail - [%v]", failnums))
+		mainLogger.Debug("nextTask: task fail", zap.Int("tailnums", failnums))
 
 		return true
 	}
