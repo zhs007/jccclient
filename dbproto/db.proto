@@ -1,5 +1,6 @@
 syntax = "proto3";
 package jccclientdbpb;
+option go_package = "github/zhs007/jccclient";
 
 // HostInfo - host info
 message HostInfo {

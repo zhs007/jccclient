@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/zhs007/jccclient"
-	jarviscrawlercore "github.com/zhs007/jccclient/proto"
+	jarviscrawlercore "github.com/zhs007/jccclient/pb"
 )
 
 func main() {
