@@ -9,7 +9,7 @@ import (
 	"google.golang.org/grpc"
 
 	"github.com/golang/protobuf/proto"
-	jarviscrawlercore "github.com/zhs007/jccclient/proto"
+	jarviscrawlercore "github.com/zhs007/jccclient/pb"
 )
 
 // Client - client

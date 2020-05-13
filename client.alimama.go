@@ -3,7 +3,7 @@ package jccclient
 import (
 	"context"
 
-	jarviscrawlercore "github.com/zhs007/jccclient/proto"
+	jarviscrawlercore "github.com/zhs007/jccclient/pb"
 )
 
 // alimamaKeepalive - alimama keepalive

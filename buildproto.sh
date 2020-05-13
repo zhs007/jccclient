@@ -1,22 +1,3 @@
-protoc -I proto/ proto/searchparam2.proto --go_out=plugins=grpc:proto
-protoc -I proto/ proto/alimama.proto --go_out=plugins=grpc:proto
-protoc -I proto/ proto/steepandcheap.proto --go_out=plugins=grpc:proto
-protoc -I proto/ proto/mountainsteals.proto --go_out=plugins=grpc:proto
-protoc -I proto/ proto/tmall.proto --go_out=plugins=grpc:proto
-protoc -I proto/ proto/taobao.proto --go_out=plugins=grpc:proto
-protoc -I proto/ proto/manhuadb.proto --go_out=plugins=grpc:proto
-protoc -I proto/ proto/douban.proto --go_out=plugins=grpc:proto
-protoc -I proto/ proto/jrj.proto --go_out=plugins=grpc:proto
-protoc -I proto/ proto/telegraph.proto --go_out=plugins=grpc:proto
-protoc -I proto/ proto/oabt.proto --go_out=plugins=grpc:proto
-protoc -I proto/ proto/hao6v.proto --go_out=plugins=grpc:proto
-protoc -I proto/ proto/article2.proto --go_out=plugins=grpc:proto
-protoc -I proto/ proto/dt.proto --go_out=plugins=grpc:proto
-protoc -I proto/ proto/geoip.proto --go_out=plugins=grpc:proto
-protoc -I proto/ proto/jd.proto --go_out=plugins=grpc:proto
-protoc -I proto/ proto/p6vdy.proto --go_out=plugins=grpc:proto
-protoc -I proto/ proto/article2.proto --go_out=plugins=grpc:proto
-protoc -I proto/ proto/publictransit.proto --go_out=plugins=grpc:proto
-protoc -I proto/ proto/techinasia.proto --go_out=plugins=grpc:proto
-protoc -I proto/ proto/result.proto --go_out=plugins=grpc:proto
-protoc -I dbpb/ dbpb/db.proto --go_out=plugins=grpc:dbpb
+export PATH="$PATH:$(go env GOPATH)/bin"
+protoc --proto_path=proto/ --go_out=plugins=grpc:pb --go_opt=paths=source_relative proto/*.proto
+protoc --proto_path=dbproto/ --go_out=plugins=grpc:dbpb --go_opt=paths=source_relative dbproto/*.proto

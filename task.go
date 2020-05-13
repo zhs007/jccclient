@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 
-	jarviscrawlercore "github.com/zhs007/jccclient/proto"
+	jarviscrawlercore "github.com/zhs007/jccclient/pb"
 	"go.uber.org/zap"
 )
 
