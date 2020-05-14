@@ -4,22 +4,30 @@ import (
 	"encoding/json"
 
 	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 )
 
 var mainLogger *zap.Logger
 
 // NewLogger - new a zap.Logger
-func NewLogger(logfn string) (*zap.Logger, error) {
+func NewLogger(logfn string, level zapcore.Level) (*zap.Logger, error) {
 	cfg := zap.NewProductionConfig()
 	cfg.OutputPaths = []string{
 		logfn,
 	}
+
+	cfg.Level = zap.NewAtomicLevelAt(level)
 
 	return cfg.Build()
 }
 
 // SetMainLogger - set main logger
 func SetMainLogger(logger *zap.Logger) {
+	mainLogger = logger
+}
+
+func init() {
+	logger, _ := zap.NewProduction()
 	mainLogger = logger
 }
 
