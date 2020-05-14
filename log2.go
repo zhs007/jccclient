@@ -23,6 +23,11 @@ func SetMainLogger(logger *zap.Logger) {
 	mainLogger = logger
 }
 
+func init() {
+	logger, _ := zap.NewProduction()
+	mainLogger = logger
+}
+
 // InitLogger - init logger
 func InitLogger() error {
 	logger, err := zap.NewProduction()
