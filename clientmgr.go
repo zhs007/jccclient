@@ -21,14 +21,15 @@ const (
 	ClientMgrStateTasks ClientMgrState = 2
 )
 
-// ClientMgr -
+// ClientMgr - 其它模块操作jccclient的主类
+//		有service模式，在service模式下，线程安全
 type ClientMgr struct {
 	cfg             *Config
 	db              *DB
 	Tags            map[string][]*Client
 	AllClients      []*Client
 	Clients         map[string]*Client
-	Tasks           []*Task
+	tasks           []*Task
 	MaxTaskID       int
 	State           ClientMgrState
 	StopServiceChan chan int
@@ -152,7 +153,7 @@ func (mgr *ClientMgr) AddTask(tags *Tags, task *Task) error {
 	if mgr.State == ClientMgrStateService {
 		mgr.AddTaskChan <- task
 	} else {
-		mgr.Tasks = append(mgr.Tasks, task)
+		mgr.tasks = append(mgr.tasks, task)
 	}
 
 	return nil
@@ -164,7 +165,7 @@ func (mgr *ClientMgr) StartAllTasks(ctx context.Context) error {
 		return ErrInvalidClientMgrState
 	}
 
-	if len(mgr.Tasks) <= 0 {
+	if len(mgr.tasks) <= 0 {
 		return nil
 	}
 
@@ -202,7 +203,7 @@ func (mgr *ClientMgr) StopService() error {
 func (mgr *ClientMgr) onStartTask(ctx context.Context, endchan chan int) {
 	mainLogger.Debug("onStartTask", zap.Int("MaxTaskID", mgr.MaxTaskID))
 
-	for _, v := range mgr.Tasks {
+	for _, v := range mgr.tasks {
 		if v.Running {
 			continue
 		}
@@ -239,7 +240,7 @@ func (mgr *ClientMgr) StartService(ctx context.Context) error {
 		case curtaskid := <-endchan:
 			mgr.nextTask(ctx, endchan, curtaskid)
 		case curtask := <-mgr.AddTaskChan:
-			mgr.Tasks = append(mgr.Tasks, curtask)
+			mgr.tasks = append(mgr.tasks, curtask)
 
 			mgr.onStartTask(ctx, endchan)
 		case <-mgr.StopServiceChan:
@@ -613,23 +614,23 @@ func (mgr *ClientMgr) nextTask(ctx context.Context, endChan chan int, taskid int
 	mainLogger.Debug("nextTask", zap.Int("taskid", taskid))
 
 	if taskid > 0 {
-		for i, v := range mgr.Tasks {
+		for i, v := range mgr.tasks {
 			if v.TaskID == taskid {
-				mgr.Tasks = append(mgr.Tasks[:i], mgr.Tasks[i+1:]...)
+				mgr.tasks = append(mgr.tasks[:i], mgr.tasks[i+1:]...)
 
 				break
 			}
 		}
 	}
 
-	if len(mgr.Tasks) == 0 {
+	if len(mgr.tasks) == 0 {
 		mainLogger.Debug("nextTask: no task")
 
 		return true
 	}
 
 	failnums := 0
-	for _, v := range mgr.Tasks {
+	for _, v := range mgr.tasks {
 		if v.Running {
 			continue
 		}
@@ -647,7 +648,7 @@ func (mgr *ClientMgr) nextTask(ctx context.Context, endChan chan int, taskid int
 		}
 	}
 
-	if failnums == len(mgr.Tasks) {
+	if failnums == len(mgr.tasks) {
 		mainLogger.Debug("nextTask: task fail", zap.Int("tailnums", failnums))
 
 		return true
