@@ -214,11 +214,12 @@ func (mgr *ClientMgr) onStartTask(ctx context.Context, endchan chan int) {
 			v.Running = true
 
 			go mgr.runTask(ctx, cc, v, endchan)
-		} else {
-			if v.Logger != nil {
-				v.Logger.Warn("onStartTask: Can't find client", JSON("task", v))
-			}
 		}
+		//  else {
+		// 	if v.Logger != nil {
+		// 		v.Logger.Warn("onStartTask: Can't find client", JSON("task", v))
+		// 	}
+		// }
 	}
 }
 
