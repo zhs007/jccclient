@@ -23,7 +23,7 @@ func main() {
 	// 	fmt.Printf("\n%v", reply1)
 	// }
 
-	reply2, err := client.P6vdyMovie(context.Background(), "https://www.6vdy.org/dianshiju/oumeiju/13261.html",
+	reply2, err := client.P6vdyMovie(context.Background(), "https://www.6vdy.org/dianshiju/oumeiju1/13261.html",
 		3*60*1000)
 
 	if err != nil {
