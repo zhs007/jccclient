@@ -575,7 +575,10 @@ func (mgr *ClientMgr) onTaskEnd(ctx context.Context, client *Client, task *Task,
 
 	if err != nil {
 		if task.Logger != nil {
-			task.Logger.Warn("onTaskEnd: error", zap.String("servaddr", client.servAddr), JSON("task", task))
+			task.Logger.Warn("onTaskEnd: error",
+				zap.Error(err),
+				zap.String("servaddr", client.servAddr),
+				JSON("task", task))
 		}
 
 		// if !(strings.Index(err.Error(), "Error: noretry:") == 0 ||
