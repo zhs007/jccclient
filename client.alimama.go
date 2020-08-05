@@ -8,7 +8,7 @@ import (
 
 // alimamaKeepalive - alimama keepalive
 func (client *Client) alimamaKeepalive(ctx context.Context, hostname string,
-	timeout int) (*jarviscrawlercore.ReplyCrawler, error) {
+	timeout int) (string, *jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
@@ -25,13 +25,13 @@ func (client *Client) alimamaKeepalive(ctx context.Context, hostname string,
 		},
 	}
 
-	reply, err := client.RequestCrawler(ctx, req)
+	version, reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
 		if client.cfg != nil {
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, err
+		return version, nil, err
 	}
 
 	if reply == nil {
@@ -39,19 +39,19 @@ func (client *Client) alimamaKeepalive(ctx context.Context, hostname string,
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, ErrNoReplyCrawler
+		return version, nil, ErrNoReplyCrawler
 	}
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
 	}
 
-	return reply, nil
+	return version, reply, nil
 }
 
 // alimamaGetTop - alimama gettop
 func (client *Client) alimamaGetTop(ctx context.Context, hostname string,
-	timeout int) (*jarviscrawlercore.ReplyCrawler, error) {
+	timeout int) (string, *jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
@@ -68,13 +68,13 @@ func (client *Client) alimamaGetTop(ctx context.Context, hostname string,
 		},
 	}
 
-	reply, err := client.RequestCrawler(ctx, req)
+	version, reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
 		if client.cfg != nil {
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, err
+		return version, nil, err
 	}
 
 	if reply == nil {
@@ -82,19 +82,19 @@ func (client *Client) alimamaGetTop(ctx context.Context, hostname string,
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, ErrNoReplyCrawler
+		return version, nil, ErrNoReplyCrawler
 	}
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
 	}
 
-	return reply, nil
+	return version, reply, nil
 }
 
 // alimamaSearch - alimama search
 func (client *Client) alimamaSearch(ctx context.Context, hostname string, text string,
-	timeout int) (*jarviscrawlercore.ReplyCrawler, error) {
+	timeout int) (string, *jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
@@ -112,13 +112,13 @@ func (client *Client) alimamaSearch(ctx context.Context, hostname string, text s
 		},
 	}
 
-	reply, err := client.RequestCrawler(ctx, req)
+	version, reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
 		if client.cfg != nil {
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, err
+		return version, nil, err
 	}
 
 	if reply == nil {
@@ -126,19 +126,19 @@ func (client *Client) alimamaSearch(ctx context.Context, hostname string, text s
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, ErrNoReplyCrawler
+		return version, nil, ErrNoReplyCrawler
 	}
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
 	}
 
-	return reply, nil
+	return version, reply, nil
 }
 
 // alimamaShop - alimama shop
 func (client *Client) alimamaShop(ctx context.Context, hostname string, url string,
-	timeout int) (*jarviscrawlercore.ReplyCrawler, error) {
+	timeout int) (string, *jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
@@ -156,13 +156,13 @@ func (client *Client) alimamaShop(ctx context.Context, hostname string, url stri
 		},
 	}
 
-	reply, err := client.RequestCrawler(ctx, req)
+	version, reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
 		if client.cfg != nil {
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, err
+		return version, nil, err
 	}
 
 	if reply == nil {
@@ -170,14 +170,14 @@ func (client *Client) alimamaShop(ctx context.Context, hostname string, url stri
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, ErrNoReplyCrawler
+		return version, nil, ErrNoReplyCrawler
 	}
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
 	}
 
-	return reply, nil
+	return version, reply, nil
 }
 
 // AlimamaKeepalive - alimama keepalive
@@ -185,7 +185,7 @@ func (client *Client) AlimamaKeepalive(ctx context.Context, timeout int) error {
 
 	hostname := "alimama.com"
 
-	reply, err := client.alimamaKeepalive(ctx, hostname, timeout)
+	_, reply, err := client.alimamaKeepalive(ctx, hostname, timeout)
 	if err != nil {
 		return err
 	}
@@ -216,7 +216,7 @@ func (client *Client) AlimamaGetTop(ctx context.Context, timeout int) (
 
 	hostname := "alimama.com"
 
-	reply, err := client.alimamaGetTop(ctx, hostname, timeout)
+	_, reply, err := client.alimamaGetTop(ctx, hostname, timeout)
 	if err != nil {
 		return nil, err
 	}
@@ -252,7 +252,7 @@ func (client *Client) AlimamaSearch(ctx context.Context, text string, timeout in
 
 	hostname := "alimama.com"
 
-	reply, err := client.alimamaSearch(ctx, hostname, text, timeout)
+	_, reply, err := client.alimamaSearch(ctx, hostname, text, timeout)
 	if err != nil {
 		return nil, err
 	}
@@ -288,7 +288,7 @@ func (client *Client) AlimamaShop(ctx context.Context, url string, timeout int) 
 
 	hostname := "alimama.com"
 
-	reply, err := client.alimamaShop(ctx, hostname, url, timeout)
+	_, reply, err := client.alimamaShop(ctx, hostname, url, timeout)
 	if err != nil {
 		return nil, err
 	}

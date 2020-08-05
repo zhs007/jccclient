@@ -9,7 +9,7 @@ import (
 // oabtPage - oabt page
 func (client *Client) oabtPage(ctx context.Context, hostname string,
 	pageindex int32, timeout int) (
-	*jarviscrawlercore.ReplyCrawler, error) {
+	string, *jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
@@ -27,13 +27,13 @@ func (client *Client) oabtPage(ctx context.Context, hostname string,
 		},
 	}
 
-	reply, err := client.RequestCrawler(ctx, req)
+	version, reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
 		if client.cfg != nil {
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, err
+		return version, nil, err
 	}
 
 	if reply == nil {
@@ -41,14 +41,14 @@ func (client *Client) oabtPage(ctx context.Context, hostname string,
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, ErrNoReplyCrawler
+		return version, nil, ErrNoReplyCrawler
 	}
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
 	}
 
-	return reply, nil
+	return version, reply, nil
 }
 
 // OABTPage - OABT Page
@@ -57,7 +57,7 @@ func (client *Client) OABTPage(ctx context.Context, pageindex int32, timeout int
 
 	hostname := "oabt008.com"
 
-	reply, err := client.oabtPage(ctx, hostname, pageindex, timeout)
+	_, reply, err := client.oabtPage(ctx, hostname, pageindex, timeout)
 	if err != nil {
 		return nil, err
 	}

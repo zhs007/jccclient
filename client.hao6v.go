@@ -8,7 +8,7 @@ import (
 
 // hao6vNewest - hao6v newest
 func (client *Client) hao6vNewest(ctx context.Context, hostname string, timeout int) (
-	*jarviscrawlercore.ReplyCrawler, error) {
+	string, *jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
@@ -25,13 +25,13 @@ func (client *Client) hao6vNewest(ctx context.Context, hostname string, timeout 
 		},
 	}
 
-	reply, err := client.RequestCrawler(ctx, req)
+	version, reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
 		if client.cfg != nil {
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, err
+		return version, nil, err
 	}
 
 	if reply == nil {
@@ -39,14 +39,14 @@ func (client *Client) hao6vNewest(ctx context.Context, hostname string, timeout 
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, ErrNoReplyCrawler
+		return version, nil, ErrNoReplyCrawler
 	}
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
 	}
 
-	return reply, nil
+	return version, reply, nil
 }
 
 // Hao6vNewest - haop6v newest
@@ -55,7 +55,7 @@ func (client *Client) Hao6vNewest(ctx context.Context, timeout int) (
 
 	hostname := "hao6v.com"
 
-	reply, err := client.hao6vNewest(ctx, hostname, timeout)
+	_, reply, err := client.hao6vNewest(ctx, hostname, timeout)
 	if err != nil {
 		return nil, err
 	}
@@ -87,7 +87,7 @@ func (client *Client) Hao6vNewest(ctx context.Context, timeout int) (
 
 // hao6vRes - hao6v res
 func (client *Client) hao6vRes(ctx context.Context, hostname string, url string, timeout int) (
-	*jarviscrawlercore.ReplyCrawler, error) {
+	string, *jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
@@ -105,13 +105,13 @@ func (client *Client) hao6vRes(ctx context.Context, hostname string, url string,
 		},
 	}
 
-	reply, err := client.RequestCrawler(ctx, req)
+	version, reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
 		if client.cfg != nil {
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, err
+		return version, nil, err
 	}
 
 	if reply == nil {
@@ -119,14 +119,14 @@ func (client *Client) hao6vRes(ctx context.Context, hostname string, url string,
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, ErrNoReplyCrawler
+		return version, nil, ErrNoReplyCrawler
 	}
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
 	}
 
-	return reply, nil
+	return version, reply, nil
 }
 
 // Hao6vRes - haop6v res
@@ -135,7 +135,7 @@ func (client *Client) Hao6vRes(ctx context.Context, url string, timeout int) (
 
 	hostname := "hao6v.com"
 
-	reply, err := client.hao6vRes(ctx, hostname, url, timeout)
+	_, reply, err := client.hao6vRes(ctx, hostname, url, timeout)
 	if err != nil {
 		return nil, err
 	}

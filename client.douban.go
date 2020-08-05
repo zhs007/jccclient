@@ -9,7 +9,7 @@ import (
 // doubanSearch - douban search
 func (client *Client) doubanSearch(ctx context.Context, hostname string,
 	doubanType jarviscrawlercore.DoubanType, text string, timeout int) (
-	*jarviscrawlercore.ReplyCrawler, error) {
+	string, *jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
@@ -28,13 +28,13 @@ func (client *Client) doubanSearch(ctx context.Context, hostname string,
 		},
 	}
 
-	reply, err := client.RequestCrawler(ctx, req)
+	version, reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
 		if client.cfg != nil {
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, err
+		return version, nil, err
 	}
 
 	if reply == nil {
@@ -42,14 +42,14 @@ func (client *Client) doubanSearch(ctx context.Context, hostname string,
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, ErrNoReplyCrawler
+		return version, nil, ErrNoReplyCrawler
 	}
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
 	}
 
-	return reply, nil
+	return version, reply, nil
 }
 
 // DoubanSearch - douban search
@@ -59,7 +59,7 @@ func (client *Client) DoubanSearch(ctx context.Context,
 
 	hostname := "douban.com"
 
-	reply, err := client.doubanSearch(ctx, hostname, doubanType, text, timeout)
+	_, reply, err := client.doubanSearch(ctx, hostname, doubanType, text, timeout)
 	if err != nil {
 		return nil, err
 	}
@@ -91,7 +91,7 @@ func (client *Client) DoubanSearch(ctx context.Context,
 
 // doubanBook - douban book
 func (client *Client) doubanBook(ctx context.Context, hostname string,
-	id string, timeout int) (*jarviscrawlercore.ReplyCrawler, error) {
+	id string, timeout int) (string, *jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
@@ -109,13 +109,13 @@ func (client *Client) doubanBook(ctx context.Context, hostname string,
 		},
 	}
 
-	reply, err := client.RequestCrawler(ctx, req)
+	version, reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
 		if client.cfg != nil {
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, err
+		return version, nil, err
 	}
 
 	if reply == nil {
@@ -123,14 +123,14 @@ func (client *Client) doubanBook(ctx context.Context, hostname string,
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, ErrNoReplyCrawler
+		return version, nil, ErrNoReplyCrawler
 	}
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
 	}
 
-	return reply, nil
+	return version, reply, nil
 }
 
 // DoubanBook - douban book
@@ -139,7 +139,7 @@ func (client *Client) DoubanBook(ctx context.Context,
 
 	hostname := "douban.com"
 
-	reply, err := client.doubanBook(ctx, hostname, id, timeout)
+	_, reply, err := client.doubanBook(ctx, hostname, id, timeout)
 	if err != nil {
 		return nil, err
 	}
