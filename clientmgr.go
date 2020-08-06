@@ -127,9 +127,9 @@ func (mgr *ClientMgr) GetClient(tags *Tags, hostname string) *Client {
 }
 
 // AddTask - add a task
-func (mgr *ClientMgr) AddTask(tags *Tags, task *Task) error {
+func (mgr *ClientMgr) AddTask(tags *Tags, task *Task) (*Task, error) {
 	if tags != nil && !mgr.HasTag(tags.Tag) {
-		return ErrNoTag
+		return nil, ErrNoTag
 	}
 
 	task.TaskID = mgr.newTaskID()
@@ -138,7 +138,7 @@ func (mgr *ClientMgr) AddTask(tags *Tags, task *Task) error {
 	if task.AnalyzePage != nil {
 		hostname, err := GetHostName(task.AnalyzePage.URL)
 		if err != nil {
-			return err
+			return nil, err
 		}
 
 		task.Hostname = hostname
@@ -156,7 +156,7 @@ func (mgr *ClientMgr) AddTask(tags *Tags, task *Task) error {
 		mgr.tasks = append(mgr.tasks, task)
 	}
 
-	return nil
+	return task, nil
 }
 
 // StartAllTasks - start all tasks
