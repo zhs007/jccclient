@@ -141,6 +141,7 @@ type Task struct {
 	Fail           bool                `json:"fail"`
 	ServAddr       string              `json:"servaddr"`
 	Logger         *zap.Logger         `json:"-"`
+	JCCInfo        JCCInfo             `json:"info"`
 }
 
 // Reset - reset

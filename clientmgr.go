@@ -271,41 +271,56 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 	task.ServAddr = client.servAddr
 
 	if task.AnalyzePage != nil {
-		reply, err := client.analyzePage(ctx, task.Hostname, task.AnalyzePage.URL,
+		version, reply, err := client.analyzePage(ctx, task.Hostname, task.AnalyzePage.URL,
 			&task.AnalyzePage.Viewport, &task.AnalyzePage.Options)
+
+		task.JCCInfo.Nodes = append(task.JCCInfo.Nodes, JCCNode{Addr: client.servAddr, Version: version})
 
 		mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
 		return err
 
 	} else if task.GeoIP != nil {
-		reply, err := client.getGeoIP(ctx, task.Hostname, task.GeoIP.IP, task.GeoIP.Platform)
+		version, reply, err := client.getGeoIP(ctx, task.Hostname, task.GeoIP.IP, task.GeoIP.Platform)
+
+		task.JCCInfo.Nodes = append(task.JCCInfo.Nodes, JCCNode{Addr: client.servAddr, Version: version})
 
 		mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
 		return err
 	} else if task.TechInAsia != nil {
 		if task.TechInAsia.Mode == jarviscrawlercore.TechInAsiaMode_TIAM_JOBLIST {
-			reply, err := client.getTechInAsiaJobList(ctx, task.Hostname, task.TechInAsia.JobTag,
+			version, reply, err := client.getTechInAsiaJobList(ctx, task.Hostname, task.TechInAsia.JobTag,
 				task.TechInAsia.JobSubTag, task.TechInAsia.JobNums, task.Timeout)
+
+			task.JCCInfo.Nodes = append(task.JCCInfo.Nodes, JCCNode{Addr: client.servAddr, Version: version})
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
 			return err
 		} else if task.TechInAsia.Mode == jarviscrawlercore.TechInAsiaMode_TIAM_JOB {
-			reply, err := client.getTechInAsiaJob(ctx, task.Hostname, task.TechInAsia.JobCode, task.Timeout)
+			version, reply, err := client.getTechInAsiaJob(ctx, task.Hostname, task.TechInAsia.JobCode,
+				task.Timeout)
+
+			task.JCCInfo.Nodes = append(task.JCCInfo.Nodes, JCCNode{Addr: client.servAddr, Version: version})
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
 			return err
 		} else if task.TechInAsia.Mode == jarviscrawlercore.TechInAsiaMode_TIAM_COMPANY {
-			reply, err := client.getTechInAsiaCompany(ctx, task.Hostname, task.TechInAsia.CompanyCode, task.Timeout)
+			version, reply, err := client.getTechInAsiaCompany(ctx, task.Hostname, task.TechInAsia.CompanyCode,
+				task.Timeout)
+
+			task.JCCInfo.Nodes = append(task.JCCInfo.Nodes, JCCNode{Addr: client.servAddr, Version: version})
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
 			return err
 		} else if task.TechInAsia.Mode == jarviscrawlercore.TechInAsiaMode_TIAM_JOBTAG {
-			reply, err := client.getTechInAsiaJobTagList(ctx, task.Hostname, task.TechInAsia.JobTag, task.Timeout)
+			version, reply, err := client.getTechInAsiaJobTagList(ctx, task.Hostname, task.TechInAsia.JobTag,
+				task.Timeout)
+
+			task.JCCInfo.Nodes = append(task.JCCInfo.Nodes, JCCNode{Addr: client.servAddr, Version: version})
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
@@ -315,15 +330,19 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 		return ErrInvalidTechInAsiaMode
 	} else if task.SteepAndCheap != nil {
 		if task.SteepAndCheap.Mode == jarviscrawlercore.SteepAndCheapMode_SACM_PRODUCTS {
-			reply, err := client.getSteepAndCheapProducts(ctx, task.Hostname, task.SteepAndCheap.URL,
+			version, reply, err := client.getSteepAndCheapProducts(ctx, task.Hostname, task.SteepAndCheap.URL,
 				task.SteepAndCheap.Page, task.Timeout)
+
+			task.JCCInfo.Nodes = append(task.JCCInfo.Nodes, JCCNode{Addr: client.servAddr, Version: version})
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
 			return err
 		} else if task.SteepAndCheap.Mode == jarviscrawlercore.SteepAndCheapMode_SACM_PRODUCT {
-			reply, err := client.getSteepAndCheapProduct(ctx, task.Hostname, task.SteepAndCheap.URL,
+			version, reply, err := client.getSteepAndCheapProduct(ctx, task.Hostname, task.SteepAndCheap.URL,
 				task.Timeout)
+
+			task.JCCInfo.Nodes = append(task.JCCInfo.Nodes, JCCNode{Addr: client.servAddr, Version: version})
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
@@ -333,28 +352,36 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 		return ErrInvalidSteepAndCheapMode
 	} else if task.JRJ != nil {
 		if task.JRJ.Mode == jarviscrawlercore.JRJMode_JRJM_FUND {
-			reply, err := client.getJRJFund(ctx, task.Hostname, task.JRJ.Code, task.Timeout)
+			version, reply, err := client.getJRJFund(ctx, task.Hostname, task.JRJ.Code, task.Timeout)
+
+			task.JCCInfo.Nodes = append(task.JCCInfo.Nodes, JCCNode{Addr: client.servAddr, Version: version})
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
 			return err
 		} else if task.JRJ.Mode == jarviscrawlercore.JRJMode_JRJM_FUNDS {
-			reply, err := client.getJRJFunds(ctx, task.Hostname,
+			version, reply, err := client.getJRJFunds(ctx, task.Hostname,
 				task.Timeout)
+
+			task.JCCInfo.Nodes = append(task.JCCInfo.Nodes, JCCNode{Addr: client.servAddr, Version: version})
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
 			return err
 		} else if task.JRJ.Mode == jarviscrawlercore.JRJMode_JRJM_FUNDMANAGER {
-			reply, err := client.getJRJFundManager(ctx, task.Hostname, task.JRJ.Code,
+			version, reply, err := client.getJRJFundManager(ctx, task.Hostname, task.JRJ.Code,
 				task.Timeout)
+
+			task.JCCInfo.Nodes = append(task.JCCInfo.Nodes, JCCNode{Addr: client.servAddr, Version: version})
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
 			return err
 		} else if task.JRJ.Mode == jarviscrawlercore.JRJMode_JRJM_FUNDVALUE {
-			reply, err := client.getJRJFundValue(ctx, task.Hostname, task.JRJ.Code, task.JRJ.Year,
+			version, reply, err := client.getJRJFundValue(ctx, task.Hostname, task.JRJ.Code, task.JRJ.Year,
 				task.Timeout)
+
+			task.JCCInfo.Nodes = append(task.JCCInfo.Nodes, JCCNode{Addr: client.servAddr, Version: version})
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
@@ -364,22 +391,28 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 		return ErrInvalidJRJMode
 	} else if task.JD != nil {
 		if task.JD.Mode == jarviscrawlercore.JDMode_JDM_ACTIVE {
-			reply, err := client.getJDActive(ctx, task.Hostname, task.JD.URL,
+			version, reply, err := client.getJDActive(ctx, task.Hostname, task.JD.URL,
 				task.Timeout)
+
+			task.JCCInfo.Nodes = append(task.JCCInfo.Nodes, JCCNode{Addr: client.servAddr, Version: version})
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
 			return err
 		} else if task.JD.Mode == jarviscrawlercore.JDMode_JDM_PRODUCT {
-			reply, err := client.getJDProduct(ctx, task.Hostname, task.JD.URL,
+			version, reply, err := client.getJDProduct(ctx, task.Hostname, task.JD.URL,
 				task.Timeout)
+
+			task.JCCInfo.Nodes = append(task.JCCInfo.Nodes, JCCNode{Addr: client.servAddr, Version: version})
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
 			return err
 		} else if task.JD.Mode == jarviscrawlercore.JDMode_JDM_ACTIVEPAGE {
-			reply, err := client.getJDActivePage(ctx, task.Hostname, task.JD.URL,
+			version, reply, err := client.getJDActivePage(ctx, task.Hostname, task.JD.URL,
 				task.Timeout)
+
+			task.JCCInfo.Nodes = append(task.JCCInfo.Nodes, JCCNode{Addr: client.servAddr, Version: version})
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
@@ -389,29 +422,37 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 		return ErrInvalidJDMode
 	} else if task.Alimama != nil {
 		if task.Alimama.Mode == jarviscrawlercore.AlimamaMode_ALIMMM_KEEPALIVE {
-			reply, err := client.alimamaKeepalive(ctx, task.Hostname,
+			version, reply, err := client.alimamaKeepalive(ctx, task.Hostname,
 				task.Timeout)
+
+			task.JCCInfo.Nodes = append(task.JCCInfo.Nodes, JCCNode{Addr: client.servAddr, Version: version})
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
 			return err
 		} else if task.Alimama.Mode == jarviscrawlercore.AlimamaMode_ALIMMM_GETTOP {
-			reply, err := client.alimamaGetTop(ctx, task.Hostname,
+			version, reply, err := client.alimamaGetTop(ctx, task.Hostname,
 				task.Timeout)
+
+			task.JCCInfo.Nodes = append(task.JCCInfo.Nodes, JCCNode{Addr: client.servAddr, Version: version})
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
 			return err
 		} else if task.Alimama.Mode == jarviscrawlercore.AlimamaMode_ALIMMM_SEARCH {
-			reply, err := client.alimamaSearch(ctx, task.Hostname, task.Alimama.Text,
+			version, reply, err := client.alimamaSearch(ctx, task.Hostname, task.Alimama.Text,
 				task.Timeout)
+
+			task.JCCInfo.Nodes = append(task.JCCInfo.Nodes, JCCNode{Addr: client.servAddr, Version: version})
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
 			return err
 		} else if task.Alimama.Mode == jarviscrawlercore.AlimamaMode_ALIMMM_GETSHOP {
-			reply, err := client.alimamaShop(ctx, task.Hostname, task.Alimama.URL,
+			version, reply, err := client.alimamaShop(ctx, task.Hostname, task.Alimama.URL,
 				task.Timeout)
+
+			task.JCCInfo.Nodes = append(task.JCCInfo.Nodes, JCCNode{Addr: client.servAddr, Version: version})
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
@@ -421,15 +462,19 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 		return ErrInvalidAlimamaMode
 	} else if task.Tmall != nil {
 		if task.Tmall.Mode == jarviscrawlercore.TmallMode_TMM_PRODUCT {
-			reply, err := client.tmallProduct(ctx, task.Hostname, task.Tmall.ItemID,
+			version, reply, err := client.tmallProduct(ctx, task.Hostname, task.Tmall.ItemID,
 				task.Timeout)
+
+			task.JCCInfo.Nodes = append(task.JCCInfo.Nodes, JCCNode{Addr: client.servAddr, Version: version})
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
 			return err
 		} else if task.Tmall.Mode == jarviscrawlercore.TmallMode_TMM_MOBILEPRODUCT {
-			reply, err := client.tmallMobileProduct(ctx, task.Hostname, task.Tmall.ItemID,
+			version, reply, err := client.tmallMobileProduct(ctx, task.Hostname, task.Tmall.ItemID,
 				task.Tmall.Device, task.Timeout)
+
+			task.JCCInfo.Nodes = append(task.JCCInfo.Nodes, JCCNode{Addr: client.servAddr, Version: version})
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
@@ -439,22 +484,28 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 		return ErrInvalidTmallMode
 	} else if task.Taobao != nil {
 		if task.Taobao.Mode == jarviscrawlercore.TaobaoMode_TBM_PRODUCT {
-			reply, err := client.taobaoProduct(ctx, task.Hostname, task.Taobao.ItemID,
+			version, reply, err := client.taobaoProduct(ctx, task.Hostname, task.Taobao.ItemID,
 				task.Timeout)
+
+			task.JCCInfo.Nodes = append(task.JCCInfo.Nodes, JCCNode{Addr: client.servAddr, Version: version})
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
 			return err
 		} else if task.Taobao.Mode == jarviscrawlercore.TaobaoMode_TBM_MOBILEPRODUCT {
-			reply, err := client.taobaoMobileProduct(ctx, task.Hostname, task.Taobao.ItemID,
+			version, reply, err := client.taobaoMobileProduct(ctx, task.Hostname, task.Taobao.ItemID,
 				task.Taobao.Device, task.Timeout)
+
+			task.JCCInfo.Nodes = append(task.JCCInfo.Nodes, JCCNode{Addr: client.servAddr, Version: version})
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
 			return err
 		} else if task.Taobao.Mode == jarviscrawlercore.TaobaoMode_TBM_SEARCH {
-			reply, err := client.taobaoSearch(ctx, task.Hostname,
+			version, reply, err := client.taobaoSearch(ctx, task.Hostname,
 				task.Taobao.Text, task.Timeout)
+
+			task.JCCInfo.Nodes = append(task.JCCInfo.Nodes, JCCNode{Addr: client.servAddr, Version: version})
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
@@ -464,15 +515,19 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 		return ErrInvalidTmallMode
 	} else if task.MountainSteals != nil {
 		if task.MountainSteals.Mode == jarviscrawlercore.MountainStealsMode_MSM_SALE {
-			reply, err := client.mountainstealsSale(ctx, task.Hostname, task.MountainSteals.URL,
+			version, reply, err := client.mountainstealsSale(ctx, task.Hostname, task.MountainSteals.URL,
 				task.Timeout)
+
+			task.JCCInfo.Nodes = append(task.JCCInfo.Nodes, JCCNode{Addr: client.servAddr, Version: version})
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
 			return err
 		} else if task.MountainSteals.Mode == jarviscrawlercore.MountainStealsMode_MSM_PRODUCT {
-			reply, err := client.mountainstealsProduct(ctx, task.Hostname, task.MountainSteals.URL,
+			version, reply, err := client.mountainstealsProduct(ctx, task.Hostname, task.MountainSteals.URL,
 				task.Timeout)
+
+			task.JCCInfo.Nodes = append(task.JCCInfo.Nodes, JCCNode{Addr: client.servAddr, Version: version})
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
@@ -482,15 +537,19 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 		return ErrInvalidMountainstealsMode
 	} else if task.Douban != nil {
 		if task.Douban.Mode == jarviscrawlercore.DoubanMode_DBM_SEARCH {
-			reply, err := client.doubanSearch(ctx, task.Hostname, task.Douban.DoubanType,
+			version, reply, err := client.doubanSearch(ctx, task.Hostname, task.Douban.DoubanType,
 				task.Douban.Text, task.Timeout)
+
+			task.JCCInfo.Nodes = append(task.JCCInfo.Nodes, JCCNode{Addr: client.servAddr, Version: version})
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
 			return err
 		} else if task.Douban.Mode == jarviscrawlercore.DoubanMode_DBM_BOOK {
-			reply, err := client.doubanBook(ctx, task.Hostname, task.Douban.ID,
+			version, reply, err := client.doubanBook(ctx, task.Hostname, task.Douban.ID,
 				task.Timeout)
+
+			task.JCCInfo.Nodes = append(task.JCCInfo.Nodes, JCCNode{Addr: client.servAddr, Version: version})
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
@@ -500,8 +559,10 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 		return ErrInvalidTmallMode
 	} else if task.ManhuaDB != nil {
 		if task.ManhuaDB.Mode == jarviscrawlercore.ManhuaDBMode_MHDB_AUTHOR {
-			reply, err := client.manhuadbAuthor(ctx, task.Hostname, task.ManhuaDB.AuthorID,
+			version, reply, err := client.manhuadbAuthor(ctx, task.Hostname, task.ManhuaDB.AuthorID,
 				task.Timeout)
+
+			task.JCCInfo.Nodes = append(task.JCCInfo.Nodes, JCCNode{Addr: client.servAddr, Version: version})
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
@@ -511,8 +572,10 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 		return ErrInvalidTmallMode
 	} else if task.OABT != nil {
 		if task.OABT.Mode == jarviscrawlercore.OABTMode_OABTM_PAGE {
-			reply, err := client.oabtPage(ctx, task.Hostname, task.OABT.PageIndex,
+			version, reply, err := client.oabtPage(ctx, task.Hostname, task.OABT.PageIndex,
 				task.Timeout)
+
+			task.JCCInfo.Nodes = append(task.JCCInfo.Nodes, JCCNode{Addr: client.servAddr, Version: version})
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
@@ -522,13 +585,17 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 		return ErrInvalidTmallMode
 	} else if task.Hao6v != nil {
 		if task.Hao6v.Mode == jarviscrawlercore.Hao6VMode_H6VM_NEWPAGE {
-			reply, err := client.hao6vNewest(ctx, task.Hostname, task.Timeout)
+			version, reply, err := client.hao6vNewest(ctx, task.Hostname, task.Timeout)
+
+			task.JCCInfo.Nodes = append(task.JCCInfo.Nodes, JCCNode{Addr: client.servAddr, Version: version})
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
 			return err
 		} else if task.Hao6v.Mode == jarviscrawlercore.Hao6VMode_H6VM_RESPAGE {
-			reply, err := client.hao6vRes(ctx, task.Hostname, task.Hao6v.URL, task.Timeout)
+			version, reply, err := client.hao6vRes(ctx, task.Hostname, task.Hao6v.URL, task.Timeout)
+
+			task.JCCInfo.Nodes = append(task.JCCInfo.Nodes, JCCNode{Addr: client.servAddr, Version: version})
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
@@ -538,13 +605,17 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 		return ErrInvalidHao6vMode
 	} else if task.P6vdy != nil {
 		if task.P6vdy.Mode == jarviscrawlercore.P6VdyMode_P6VDY_MOVIES {
-			reply, err := client.p6vdyMovies(ctx, task.Hostname, task.P6vdy.URL, task.Timeout)
+			version, reply, err := client.p6vdyMovies(ctx, task.Hostname, task.P6vdy.URL, task.Timeout)
+
+			task.JCCInfo.Nodes = append(task.JCCInfo.Nodes, JCCNode{Addr: client.servAddr, Version: version})
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 
 			return err
 		} else if task.P6vdy.Mode == jarviscrawlercore.P6VdyMode_P6VDY_MOVIE {
-			reply, err := client.p6vdyMovie(ctx, task.Hostname, task.P6vdy.URL, task.Timeout)
+			version, reply, err := client.p6vdyMovie(ctx, task.Hostname, task.P6vdy.URL, task.Timeout)
+
+			task.JCCInfo.Nodes = append(task.JCCInfo.Nodes, JCCNode{Addr: client.servAddr, Version: version})
 
 			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
 

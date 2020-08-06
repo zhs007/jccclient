@@ -8,7 +8,7 @@ import (
 
 // taobaoProduct - taobao product
 func (client *Client) taobaoProduct(ctx context.Context, hostname string, itemid string,
-	timeout int) (*jarviscrawlercore.ReplyCrawler, error) {
+	timeout int) (string, *jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
@@ -26,13 +26,13 @@ func (client *Client) taobaoProduct(ctx context.Context, hostname string, itemid
 		},
 	}
 
-	reply, err := client.RequestCrawler(ctx, req)
+	version, reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
 		if client.cfg != nil {
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, err
+		return version, nil, err
 	}
 
 	if reply == nil {
@@ -40,14 +40,14 @@ func (client *Client) taobaoProduct(ctx context.Context, hostname string, itemid
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, ErrNoReplyCrawler
+		return version, nil, ErrNoReplyCrawler
 	}
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
 	}
 
-	return reply, nil
+	return version, reply, nil
 }
 
 // TaobaoProduct - taobao product
@@ -56,7 +56,7 @@ func (client *Client) TaobaoProduct(ctx context.Context, url string, timeout int
 
 	hostname := "taobao.com"
 
-	reply, err := client.taobaoProduct(ctx, hostname, url, timeout)
+	_, reply, err := client.taobaoProduct(ctx, hostname, url, timeout)
 	if err != nil {
 		return nil, err
 	}
@@ -88,7 +88,7 @@ func (client *Client) TaobaoProduct(ctx context.Context, url string, timeout int
 
 // taobaoMobileProduct - taobao mobile product
 func (client *Client) taobaoMobileProduct(ctx context.Context, hostname string,
-	itemid string, device string, timeout int) (*jarviscrawlercore.ReplyCrawler, error) {
+	itemid string, device string, timeout int) (string, *jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
@@ -107,13 +107,13 @@ func (client *Client) taobaoMobileProduct(ctx context.Context, hostname string,
 		},
 	}
 
-	reply, err := client.RequestCrawler(ctx, req)
+	version, reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
 		if client.cfg != nil {
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, err
+		return version, nil, err
 	}
 
 	if reply == nil {
@@ -121,14 +121,14 @@ func (client *Client) taobaoMobileProduct(ctx context.Context, hostname string,
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, ErrNoReplyCrawler
+		return version, nil, ErrNoReplyCrawler
 	}
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
 	}
 
-	return reply, nil
+	return version, reply, nil
 }
 
 // TaobaoMobileProduct - taobao mobile product
@@ -138,7 +138,7 @@ func (client *Client) TaobaoMobileProduct(ctx context.Context, url string,
 
 	hostname := "taobao.com"
 
-	reply, err := client.taobaoMobileProduct(ctx, hostname, url, device, timeout)
+	_, reply, err := client.taobaoMobileProduct(ctx, hostname, url, device, timeout)
 	if err != nil {
 		return nil, err
 	}
@@ -170,7 +170,7 @@ func (client *Client) TaobaoMobileProduct(ctx context.Context, url string,
 
 // taobaoSearch - taobao search
 func (client *Client) taobaoSearch(ctx context.Context, hostname string,
-	text string, timeout int) (*jarviscrawlercore.ReplyCrawler, error) {
+	text string, timeout int) (string, *jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
@@ -188,13 +188,13 @@ func (client *Client) taobaoSearch(ctx context.Context, hostname string,
 		},
 	}
 
-	reply, err := client.RequestCrawler(ctx, req)
+	version, reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
 		if client.cfg != nil {
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, err
+		return version, nil, err
 	}
 
 	if reply == nil {
@@ -202,14 +202,14 @@ func (client *Client) taobaoSearch(ctx context.Context, hostname string,
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, ErrNoReplyCrawler
+		return version, nil, ErrNoReplyCrawler
 	}
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
 	}
 
-	return reply, nil
+	return version, reply, nil
 }
 
 // TaobaoSearch - taobao search
@@ -219,7 +219,7 @@ func (client *Client) TaobaoSearch(ctx context.Context,
 
 	hostname := "taobao.com"
 
-	reply, err := client.taobaoSearch(ctx, hostname, text, timeout)
+	_, reply, err := client.taobaoSearch(ctx, hostname, text, timeout)
 	if err != nil {
 		return nil, err
 	}

@@ -8,7 +8,7 @@ import (
 
 // mountainstealsSale - mountainsteals sale
 func (client *Client) mountainstealsSale(ctx context.Context, hostname string,
-	url string, timeout int) (*jarviscrawlercore.ReplyCrawler, error) {
+	url string, timeout int) (string, *jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
@@ -26,13 +26,13 @@ func (client *Client) mountainstealsSale(ctx context.Context, hostname string,
 		},
 	}
 
-	reply, err := client.RequestCrawler(ctx, req)
+	version, reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
 		if client.cfg != nil {
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, err
+		return version, nil, err
 	}
 
 	if reply == nil {
@@ -40,19 +40,19 @@ func (client *Client) mountainstealsSale(ctx context.Context, hostname string,
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, ErrNoReplyCrawler
+		return version, nil, ErrNoReplyCrawler
 	}
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
 	}
 
-	return reply, nil
+	return version, reply, nil
 }
 
 // mountainstealsProduct - mountainsteals product
 func (client *Client) mountainstealsProduct(ctx context.Context, hostname string,
-	url string, timeout int) (*jarviscrawlercore.ReplyCrawler, error) {
+	url string, timeout int) (string, *jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
@@ -70,13 +70,13 @@ func (client *Client) mountainstealsProduct(ctx context.Context, hostname string
 		},
 	}
 
-	reply, err := client.RequestCrawler(ctx, req)
+	version, reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
 		if client.cfg != nil {
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, err
+		return version, nil, err
 	}
 
 	if reply == nil {
@@ -84,14 +84,14 @@ func (client *Client) mountainstealsProduct(ctx context.Context, hostname string
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, ErrNoReplyCrawler
+		return version, nil, ErrNoReplyCrawler
 	}
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
 	}
 
-	return reply, nil
+	return version, reply, nil
 }
 
 // MountainStealsSale - mountainsteals sale
@@ -100,7 +100,7 @@ func (client *Client) MountainStealsSale(ctx context.Context, url string, timeou
 
 	hostname := "mountainsteals.com"
 
-	reply, err := client.mountainstealsSale(ctx, hostname, url, timeout)
+	_, reply, err := client.mountainstealsSale(ctx, hostname, url, timeout)
 	if err != nil {
 		return nil, err
 	}
@@ -136,7 +136,7 @@ func (client *Client) MountainStealsProduct(ctx context.Context, url string, tim
 
 	hostname := "mountainsteals.com"
 
-	reply, err := client.mountainstealsProduct(ctx, hostname, url, timeout)
+	_, reply, err := client.mountainstealsProduct(ctx, hostname, url, timeout)
 	if err != nil {
 		return nil, err
 	}

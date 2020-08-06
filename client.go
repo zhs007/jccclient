@@ -22,6 +22,7 @@ type Client struct {
 	conn     *grpc.ClientConn
 	client   jarviscrawlercore.JarvisCrawlerServiceClient
 	tags     []string
+	Version  string
 }
 
 // NewClient - new Client
@@ -57,7 +58,7 @@ func (client *Client) AnalyzePage(ctx context.Context, url string, viewport *Vie
 		}
 	}
 
-	reply, err := client.analyzePage(ctx, hostname, url, viewport, options)
+	_, reply, err := client.analyzePage(ctx, hostname, url, viewport, options)
 	if err != nil {
 		return nil, err
 	}
@@ -85,7 +86,7 @@ func (client *Client) GetGeoIP(ctx context.Context, ip string, platform string) 
 
 	hostname := "www.ipvoid.com"
 
-	reply, err := client.getGeoIP(ctx, hostname, ip, platform)
+	_, reply, err := client.getGeoIP(ctx, hostname, ip, platform)
 	if err != nil {
 		return nil, err
 	}
@@ -114,7 +115,7 @@ func (client *Client) GetTechInAsiaJob(ctx context.Context, jobcode string, time
 
 	hostname := "www.techinasia.com"
 
-	reply, err := client.getTechInAsiaJob(ctx, hostname, jobcode, timeout)
+	_, reply, err := client.getTechInAsiaJob(ctx, hostname, jobcode, timeout)
 	if err != nil {
 		return nil, err
 	}
@@ -150,7 +151,7 @@ func (client *Client) GetTechInAsiaJobList(ctx context.Context, maintag string, 
 
 	hostname := "www.techinasia.com"
 
-	reply, err := client.getTechInAsiaJobList(ctx, hostname, maintag, subtag, jobnums, timeout)
+	_, reply, err := client.getTechInAsiaJobList(ctx, hostname, maintag, subtag, jobnums, timeout)
 	if err != nil {
 		return nil, err
 	}
@@ -185,7 +186,7 @@ func (client *Client) GetTechInAsiaJobTagList(ctx context.Context, maintag strin
 
 	hostname := "www.techinasia.com"
 
-	reply, err := client.getTechInAsiaJobTagList(ctx, hostname, maintag, timeout)
+	_, reply, err := client.getTechInAsiaJobTagList(ctx, hostname, maintag, timeout)
 	if err != nil {
 		return nil, err
 	}
@@ -221,7 +222,7 @@ func (client *Client) GetTechInAsiaCompany(ctx context.Context, companycode stri
 
 	hostname := "www.techinasia.com"
 
-	reply, err := client.getTechInAsiaCompany(ctx, hostname, companycode, timeout)
+	_, reply, err := client.getTechInAsiaCompany(ctx, hostname, companycode, timeout)
 	if err != nil {
 		return nil, err
 	}
@@ -257,7 +258,7 @@ func (client *Client) GetSteepAndCheapProducts(ctx context.Context, url string, 
 
 	hostname := "www.steepandcheap.com"
 
-	reply, err := client.getSteepAndCheapProducts(ctx, hostname, url, page, timeout)
+	_, reply, err := client.getSteepAndCheapProducts(ctx, hostname, url, page, timeout)
 	if err != nil {
 		return nil, err
 	}
@@ -293,7 +294,7 @@ func (client *Client) GetSteepAndCheapProduct(ctx context.Context, url string, t
 
 	hostname := "www.steepandcheap.com"
 
-	reply, err := client.getSteepAndCheapProduct(ctx, hostname, url, timeout)
+	_, reply, err := client.getSteepAndCheapProduct(ctx, hostname, url, timeout)
 	if err != nil {
 		return nil, err
 	}
@@ -329,7 +330,7 @@ func (client *Client) GetJRJFunds(ctx context.Context, timeout int) (
 
 	hostname := "www.jrj.com"
 
-	reply, err := client.getJRJFunds(ctx, hostname, timeout)
+	_, reply, err := client.getJRJFunds(ctx, hostname, timeout)
 	if err != nil {
 		return nil, err
 	}
@@ -365,7 +366,7 @@ func (client *Client) GetJRJFund(ctx context.Context, code string, timeout int) 
 
 	hostname := "www.jrj.com"
 
-	reply, err := client.getJRJFund(ctx, hostname, code, timeout)
+	_, reply, err := client.getJRJFund(ctx, hostname, code, timeout)
 	if err != nil {
 		return nil, err
 	}
@@ -401,7 +402,7 @@ func (client *Client) GetJRJFundManager(ctx context.Context, code string, timeou
 
 	hostname := "www.jrj.com"
 
-	reply, err := client.getJRJFundManager(ctx, hostname, code, timeout)
+	_, reply, err := client.getJRJFundManager(ctx, hostname, code, timeout)
 	if err != nil {
 		return nil, err
 	}
@@ -437,7 +438,7 @@ func (client *Client) GetJRJFundValue(ctx context.Context, code string, year str
 
 	hostname := "www.jrj.com"
 
-	reply, err := client.getJRJFundValue(ctx, hostname, code, year, timeout)
+	_, reply, err := client.getJRJFundValue(ctx, hostname, code, year, timeout)
 	if err != nil {
 		return nil, err
 	}
@@ -469,20 +470,22 @@ func (client *Client) GetJRJFundValue(ctx context.Context, code string, year str
 
 // RequestCrawler -
 func (client *Client) RequestCrawler(ctx context.Context, req *jarviscrawlercore.RequestCrawler) (
-	*jarviscrawlercore.ReplyCrawler, error) {
+	string, *jarviscrawlercore.ReplyCrawler, error) {
+
+	version := ""
 
 	err := client.startRequest()
 	if err != nil {
 		client.reset()
 
-		return nil, err
+		return version, nil, err
 	}
 
 	stream, err := client.client.RequestCrawler(ctx, req)
 	if err != nil {
 		client.reset()
 
-		return nil, err
+		return version, nil, err
 	}
 
 	var recverr error
@@ -507,6 +510,8 @@ func (client *Client) RequestCrawler(ctx context.Context, req *jarviscrawlercore
 				return
 			}
 
+			version = in.Version
+
 			if in.Error != "" {
 				recverr = errors.New(in.Error)
 
@@ -524,11 +529,11 @@ func (client *Client) RequestCrawler(ctx context.Context, req *jarviscrawlercore
 	if recverr != nil {
 		client.reset()
 
-		return nil, recverr
+		return version, nil, recverr
 	}
 
 	if len(lstrect) == 1 {
-		return lstrect[0].ReplyCrawler, nil
+		return version, lstrect[0].ReplyCrawler, nil
 	}
 
 	var lstbytes [][]byte
@@ -541,10 +546,10 @@ func (client *Client) RequestCrawler(ctx context.Context, req *jarviscrawlercore
 	rc := &jarviscrawlercore.ReplyCrawler{}
 	err = proto.Unmarshal(buf, rc)
 	if err != nil {
-		return nil, err
+		return version, nil, err
 	}
 
-	return rc, nil
+	return version, rc, nil
 
 }
 
@@ -574,7 +579,7 @@ func (client *Client) startRequest() error {
 
 // analyzePage - analyze a web page
 func (client *Client) analyzePage(ctx context.Context, hostname string, url string, viewport *Viewport,
-	options *AnalyzePageOptions) (*jarviscrawlercore.ReplyCrawler, error) {
+	options *AnalyzePageOptions) (string, *jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
@@ -599,13 +604,13 @@ func (client *Client) analyzePage(ctx context.Context, hostname string, url stri
 		},
 	}
 
-	reply, err := client.RequestCrawler(ctx, req)
+	version, reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
 		if client.cfg != nil {
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, err
+		return version, nil, err
 	}
 
 	if reply == nil {
@@ -613,19 +618,19 @@ func (client *Client) analyzePage(ctx context.Context, hostname string, url stri
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, ErrNoReplyCrawler
+		return version, nil, ErrNoReplyCrawler
 	}
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
 	}
 
-	return reply, nil
+	return version, reply, nil
 }
 
 // getGeoIP - get ip geolocation
 func (client *Client) getGeoIP(ctx context.Context, hostname string, ip string,
-	platform string) (*jarviscrawlercore.ReplyCrawler, error) {
+	platform string) (string, *jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
@@ -642,13 +647,13 @@ func (client *Client) getGeoIP(ctx context.Context, hostname string, ip string,
 		},
 	}
 
-	reply, err := client.RequestCrawler(ctx, req)
+	version, reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
 		if client.cfg != nil {
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, err
+		return version, nil, err
 	}
 
 	if reply == nil {
@@ -656,19 +661,19 @@ func (client *Client) getGeoIP(ctx context.Context, hostname string, ip string,
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, ErrNoReplyCrawler
+		return version, nil, ErrNoReplyCrawler
 	}
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
 	}
 
-	return reply, nil
+	return version, reply, nil
 }
 
 // getTechInAsiaJob - get techinasia job
 func (client *Client) getTechInAsiaJob(ctx context.Context, hostname string, jobcode string, timeout int) (
-	*jarviscrawlercore.ReplyCrawler, error) {
+	string, *jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
@@ -686,13 +691,13 @@ func (client *Client) getTechInAsiaJob(ctx context.Context, hostname string, job
 		},
 	}
 
-	reply, err := client.RequestCrawler(ctx, req)
+	version, reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
 		if client.cfg != nil {
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, err
+		return version, nil, err
 	}
 
 	if reply == nil {
@@ -700,19 +705,19 @@ func (client *Client) getTechInAsiaJob(ctx context.Context, hostname string, job
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, ErrNoReplyCrawler
+		return version, nil, ErrNoReplyCrawler
 	}
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
 	}
 
-	return reply, nil
+	return version, reply, nil
 }
 
 // getTechInAsiaCompany - get techinasia company
 func (client *Client) getTechInAsiaCompany(ctx context.Context, hostname string, companycode string, timeout int) (
-	*jarviscrawlercore.ReplyCrawler, error) {
+	string, *jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
@@ -730,13 +735,13 @@ func (client *Client) getTechInAsiaCompany(ctx context.Context, hostname string,
 		},
 	}
 
-	reply, err := client.RequestCrawler(ctx, req)
+	version, reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
 		if client.cfg != nil {
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, err
+		return version, nil, err
 	}
 
 	if reply == nil {
@@ -744,19 +749,19 @@ func (client *Client) getTechInAsiaCompany(ctx context.Context, hostname string,
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, ErrNoReplyCrawler
+		return version, nil, ErrNoReplyCrawler
 	}
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
 	}
 
-	return reply, nil
+	return version, reply, nil
 }
 
 // getTechInAsiaJobList - get techinasia jobs
 func (client *Client) getTechInAsiaJobList(ctx context.Context, hostname string, maintag string, subtag string,
-	jobnums int, timeout int) (*jarviscrawlercore.ReplyCrawler, error) {
+	jobnums int, timeout int) (string, *jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
@@ -776,13 +781,13 @@ func (client *Client) getTechInAsiaJobList(ctx context.Context, hostname string,
 		},
 	}
 
-	reply, err := client.RequestCrawler(ctx, req)
+	version, reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
 		if client.cfg != nil {
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, err
+		return version, nil, err
 	}
 
 	if reply == nil {
@@ -790,19 +795,19 @@ func (client *Client) getTechInAsiaJobList(ctx context.Context, hostname string,
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, ErrNoReplyCrawler
+		return version, nil, ErrNoReplyCrawler
 	}
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
 	}
 
-	return reply, nil
+	return version, reply, nil
 }
 
 // getTechInAsiaJobTagList - get techinasia job tag list
 func (client *Client) getTechInAsiaJobTagList(ctx context.Context, hostname string, maintag string, timeout int) (
-	*jarviscrawlercore.ReplyCrawler, error) {
+	string, *jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
@@ -820,13 +825,13 @@ func (client *Client) getTechInAsiaJobTagList(ctx context.Context, hostname stri
 		},
 	}
 
-	reply, err := client.RequestCrawler(ctx, req)
+	version, reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
 		if client.cfg != nil {
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, err
+		return version, nil, err
 	}
 
 	if reply == nil {
@@ -834,19 +839,19 @@ func (client *Client) getTechInAsiaJobTagList(ctx context.Context, hostname stri
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, ErrNoReplyCrawler
+		return version, nil, ErrNoReplyCrawler
 	}
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
 	}
 
-	return reply, nil
+	return version, reply, nil
 }
 
 // getSteepAndCheapProducts - get steepandcheap products
 func (client *Client) getSteepAndCheapProducts(ctx context.Context, hostname string, url string, page int, timeout int) (
-	*jarviscrawlercore.ReplyCrawler, error) {
+	string, *jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
@@ -865,13 +870,13 @@ func (client *Client) getSteepAndCheapProducts(ctx context.Context, hostname str
 		},
 	}
 
-	reply, err := client.RequestCrawler(ctx, req)
+	version, reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
 		if client.cfg != nil {
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, err
+		return version, nil, err
 	}
 
 	if reply == nil {
@@ -879,19 +884,19 @@ func (client *Client) getSteepAndCheapProducts(ctx context.Context, hostname str
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, ErrNoReplyCrawler
+		return version, nil, ErrNoReplyCrawler
 	}
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
 	}
 
-	return reply, nil
+	return version, reply, nil
 }
 
 // getSteepAndCheapProduct - get steepandcheap product
 func (client *Client) getSteepAndCheapProduct(ctx context.Context, hostname string, url string, timeout int) (
-	*jarviscrawlercore.ReplyCrawler, error) {
+	string, *jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
@@ -909,13 +914,13 @@ func (client *Client) getSteepAndCheapProduct(ctx context.Context, hostname stri
 		},
 	}
 
-	reply, err := client.RequestCrawler(ctx, req)
+	version, reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
 		if client.cfg != nil {
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, err
+		return version, nil, err
 	}
 
 	if reply == nil {
@@ -923,19 +928,19 @@ func (client *Client) getSteepAndCheapProduct(ctx context.Context, hostname stri
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, ErrNoReplyCrawler
+		return version, nil, ErrNoReplyCrawler
 	}
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
 	}
 
-	return reply, nil
+	return version, reply, nil
 }
 
 // getJRJFunds - get jrj funds
 func (client *Client) getJRJFunds(ctx context.Context, hostname string, timeout int) (
-	*jarviscrawlercore.ReplyCrawler, error) {
+	string, *jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
@@ -952,13 +957,13 @@ func (client *Client) getJRJFunds(ctx context.Context, hostname string, timeout 
 		},
 	}
 
-	reply, err := client.RequestCrawler(ctx, req)
+	version, reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
 		if client.cfg != nil {
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, err
+		return version, nil, err
 	}
 
 	if reply == nil {
@@ -966,19 +971,19 @@ func (client *Client) getJRJFunds(ctx context.Context, hostname string, timeout 
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, ErrNoReplyCrawler
+		return version, nil, ErrNoReplyCrawler
 	}
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
 	}
 
-	return reply, nil
+	return version, reply, nil
 }
 
 // getJRJFund - get jrj fund
 func (client *Client) getJRJFund(ctx context.Context, hostname string, code string, timeout int) (
-	*jarviscrawlercore.ReplyCrawler, error) {
+	string, *jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
@@ -996,13 +1001,13 @@ func (client *Client) getJRJFund(ctx context.Context, hostname string, code stri
 		},
 	}
 
-	reply, err := client.RequestCrawler(ctx, req)
+	version, reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
 		if client.cfg != nil {
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, err
+		return version, nil, err
 	}
 
 	if reply == nil {
@@ -1010,19 +1015,19 @@ func (client *Client) getJRJFund(ctx context.Context, hostname string, code stri
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, ErrNoReplyCrawler
+		return version, nil, ErrNoReplyCrawler
 	}
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
 	}
 
-	return reply, nil
+	return version, reply, nil
 }
 
 // getJRJFundManager - get jrj fund manager
 func (client *Client) getJRJFundManager(ctx context.Context, hostname string, code string, timeout int) (
-	*jarviscrawlercore.ReplyCrawler, error) {
+	string, *jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
@@ -1040,13 +1045,13 @@ func (client *Client) getJRJFundManager(ctx context.Context, hostname string, co
 		},
 	}
 
-	reply, err := client.RequestCrawler(ctx, req)
+	version, reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
 		if client.cfg != nil {
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, err
+		return version, nil, err
 	}
 
 	if reply == nil {
@@ -1054,19 +1059,19 @@ func (client *Client) getJRJFundManager(ctx context.Context, hostname string, co
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, ErrNoReplyCrawler
+		return version, nil, ErrNoReplyCrawler
 	}
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
 	}
 
-	return reply, nil
+	return version, reply, nil
 }
 
 // getJRJFundValue - get jrj fund value
 func (client *Client) getJRJFundValue(ctx context.Context, hostname string, code string, year string,
-	timeout int) (*jarviscrawlercore.ReplyCrawler, error) {
+	timeout int) (string, *jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
@@ -1085,13 +1090,13 @@ func (client *Client) getJRJFundValue(ctx context.Context, hostname string, code
 		},
 	}
 
-	reply, err := client.RequestCrawler(ctx, req)
+	version, reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
 		if client.cfg != nil {
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, err
+		return version, nil, err
 	}
 
 	if reply == nil {
@@ -1099,19 +1104,19 @@ func (client *Client) getJRJFundValue(ctx context.Context, hostname string, code
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, ErrNoReplyCrawler
+		return version, nil, ErrNoReplyCrawler
 	}
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
 	}
 
-	return reply, nil
+	return version, reply, nil
 }
 
 // getJDActive - get jd active
 func (client *Client) getJDActive(ctx context.Context, hostname string, url string,
-	timeout int) (*jarviscrawlercore.ReplyCrawler, error) {
+	timeout int) (string, *jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
@@ -1129,13 +1134,13 @@ func (client *Client) getJDActive(ctx context.Context, hostname string, url stri
 		},
 	}
 
-	reply, err := client.RequestCrawler(ctx, req)
+	version, reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
 		if client.cfg != nil {
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, err
+		return version, nil, err
 	}
 
 	if reply == nil {
@@ -1143,14 +1148,14 @@ func (client *Client) getJDActive(ctx context.Context, hostname string, url stri
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, ErrNoReplyCrawler
+		return version, nil, ErrNoReplyCrawler
 	}
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
 	}
 
-	return reply, nil
+	return version, reply, nil
 }
 
 // GetJDActive - get jd active
@@ -1159,7 +1164,7 @@ func (client *Client) GetJDActive(ctx context.Context, url string, timeout int) 
 
 	hostname := "jd.com"
 
-	reply, err := client.getJDActive(ctx, hostname, url, timeout)
+	_, reply, err := client.getJDActive(ctx, hostname, url, timeout)
 	if err != nil {
 		return nil, err
 	}
@@ -1191,7 +1196,7 @@ func (client *Client) GetJDActive(ctx context.Context, url string, timeout int) 
 
 // getJDProduct - get jd product
 func (client *Client) getJDProduct(ctx context.Context, hostname string, url string,
-	timeout int) (*jarviscrawlercore.ReplyCrawler, error) {
+	timeout int) (string, *jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
@@ -1209,13 +1214,13 @@ func (client *Client) getJDProduct(ctx context.Context, hostname string, url str
 		},
 	}
 
-	reply, err := client.RequestCrawler(ctx, req)
+	version, reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
 		if client.cfg != nil {
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, err
+		return version, nil, err
 	}
 
 	if reply == nil {
@@ -1223,14 +1228,14 @@ func (client *Client) getJDProduct(ctx context.Context, hostname string, url str
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, ErrNoReplyCrawler
+		return version, nil, ErrNoReplyCrawler
 	}
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
 	}
 
-	return reply, nil
+	return version, reply, nil
 }
 
 // GetJDProduct - get jd product
@@ -1239,7 +1244,7 @@ func (client *Client) GetJDProduct(ctx context.Context, url string, timeout int)
 
 	hostname := "jd.com"
 
-	reply, err := client.getJDProduct(ctx, hostname, url, timeout)
+	_, reply, err := client.getJDProduct(ctx, hostname, url, timeout)
 	if err != nil {
 		return nil, err
 	}
@@ -1271,7 +1276,7 @@ func (client *Client) GetJDProduct(ctx context.Context, url string, timeout int)
 
 // getJDActivePage - get jd activepage
 func (client *Client) getJDActivePage(ctx context.Context, hostname string, url string,
-	timeout int) (*jarviscrawlercore.ReplyCrawler, error) {
+	timeout int) (string, *jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
@@ -1289,13 +1294,13 @@ func (client *Client) getJDActivePage(ctx context.Context, hostname string, url 
 		},
 	}
 
-	reply, err := client.RequestCrawler(ctx, req)
+	version, reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
 		if client.cfg != nil {
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, err
+		return version, nil, err
 	}
 
 	if reply == nil {
@@ -1303,14 +1308,14 @@ func (client *Client) getJDActivePage(ctx context.Context, hostname string, url 
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, ErrNoReplyCrawler
+		return version, nil, ErrNoReplyCrawler
 	}
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
 	}
 
-	return reply, nil
+	return version, reply, nil
 }
 
 // GetJDActivePage - get jd activepage
@@ -1319,7 +1324,7 @@ func (client *Client) GetJDActivePage(ctx context.Context, url string, timeout i
 
 	hostname := "jd.com"
 
-	reply, err := client.getJDActivePage(ctx, hostname, url, timeout)
+	_, reply, err := client.getJDActivePage(ctx, hostname, url, timeout)
 	if err != nil {
 		return nil, err
 	}

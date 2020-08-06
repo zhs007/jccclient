@@ -11,7 +11,7 @@ const HOST = "6vdy.org"
 
 // p6vdyMovies - 6vdy movies
 func (client *Client) p6vdyMovies(ctx context.Context, hostname string, url string, timeout int) (
-	*jarviscrawlercore.ReplyCrawler, error) {
+	string, *jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
@@ -29,13 +29,13 @@ func (client *Client) p6vdyMovies(ctx context.Context, hostname string, url stri
 		},
 	}
 
-	reply, err := client.RequestCrawler(ctx, req)
+	version, reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
 		if client.cfg != nil {
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, err
+		return version, nil, err
 	}
 
 	if reply == nil {
@@ -43,14 +43,14 @@ func (client *Client) p6vdyMovies(ctx context.Context, hostname string, url stri
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, ErrNoReplyCrawler
+		return version, nil, ErrNoReplyCrawler
 	}
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
 	}
 
-	return reply, nil
+	return version, reply, nil
 }
 
 // P6vdyMovies - 6vdy movie
@@ -59,7 +59,7 @@ func (client *Client) P6vdyMovies(ctx context.Context, url string, timeout int) 
 
 	hostname := HOST
 
-	reply, err := client.p6vdyMovies(ctx, hostname, url, timeout)
+	_, reply, err := client.p6vdyMovies(ctx, hostname, url, timeout)
 	if err != nil {
 		return nil, err
 	}
@@ -91,7 +91,7 @@ func (client *Client) P6vdyMovies(ctx context.Context, url string, timeout int) 
 
 // p6vdyMovie - 6vdy movie
 func (client *Client) p6vdyMovie(ctx context.Context, hostname string, url string, timeout int) (
-	*jarviscrawlercore.ReplyCrawler, error) {
+	string, *jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
@@ -109,13 +109,13 @@ func (client *Client) p6vdyMovie(ctx context.Context, hostname string, url strin
 		},
 	}
 
-	reply, err := client.RequestCrawler(ctx, req)
+	version, reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
 		if client.cfg != nil {
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, err
+		return version, nil, err
 	}
 
 	if reply == nil {
@@ -123,14 +123,14 @@ func (client *Client) p6vdyMovie(ctx context.Context, hostname string, url strin
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, ErrNoReplyCrawler
+		return version, nil, ErrNoReplyCrawler
 	}
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
 	}
 
-	return reply, nil
+	return version, reply, nil
 }
 
 // P6vdyMovie - 6vdy movie
@@ -139,7 +139,7 @@ func (client *Client) P6vdyMovie(ctx context.Context, url string, timeout int) (
 
 	hostname := HOST
 
-	reply, err := client.p6vdyMovie(ctx, hostname, url, timeout)
+	_, reply, err := client.p6vdyMovie(ctx, hostname, url, timeout)
 	if err != nil {
 		return nil, err
 	}

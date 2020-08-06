@@ -8,7 +8,7 @@ import (
 
 // tmallProduct - tmall product
 func (client *Client) tmallProduct(ctx context.Context, hostname string, url string,
-	timeout int) (*jarviscrawlercore.ReplyCrawler, error) {
+	timeout int) (string, *jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
@@ -26,13 +26,13 @@ func (client *Client) tmallProduct(ctx context.Context, hostname string, url str
 		},
 	}
 
-	reply, err := client.RequestCrawler(ctx, req)
+	version, reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
 		if client.cfg != nil {
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, err
+		return version, nil, err
 	}
 
 	if reply == nil {
@@ -40,14 +40,14 @@ func (client *Client) tmallProduct(ctx context.Context, hostname string, url str
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, ErrNoReplyCrawler
+		return version, nil, ErrNoReplyCrawler
 	}
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
 	}
 
-	return reply, nil
+	return version, reply, nil
 }
 
 // TmallProduct - tmall product
@@ -56,7 +56,7 @@ func (client *Client) TmallProduct(ctx context.Context, url string, timeout int)
 
 	hostname := "tmall.com"
 
-	reply, err := client.tmallProduct(ctx, hostname, url, timeout)
+	_, reply, err := client.tmallProduct(ctx, hostname, url, timeout)
 	if err != nil {
 		return nil, err
 	}
@@ -88,7 +88,7 @@ func (client *Client) TmallProduct(ctx context.Context, url string, timeout int)
 
 // tmallMobileProduct - tmall mobile product
 func (client *Client) tmallMobileProduct(ctx context.Context, hostname string,
-	url string, device string, timeout int) (*jarviscrawlercore.ReplyCrawler, error) {
+	url string, device string, timeout int) (string, *jarviscrawlercore.ReplyCrawler, error) {
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskStart(ctx, hostname, client.cfg)
@@ -107,13 +107,13 @@ func (client *Client) tmallMobileProduct(ctx context.Context, hostname string,
 		},
 	}
 
-	reply, err := client.RequestCrawler(ctx, req)
+	version, reply, err := client.RequestCrawler(ctx, req)
 	if err != nil {
 		if client.cfg != nil {
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, err
+		return version, nil, err
 	}
 
 	if reply == nil {
@@ -121,14 +121,14 @@ func (client *Client) tmallMobileProduct(ctx context.Context, hostname string,
 			client.Hosts.OnTaskEnd(ctx, hostname, true, client.cfg)
 		}
 
-		return nil, ErrNoReplyCrawler
+		return version, nil, ErrNoReplyCrawler
 	}
 
 	if client.cfg != nil {
 		client.Hosts.OnTaskEnd(ctx, hostname, false, client.cfg)
 	}
 
-	return reply, nil
+	return version, reply, nil
 }
 
 // TmallMobileProduct - tmall mobile product
@@ -138,7 +138,7 @@ func (client *Client) TmallMobileProduct(ctx context.Context, url string,
 
 	hostname := "tmall.com"
 
-	reply, err := client.tmallMobileProduct(ctx, hostname, url, device, timeout)
+	_, reply, err := client.tmallMobileProduct(ctx, hostname, url, device, timeout)
 	if err != nil {
 		return nil, err
 	}
