@@ -10,5 +10,23 @@ func RebuildTasks(tasks []*Task) []*Task {
 
 	nl := []*Task{}
 
+	for true {
+		for k, v := range m.MapTasks {
+			t := v[0]
+
+			nl = append(nl, t)
+
+			if len(v) > 1 {
+				m.MapTasks[k] = v[1:]
+			} else {
+				delete(m.MapTasks, k)
+			}
+		}
+
+		if len(m.MapTasks) == 0 {
+			break
+		}
+	}
+
 	return nl
 }

@@ -21,3 +21,14 @@ func (m *TasksMap) AddTask(key string, t *Task) {
 		m.MapTasks[key] = []*Task{t}
 	}
 }
+
+// Count - count
+func (m *TasksMap) Count() int {
+	nums := 0
+
+	for _, v := range m.MapTasks {
+		nums += len(v)
+	}
+
+	return nums
+}
