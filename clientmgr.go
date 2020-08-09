@@ -243,6 +243,8 @@ func (mgr *ClientMgr) StartService(ctx context.Context) error {
 		case curtask := <-mgr.AddTaskChan:
 			mgr.tasks = append(mgr.tasks, curtask)
 
+			mgr.tasks = RebuildTasks(mgr.tasks)
+
 			mgr.onStartTask(ctx, endchan)
 		case <-mgr.StopServiceChan:
 			isend = true
