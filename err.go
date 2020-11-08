@@ -155,6 +155,15 @@ var (
 	// ErrNoReplyP6vdyMovie - no ReplyP6vdyMovie
 	ErrNoReplyP6vdyMovie = errors.New("no ReplyP6vdyMovie")
 
+	// ErrNoReplyInvesting - invalid ReplyInvesting
+	ErrNoReplyInvesting = errors.New("invalid ReplyInvesting")
+	// ErrInvalidInvestingMode - invalid investing mode
+	ErrInvalidInvestingMode = errors.New("invalid investing mode")
+	// ErrNoReplyInvestingAssets - no ReplyInvestingAssets
+	ErrNoReplyInvestingAssets = errors.New("no ReplyInvestingAssets")
+	// ErrNoReplyInvestingAsset - no ReplyInvestingAsset
+	ErrNoReplyInvestingAsset = errors.New("no ReplyInvestingAsset")
+
 	// ErrInvalidClientMgrState - invalid ClientMgrState
 	ErrInvalidClientMgrState = errors.New("invalid ClientMgrState")
 )
