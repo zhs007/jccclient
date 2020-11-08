@@ -6,8 +6,8 @@ import (
 	jarviscrawlercore "github.com/zhs007/jccclient/pb"
 )
 
-// HOST - 6vdy.org
-const HOST = "6vdy.org"
+// host6vdy - 6vdy.org
+const host6vdy = "6vdy.org"
 
 // p6vdyMovies - 6vdy movies
 func (client *Client) p6vdyMovies(ctx context.Context, hostname string, url string, timeout int) (
@@ -57,7 +57,7 @@ func (client *Client) p6vdyMovies(ctx context.Context, hostname string, url stri
 func (client *Client) P6vdyMovies(ctx context.Context, url string, timeout int) (
 	*jarviscrawlercore.ReplyP6Vdy_Movies, error) {
 
-	hostname := HOST
+	hostname := host6vdy
 
 	_, reply, err := client.p6vdyMovies(ctx, hostname, url, timeout)
 	if err != nil {
@@ -137,7 +137,7 @@ func (client *Client) p6vdyMovie(ctx context.Context, hostname string, url strin
 func (client *Client) P6vdyMovie(ctx context.Context, url string, timeout int) (
 	*jarviscrawlercore.ReplyP6Vdy_Movie, error) {
 
-	hostname := HOST
+	hostname := host6vdy
 
 	_, reply, err := client.p6vdyMovie(ctx, hostname, url, timeout)
 	if err != nil {
