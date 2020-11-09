@@ -625,6 +625,26 @@ func (mgr *ClientMgr) runTask(ctx context.Context, client *Client, task *Task, e
 		}
 
 		return ErrInvalidP6vdyMode
+	} else if task.Investing != nil {
+		if task.Investing.Mode == jarviscrawlercore.InvestingMode_INVESTINGMODE_ASSETS {
+			version, reply, err := client.investingAssets(ctx, task.Hostname, task.Investing.URL, task.Timeout)
+
+			task.JCCInfo.Nodes = append(task.JCCInfo.Nodes, JCCNode{Addr: client.servAddr, Version: version})
+
+			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
+
+			return err
+		} else if task.Investing.Mode == jarviscrawlercore.InvestingMode_INVESTINGMODE_HD {
+			version, reply, err := client.investingHD(ctx, task.Hostname, task.Investing.URL, task.Investing.StartData, task.Investing.EndData, task.Timeout)
+
+			task.JCCInfo.Nodes = append(task.JCCInfo.Nodes, JCCNode{Addr: client.servAddr, Version: version})
+
+			mgr.onTaskEnd(ctx, client, task, err, reply, endChan)
+
+			return err
+		}
+
+		return ErrInvalidInvestingMode
 	}
 
 	if task.Logger != nil {

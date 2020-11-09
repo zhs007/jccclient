@@ -114,6 +114,14 @@ type TaskP6vdy struct {
 	URL  string
 }
 
+// TaskInvesting - task get data in investing
+type TaskInvesting struct {
+	Mode      jarviscrawlercore.InvestingMode
+	URL       string
+	StartData string
+	EndData   string
+}
+
 // Task - task
 type Task struct {
 	Callback       FuncTaskCallback    `json:"-"`
@@ -132,6 +140,7 @@ type Task struct {
 	OABT           *TaskOABT           `json:"oabt"`
 	Hao6v          *TaskHao6v          `json:"hao6v"`
 	P6vdy          *TaskP6vdy          `json:"p6vdy"`
+	Investing      *TaskInvesting      `json:"investing"`
 	Timeout        int                 `json:"timeout"`
 	RetryNums      int                 `json:"retrynums"`
 	Tags           *Tags               `json:"tags"`
